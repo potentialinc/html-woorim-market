@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 카테고리 (Design C)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #f5f5f5; }
+  .phone-frame {
+    width: 375px;
+    height: 812px;
+    margin: 24px auto;
+    background: #FFFFFF;
+    color: #1D1D1F;
+    border-radius: 40px;
+    border: 3px solid #d4d4d4;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 80px rgba(0,0,0,0.15), 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .phone-screen {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 80px;
+    scrollbar-width: none;
+  }
+  .phone-screen::-webkit-scrollbar { display: none; }
+  .phone-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 28px;
+    background: #FFFFFF;
+    border-radius: 0 0 18px 18px;
+    z-index: 200;
+  }
+  .bottom-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 49px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 100;
+  }
+  .product-img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #F5F5F7, #E8E8ED);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 0.5px solid rgba(0,0,0,0.08);
+  }
+  .product-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+  }
+  .product-img span { position: absolute; z-index: 1; }
+</style>
+</head>
+<body>
+<!-- Variation Navigation Bar -->
+<div class="var-nav-bar" style="position:fixed;top:12px;right:12px;z-index:9999;display:flex;gap:4px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);padding:6px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);font-family:Inter,-apple-system,sans-serif;">
+  <span style="padding:6px 10px;font-size:13px;font-weight:800;color:rgba(255,255,255,0.4);">C</span>
+  <a href="C-01-home.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;color:#888;background:transparent;">홈</a>
+  <a href="C-02-category.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:#fff;background:rgba(255,255,255,0.15);">카테고리</a>
+  <a href="C-03-product-detail.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;color:#888;background:transparent;">상품상세</a>
+  <a href="C-04-admin-dashboard.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;color:#888;background:transparent;">어드민</a>
+  <a href="showcase-ALL.html" style="padding:6px 10px;border-radius:8px;font-size:12px;text-decoration:none;color:#666;">✕</a>
+</div>
+
+<div class="phone-frame">
+  <div class="phone-screen">
+
+    <!-- Status Bar -->
+    <div style="height:48px;padding:14px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFFFF;">
+      <span style="font-size:14px;font-weight:600;color:#1D1D1F;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;">
+        <iconify-icon icon="mdi:signal-cellular-3" width="14" style="color:#1D1D1F;"></iconify-icon>
+        <iconify-icon icon="mdi:wifi" width="14" style="color:#1D1D1F;"></iconify-icon>
+        <iconify-icon icon="mdi:battery" width="18" style="color:#1D1D1F;"></iconify-icon>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#FFFFFF;border-bottom:1px solid rgba(0,0,0,0.08);z-index:10;flex-shrink:0;">
+      <button style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;">
+        <iconify-icon icon="ic:round-arrow-back" width="22" style="color:#86868B;"></iconify-icon>
+      </button>
+      <h1 style="font-size:18px;font-weight:700;color:#1D1D1F;">카테고리</h1>
+      <div style="display:flex;gap:4px;">
+        <button style="position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;">
+          <iconify-icon icon="mdi:bell-outline" width="22" style="color:#86868B;"></iconify-icon>
+          <span style="position:absolute;top:0;right:0;width:7px;height:7px;background:#FF4444;border-radius:50%;"></span>
+        </button>
+        <button style="position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;">
+          <iconify-icon icon="mdi:cart-outline" width="22" style="color:#86868B;"></iconify-icon>
+          <span style="position:absolute;top:-4px;right:-6px;background:#FF3B30;color:#FFF;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;">2</span>
+        </button>
+      </div>
+    </header>
+    <!-- Category Layout -->
+    <div style="display:flex;min-height:600px;">
+      <!-- Left Sidebar -->
+      <div style="width:85px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;">
+        <div style="padding:14px 8px;text-align:center;background:#FFFFFF;border-right:2px solid #0071E3;cursor:pointer;">
+          <iconify-icon icon="mdi:sauce" width="18" style="color:#0071E3;"></iconify-icon>
+          <p style="font-size:11px;font-weight:500;color:#0071E3;margin:4px 0 0;">소스류</p>
+        </div>
+        <div style="padding:14px 8px;text-align:center;cursor:pointer;">
+          <iconify-icon icon="mdi:food-variant" width="18" style="color:#6E6E73;"></iconify-icon>
+          <p style="font-size:11px;font-weight:400;color:#6E6E73;margin:4px 0 0;">장류</p>
+        </div>
+        <div style="padding:14px 8px;text-align:center;cursor:pointer;">
+          <iconify-icon icon="mdi:cup" width="18" style="color:#6E6E73;"></iconify-icon>
+          <p style="font-size:11px;font-weight:400;color:#6E6E73;margin:4px 0 0;">음료</p>
+        </div>
+        <div style="padding:14px 8px;text-align:center;cursor:pointer;">
+          <iconify-icon icon="mdi:noodles" width="18" style="color:#6E6E73;"></iconify-icon>
+          <p style="font-size:11px;font-weight:400;color:#6E6E73;margin:4px 0 0;">간편식</p>
+        </div>
+        <div style="padding:14px 8px;text-align:center;cursor:pointer;">
+          <iconify-icon icon="mdi:leaf" width="18" style="color:#6E6E73;"></iconify-icon>
+          <p style="font-size:11px;font-weight:400;color:#6E6E73;margin:4px 0 0;">건강식품</p>
+        </div>
+        <div style="padding:14px 8px;text-align:center;cursor:pointer;">
+          <iconify-icon icon="mdi:cookie" width="18" style="color:#6E6E73;"></iconify-icon>
+          <p style="font-size:11px;font-weight:400;color:#6E6E73;margin:4px 0 0;">간식</p>
+        </div>
+      </div>
+
+      <!-- Right Content -->
+      <div style="flex:1;padding:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-size:12px;color:#AEAEB2;font-weight:400;">24개 상품</span>
+          <div style="display:flex;align-items:center;gap:3px;cursor:pointer;">
+            <span style="font-size:12px;color:#6E6E73;font-weight:400;">인기순</span>
+            <iconify-icon icon="mdi:chevron-down" width="14" style="color:#6E6E73;"></iconify-icon>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <!-- 고추장 -->
+          <div style="cursor:pointer;">
+            <div style="position:relative;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장" style="width:100%;aspect-ratio:1;object-fit:cover;">
+              <button style="position:absolute;top:5px;right:5px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;">
+                <iconify-icon icon="mdi:heart-outline" width="13" style="color:#1D1D1F;"></iconify-icon>
+              </button>
+            </div>
+            <div style="padding:6px 0;">
+              <p style="font-size:12px;font-weight:400;color:#1D1D1F;margin:0 0 3px;">우림 전통 고추장 500g</p>
+              <p style="font-size:11px;color:#AEAEB2;text-decoration:line-through;margin:0;">12,000원</p>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:1px;">
+                <span style="font-size:11px;font-weight:500;color:#FF3B30;">26%</span>
+                <span style="font-size:14px;font-weight:500;color:#1D1D1F;">8,900원</span>
+              </div>
+            </div>
+          </div>
+          <!-- 양념소스 -->
+          <div style="cursor:pointer;">
+            <div style="position:relative;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Cheongyang_chili_and_gochujang.jpg" alt="매콤 양념소스" style="width:100%;aspect-ratio:1;object-fit:cover;">
+              <button style="position:absolute;top:5px;right:5px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;">
+                <iconify-icon icon="mdi:heart-outline" width="13" style="color:#1D1D1F;"></iconify-icon>
+              </button>
+            </div>
+            <div style="padding:6px 0;">
+              <p style="font-size:12px;font-weight:400;color:#1D1D1F;margin:0 0 3px;">매콤 양념소스 300ml</p>
+              <p style="font-size:11px;color:#AEAEB2;text-decoration:line-through;margin:0;">8,500원</p>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:1px;">
+                <span style="font-size:11px;font-weight:500;color:#FF3B30;">31%</span>
+                <span style="font-size:14px;font-weight:500;color:#1D1D1F;">5,900원</span>
+              </div>
+            </div>
+          </div>
+          <!-- 핫소스 -->
+          <div style="cursor:pointer;">
+            <div style="position:relative;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Gochujang_%28chilli_paste%29.jpg" alt="청양고추 핫소스" style="width:100%;aspect-ratio:1;object-fit:cover;">
+              <button style="position:absolute;top:5px;right:5px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;">
+                <iconify-icon icon="mdi:heart-outline" width="13" style="color:#1D1D1F;"></iconify-icon>
+              </button>
+            </div>
+            <div style="padding:6px 0;">
+              <p style="font-size:12px;font-weight:400;color:#1D1D1F;margin:0 0 3px;">청양고추 핫소스 250ml</p>
+              <p style="font-size:11px;color:#AEAEB2;text-decoration:line-through;margin:0;">7,500원</p>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:1px;">
+                <span style="font-size:11px;font-weight:500;color:#FF3B30;">35%</span>
+                <span style="font-size:14px;font-weight:500;color:#1D1D1F;">4,900원</span>
+              </div>
+            </div>
+          </div>
+          <!-- 쌈장 -->
+          <div style="cursor:pointer;">
+            <div style="position:relative;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d8/Ssam_vegetables_and_ssamjang.jpg" alt="우림 쌈장" style="width:100%;aspect-ratio:1;object-fit:cover;">
+              <button style="position:absolute;top:5px;right:5px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;">
+                <iconify-icon icon="mdi:heart-outline" width="13" style="color:#1D1D1F;"></iconify-icon>
+              </button>
+            </div>
+            <div style="padding:6px 0;">
+              <p style="font-size:12px;font-weight:400;color:#1D1D1F;margin:0 0 3px;">우림 쌈장 450g</p>
+              <p style="font-size:11px;color:#AEAEB2;text-decoration:line-through;margin:0;">9,000원</p>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:1px;">
+                <span style="font-size:11px;font-weight:500;color:#FF3B30;">31%</span>
+                <span style="font-size:14px;font-weight:500;color:#1D1D1F;">6,200원</span>
+              </div>
+            </div>
+          </div>
+          <!-- 식초 -->
+          <div style="cursor:pointer;">
+            <div style="position:relative;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Korean_Rice_Vinegar.jpg" alt="유기농 현미식초" style="width:100%;aspect-ratio:1;object-fit:cover;">
+              <button style="position:absolute;top:5px;right:5px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;">
+                <iconify-icon icon="mdi:heart-outline" width="13" style="color:#1D1D1F;"></iconify-icon>
+              </button>
+            </div>
+            <div style="padding:6px 0;">
+              <p style="font-size:12px;font-weight:400;color:#1D1D1F;margin:0 0 3px;">유기농 현미식초 500ml</p>
+              <p style="font-size:11px;color:#AEAEB2;text-decoration:line-through;margin:0;">13,000원</p>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:1px;">
+                <span style="font-size:11px;font-weight:500;color:#FF3B30;">35%</span>
+                <span style="font-size:14px;font-weight:500;color:#1D1D1F;">8,500원</span>
+              </div>
+            </div>
+          </div>
+          <!-- 맛간장 -->
+          <div style="cursor:pointer;">
+            <div style="position:relative;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Bowl_of_soy_sauce.jpg" alt="전통 맛간장" style="width:100%;aspect-ratio:1;object-fit:cover;">
+              <button style="position:absolute;top:5px;right:5px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;">
+                <iconify-icon icon="mdi:heart-outline" width="13" style="color:#1D1D1F;"></iconify-icon>
+              </button>
+            </div>
+            <div style="padding:6px 0;">
+              <p style="font-size:12px;font-weight:400;color:#1D1D1F;margin:0 0 3px;">전통 맛간장 300ml</p>
+              <p style="font-size:11px;color:#AEAEB2;text-decoration:line-through;margin:0;">10,000원</p>
+              <div style="display:flex;align-items:center;gap:4px;margin-top:1px;">
+                <span style="font-size:11px;font-weight:500;color:#FF3B30;">32%</span>
+                <span style="font-size:14px;font-weight:500;color:#1D1D1F;">6,800원</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Bottom Tab Navigation -->
+  <div class="bottom-bar" style="position:absolute;bottom:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);border-top:1px solid rgba(0,0,0,0.08);box-shadow:0 -1px 0 rgba(0,0,0,0.08);height:56px;display:flex;align-items:center;">
+      <a href="#" class="tab-item" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:2px;text-decoration:none;color:#86868B;font-size:11px;font-weight:600;">
+        <span style=""><iconify-icon icon="mdi:home" width="24"></iconify-icon></span>
+        <span>홈</span>
+      </a>
+      <a href="#" class="tab-item tab-item--active" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:2px;text-decoration:none;color:#1D1D1F;font-size:11px;font-weight:600;">
+        <span style="padding:4px;background:#F5F5F7;border-radius:10px;"><iconify-icon icon="mdi:view-grid" width="24"></iconify-icon></span>
+        <span>카테고리</span>
+      </a>
+      <a href="#" class="tab-item" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:2px;text-decoration:none;color:#86868B;font-size:11px;font-weight:600;">
+        <span style=""><iconify-icon icon="mdi:receipt" width="24"></iconify-icon></span>
+        <span>주문내역</span>
+      </a>
+      <a href="#" class="tab-item" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:2px;text-decoration:none;color:#86868B;font-size:11px;font-weight:600;">
+        <span style=""><iconify-icon icon="mdi:account" width="24"></iconify-icon></span>
+        <span>마이페이지</span>
+      </a>
+  </div>
+</div>
+
+</body>
+</html>

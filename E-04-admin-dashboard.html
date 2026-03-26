@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>우림마켓 관리자 - 대시보드 (Variation E: Nature Organic)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&family=Pretendard:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, sans-serif;
+    background: #F5F0EB;
+    color: #2D2A26;
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .font-serif { font-family: 'Noto Serif KR', 'Georgia', serif; }
+  table { border-collapse: collapse; width: 100%; }
+  th { text-align: left; font-weight: 500; font-size: 12px; color: #5C5650; letter-spacing: 0.02em; padding: 12px 16px; border-bottom: 1px solid #DDD5CC; background: #F5F0EB; }
+  td { padding: 12px 16px; border-bottom: 1px solid #E8E0D8; font-size: 13px; color: #2D2A26; }
+</style>
+</head>
+<body>
+<!-- Variation Navigation Bar -->
+<div class="var-nav-bar" style="position:fixed;top:12px;right:12px;z-index:9999;display:flex;gap:4px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);padding:6px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);font-family:Inter,-apple-system,sans-serif;">
+  <span style="padding:6px 10px;font-size:13px;font-weight:800;color:rgba(255,255,255,0.4);">E</span>
+  <a href="E-01-home.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;color:#888;background:transparent;">홈</a>
+  <a href="E-02-category.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;color:#888;background:transparent;">카테고리</a>
+  <a href="E-03-product-detail.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;color:#888;background:transparent;">상품상세</a>
+  <a href="E-04-admin-dashboard.html" style="padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;color:#fff;background:rgba(255,255,255,0.15);">어드민</a>
+  <a href="showcase-ALL.html" style="padding:6px 10px;border-radius:8px;font-size:12px;text-decoration:none;color:#666;">✕</a>
+</div>
+  <div style="display: flex; min-height: 100vh;">
+    <!-- Sidebar -->
+    <div style="width: 240px; min-width: 240px; background: #FEFCF9; border-right: 1px solid #DDD5CC; display: flex; flex-direction: column;">
+      <div class="font-serif" style="padding: 20px 16px; font-size: 18px; font-weight: 400; color: #2D2A26; border-bottom: 1px solid #DDD5CC;">
+        우림마켓 <span style="font-size: 13px; color: #8C847C; font-family: 'Pretendard', sans-serif;">Admin</span>
+      </div>
+      <div style="padding: 12px 0; flex: 1;">
+        <div style="padding: 10px 16px; margin: 2px 8px; border-radius: 8px; background: #EFF4ED; color: #5B7553; font-weight: 500; display: flex; align-items: center; gap: 10px;">
+          <iconify-icon icon="mdi:view-dashboard-outline" style="font-size: 18px;"></iconify-icon> 대시보드
+        </div>
+        <div style="padding: 10px 16px; margin: 2px 8px; border-radius: 8px; color: #5C5650; display: flex; align-items: center; gap: 10px;">
+          <iconify-icon icon="mdi:account-group-outline" style="font-size: 18px;"></iconify-icon> 회원관리
+        </div>
+        <div style="padding: 10px 16px; margin: 2px 8px; border-radius: 8px; color: #5C5650; display: flex; align-items: center; gap: 10px;">
+          <iconify-icon icon="mdi:package-variant-closed" style="font-size: 18px;"></iconify-icon> 상품관리
+        </div>
+        <div style="padding: 10px 16px; margin: 2px 8px; border-radius: 8px; color: #5C5650; display: flex; align-items: center; gap: 10px;">
+          <iconify-icon icon="mdi:clipboard-list-outline" style="font-size: 18px;"></iconify-icon> 주문관리
+        </div>
+        <div style="padding: 10px 16px; margin: 2px 8px; border-radius: 8px; color: #5C5650; display: flex; align-items: center; gap: 10px;">
+          <iconify-icon icon="mdi:tag-multiple-outline" style="font-size: 18px;"></iconify-icon> 카테고리관리
+        </div>
+        <div style="padding: 10px 16px; margin: 2px 8px; border-radius: 8px; color: #5C5650; display: flex; align-items: center; gap: 10px;">
+          <iconify-icon icon="mdi:chart-bar" style="font-size: 18px;"></iconify-icon> 데이터
+        </div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div style="flex: 1; overflow-y: auto;">
+      <!-- Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: #FEFCF9; border-bottom: 1px solid #DDD5CC;">
+        <h1 class="font-serif" style="font-size: 24px; font-weight: 400;">대시보드</h1>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="position: relative;">
+            <iconify-icon icon="mdi:bell-outline" style="font-size: 22px; color: #5C5650;"></iconify-icon>
+            <div style="position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; border-radius: 4px; background: #C4704B;"></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 9999px; background: #EFF4ED; display: flex; align-items: center; justify-content: center;">
+              <iconify-icon icon="mdi:account" style="font-size: 18px; color: #5B7553;"></iconify-icon>
+            </div>
+            <span style="font-size: 14px; color: #2D2A26;">관리자</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 24px 32px;">
+        <!-- Date Filter -->
+        <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+          <div style="background: #5B7553; color: #fff; padding: 6px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer;">오늘</div>
+          <div style="border: 1.5px solid #DDD5CC; padding: 6px 16px; border-radius: 8px; font-size: 13px; color: #5C5650; cursor: pointer;">7일</div>
+          <div style="border: 1.5px solid #DDD5CC; padding: 6px 16px; border-radius: 8px; font-size: 13px; color: #5C5650; cursor: pointer;">30일</div>
+          <div style="border: 1.5px solid #DDD5CC; padding: 6px 16px; border-radius: 8px; font-size: 13px; color: #5C5650; cursor: pointer;">직접입력</div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+          <div style="background: #FEFCF9; border-radius: 12px; padding: 24px; border: 1px solid #E8E0D8; box-shadow: 0 2px 4px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.04);">
+            <div style="font-size: 13px; color: #5C5650; margin-bottom: 8px;">전체회원</div>
+            <div style="font-size: 28px; font-weight: 600; color: #2D2A26;">2,847<span style="font-size: 14px; font-weight: 400; color: #8C847C;">명</span></div>
+            <div style="font-size: 12px; color: #5B7553; margin-top: 6px;">+12.5% ↑</div>
+          </div>
+          <div style="background: #FEFCF9; border-radius: 12px; padding: 24px; border: 1px solid #E8E0D8; box-shadow: 0 2px 4px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.04);">
+            <div style="font-size: 13px; color: #5C5650; margin-bottom: 8px;">오늘주문</div>
+            <div style="font-size: 28px; font-weight: 600; color: #2D2A26;">156<span style="font-size: 14px; font-weight: 400; color: #8C847C;">건</span></div>
+            <div style="font-size: 12px; color: #5B7553; margin-top: 6px;">+8.3% ↑</div>
+          </div>
+          <div style="background: #FEFCF9; border-radius: 12px; padding: 24px; border: 1px solid #E8E0D8; box-shadow: 0 2px 4px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.04);">
+            <div style="font-size: 13px; color: #5C5650; margin-bottom: 8px;">금일매출</div>
+            <div style="font-size: 28px; font-weight: 600; color: #2D2A26;">4,280,000<span style="font-size: 14px; font-weight: 400; color: #8C847C;">원</span></div>
+            <div style="font-size: 12px; color: #5B7553; margin-top: 6px;">+15.2% ↑</div>
+          </div>
+          <div style="background: #FEFCF9; border-radius: 12px; padding: 24px; border: 1px solid #E8E0D8; box-shadow: 0 2px 4px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.04);">
+            <div style="font-size: 13px; color: #5C5650; margin-bottom: 8px;">월매출</div>
+            <div style="font-size: 28px; font-weight: 600; color: #2D2A26;">128,500,000<span style="font-size: 14px; font-weight: 400; color: #8C847C;">원</span></div>
+            <div style="font-size: 12px; color: #5B7553; margin-top: 6px;">+22.1% ↑</div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+          <div style="background: #FEFCF9; border-radius: 12px; padding: 20px; border: 1px solid #E8E0D8; box-shadow: 0 2px 4px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.04);">
+            <div class="font-serif" style="font-size: 16px; font-weight: 400; margin-bottom: 16px;">주문 추이</div>
+            <canvas id="ordersChart" height="200"></canvas>
+          </div>
+          <div style="background: #FEFCF9; border-radius: 12px; padding: 20px; border: 1px solid #E8E0D8; box-shadow: 0 2px 4px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.04);">
+            <div class="font-serif" style="font-size: 16px; font-weight: 400; margin-bottom: 16px;">매출 현황</div>
+            <canvas id="revenueChart" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div style="background: #FEFCF9; border-radius: 12px; border: 1px solid #E8E0D8; overflow: hidden; box-shadow: 0 2px 4px rgba(45,42,38,0.04), 0 4px 12px rgba(45,42,38,0.04);">
+          <div class="font-serif" style="padding: 20px 20px 0; font-size: 16px; font-weight: 400; margin-bottom: 12px;">최근 주문</div>
+          <table>
+            <thead>
+              <tr><th>주문번호</th><th>주문자</th><th>상품</th><th>금액</th><th>상태</th><th>일시</th></tr>
+            </thead>
+            <tbody>
+              <tr><td style="color: #5B7553;">#WR-20260326-001</td><td>김민수</td><td>우림 전통 고추장 500g</td><td>8,900원</td><td><span style="background: #FAF5E6; color: #9A7B2A; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">결제대기</span></td><td style="color: #8C847C;">03.26 14:32</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260326-002</td><td>이서연</td><td>매콤 양념소스 300ml</td><td>5,900원</td><td><span style="background: #EDF2F7; color: #3D6690; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">준비중</span></td><td style="color: #8C847C;">03.26 13:18</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260326-003</td><td>박지훈</td><td>우림 된장 1kg</td><td>9,800원</td><td><span style="background: #EFF4ED; color: #5B7553; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">배송중</span></td><td style="color: #8C847C;">03.26 11:45</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260326-004</td><td>최유나</td><td>수제 간장 500ml</td><td>7,500원</td><td><span style="background: #E8F0E6; color: #3F553A; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">배송완료</span></td><td style="color: #8C847C;">03.26 10:22</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260326-005</td><td>정현우</td><td>우림 쌈장 450g</td><td>6,200원</td><td><span style="background: #E8F0E6; color: #3F553A; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">배송완료</span></td><td style="color: #8C847C;">03.26 09:55</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260325-006</td><td>한소희</td><td>청양고추 핫소스 250ml</td><td>4,900원</td><td><span style="background: #EDE7E0; color: #8C847C; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">취소</span></td><td style="color: #8C847C;">03.25 18:30</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260325-007</td><td>김도윤</td><td>유기농 현미식초 500ml</td><td>8,500원</td><td><span style="background: #E8F0E6; color: #3F553A; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">배송완료</span></td><td style="color: #8C847C;">03.25 16:12</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260325-008</td><td>오지은</td><td>전통 맛간장 300ml</td><td>6,800원</td><td><span style="background: #EFF4ED; color: #5B7553; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">배송중</span></td><td style="color: #8C847C;">03.25 14:48</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260325-009</td><td>송재원</td><td>우림 전통 고추장 1kg</td><td>15,900원</td><td><span style="background: #F9EFEA; color: #A0583A; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">환불</span></td><td style="color: #8C847C;">03.25 12:33</td></tr>
+              <tr><td style="color: #5B7553;">#WR-20260325-010</td><td>임채영</td><td>매콤 양념소스 300ml x2</td><td>11,800원</td><td><span style="background: #E8F0E6; color: #3F553A; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 500;">배송완료</span></td><td style="color: #8C847C;">03.25 10:05</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    Chart.defaults.color = '#5C5650';
+    Chart.defaults.borderColor = '#E8E0D8';
+    new Chart(document.getElementById('ordersChart'), {
+      type: 'line',
+      data: {
+        labels: ['3/20','3/21','3/22','3/23','3/24','3/25','3/26'],
+        datasets: [{
+          label: '주문수',
+          data: [98, 112, 135, 128, 142, 148, 156],
+          borderColor: '#5B7553',
+          backgroundColor: 'rgba(91,117,83,0.08)',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: '#5B7553',
+          pointBorderColor: '#FEFCF9',
+          pointBorderWidth: 2
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, grid: { color: '#E8E0D8' } }, x: { grid: { display: false } } } }
+    });
+    new Chart(document.getElementById('revenueChart'), {
+      type: 'bar',
+      data: {
+        labels: ['3/20','3/21','3/22','3/23','3/24','3/25','3/26'],
+        datasets: [{
+          label: '매출',
+          data: [2800000, 3200000, 3800000, 3500000, 3900000, 4100000, 4280000],
+          backgroundColor: 'rgba(196,112,75,0.2)',
+          borderColor: '#C4704B',
+          borderWidth: 1,
+          borderRadius: 6
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#E8E0D8' }, ticks: { callback: v => (v/10000)+'만' } }, x: { grid: { display: false } } } }
+    });
+  </script>
+</body>
+</html>
