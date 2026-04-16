@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1440, initial-scale=1.0">
-<title>관리자 계정 관리 | 우림마켓 Admin</title>
+<title>관리자 계정 관리 | 공직 Admin</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
 <div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
   <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
     <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;">
-      <span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span>
+      <span style="font-size:16px;font-weight:500;color:#1D1D1F;">공직</span>
       <span style="font-size:11px;color:#AEAEB2;font-weight:400;">Admin</span>
     </a>
   </div>
@@ -71,7 +71,7 @@
     <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#6E6E73;">S</div>
     <div>
       <p style="font-size:12px;font-weight:500;color:#1D1D1F;margin:0;">슈퍼 관리자</p>
-      <p style="font-size:10px;color:#AEAEB2;margin:0;">super@woorim.co.kr</p>
+      <p style="font-size:10px;color:#AEAEB2;margin:0;">super@gongjik.co.kr</p>
     </div>
     <span style="font-size:10px;background:#F0F5FF;color:#004A99;padding:1px 5px;border-radius:3px;margin-left:auto;">슈퍼</span>
   </div>
@@ -107,7 +107,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>super@woorim.co.kr</td>
+            <td>super@gongjik.co.kr</td>
             <td style="font-weight:500;">우림 슈퍼</td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F0F5FF;color:#004A99;">슈퍼 관리자</span></td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F0FFF4;color:#1B7A2B;">활성</span></td>
@@ -118,7 +118,7 @@
             </td>
           </tr>
           <tr>
-            <td>admin1@woorim.co.kr</td>
+            <td>admin1@gongjik.co.kr</td>
             <td style="font-weight:500;">김운영</td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F5F5F7;color:#6E6E73;">일반 관리자</span></td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F0FFF4;color:#1B7A2B;">활성</span></td>
@@ -126,7 +126,7 @@
             <td style="color:#AEAEB2;">2026.04.15</td>
             <td style="text-align:right;">
               <div style="display:flex;gap:8px;justify-content:flex-end;">
-                <button onclick="openEdit('admin1@woorim.co.kr','김운영','general')" style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:12px;display:flex;align-items:center;gap:4px;">
+                <button onclick="openEdit('admin1@gongjik.co.kr','김운영','general')" style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:12px;display:flex;align-items:center;gap:4px;">
                   <iconify-icon icon="mdi:pencil-outline" width="14"></iconify-icon>수정
                 </button>
                 <button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:12px;display:flex;align-items:center;gap:4px;">
@@ -136,7 +136,7 @@
             </td>
           </tr>
           <tr>
-            <td>admin2@woorim.co.kr</td>
+            <td>admin2@gongjik.co.kr</td>
             <td style="font-weight:500;">이마케팅</td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F5F5F7;color:#6E6E73;">일반 관리자</span></td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F0FFF4;color:#1B7A2B;">활성</span></td>
@@ -154,7 +154,7 @@
             </td>
           </tr>
           <tr>
-            <td>admin3@woorim.co.kr</td>
+            <td>admin3@gongjik.co.kr</td>
             <td style="font-weight:500;">박CS팀</td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F5F5F7;color:#6E6E73;">일반 관리자</span></td>
             <td><span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#FFFCF0;color:#92580A;">비활성</span></td>
@@ -188,7 +188,7 @@
       <div style="margin-bottom:16px;">
         <label class="input-label">이메일 <span style="color:#FF3B30;">*</span></label>
         <div style="display:flex;gap:8px;">
-          <input class="input" type="email" placeholder="admin@woorim.co.kr" style="flex:1;">
+          <input class="input" type="email" placeholder="admin@gongjik.co.kr" style="flex:1;">
           <button class="btn-primary" style="white-space:nowrap;min-width:80px;">중복 확인</button>
         </div>
       </div>
