@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 약관 재동의">
+<title>우림마켓 - 약관 재동의</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .consent-header {
+    padding: 52px 20px 20px; text-align: center; background: #FFFBF5;
+  }
+  .checkbox-row {
+    display: flex; align-items: center; gap: 10px; padding: 14px 0;
+    border-bottom: 1px solid #F5EDE4; cursor: pointer;
+  }
+  .checkbox-row:last-child { border-bottom: none; }
+  .custom-check {
+    width: 20px; height: 20px; border: 1.5px solid #F0E0D0;
+    border-radius: 5px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 150ms;
+  }
+  .custom-check.checked { background: #FF6B35; border-color: #FF6B35; }
+  .btn-primary {
+    width: 100%; height: 50px; background: #FF6B35; color: #FFFFFF;
+    border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
+    cursor: pointer; box-shadow: 0 4px 12px rgba(255,107,53,0.2);
+    transition: all 150ms ease-out; font-family: inherit;
+  }
+  .btn-primary:disabled { background: #E0C8B0; box-shadow: none; cursor: not-allowed; }
+  .btn-ghost {
+    width: 100%; height: 44px; background: transparent; color: #A1887F;
+    border: none; font-size: 14px; cursor: pointer; font-family: inherit;
+    text-decoration: underline;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <!-- Header (no back button - modal gate) -->
+    <div class="consent-header">
+      <div style="display:inline-block;background:#FFF0E8;color:#FF6B35;font-size:12px;font-weight:600;padding:4px 14px;border-radius:9999px;margin-bottom:12px;">2026년 4월 시행</div>
+      <h1 style="font-size:20px;font-weight:600;color:#3E2723;line-height:1.4;">약관이 업데이트되었습니다</h1>
+    </div>
+
+    <!-- Content -->
+    <main style="padding:0 20px;flex:1;overflow-y:auto;">
+      <!-- Notice -->
+      <div style="background:#FFF5EB;border-radius:12px;padding:14px 16px;margin-bottom:20px;border-left:3px solid #FF6B35;">
+        <p style="font-size:14px;color:#6D4C41;line-height:1.6;">서비스 개선을 위해 약관이 변경되었습니다.<br>계속 이용하시려면 동의해 주세요.</p>
+      </div>
+
+      <!-- What Changed -->
+      <div style="background:#FFFFFF;border-radius:16px;padding:4px 16px;border:1px solid #F0E0D0;margin-bottom:20px;">
+        <!-- 전체 동의 -->
+        <div class="checkbox-row" onclick="toggleAll()">
+          <div class="custom-check" id="check-all">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:14px;font-weight:600;color:#3E2723;">전체 동의</span>
+          </div>
+        </div>
+        <div style="height:1px;background:#F0E0D0;"></div>
+
+        <!-- Changed Terms -->
+        <div class="checkbox-row" onclick="toggleCheck('check-terms-v2')">
+          <div class="custom-check" id="check-terms-v2">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:12px;font-weight:600;color:#FF6B35;">[필수]</span>
+            <span style="font-size:13px;color:#3E2723;margin-left:4px;">이용약관 v2.1</span>
+            <div style="font-size:11px;color:#A1887F;margin-top:2px;">주요 변경: 배송 책임 조항 명확화</div>
+          </div>
+          <a href="30-terms-list.html" style="font-size:12px;color:#FF6B35;text-decoration:none;white-space:nowrap;">내용보기</a>
+        </div>
+
+        <div class="checkbox-row" onclick="toggleCheck('check-privacy-v2')">
+          <div class="custom-check" id="check-privacy-v2">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:12px;font-weight:600;color:#FF6B35;">[필수]</span>
+            <span style="font-size:13px;color:#3E2723;margin-left:4px;">개인정보처리방침 v3.0</span>
+            <div style="font-size:11px;color:#A1887F;margin-top:2px;">주요 변경: 개인정보 보존 기간 업데이트</div>
+          </div>
+          <a href="31-privacy-policy.html" style="font-size:12px;color:#FF6B35;text-decoration:none;white-space:nowrap;">내용보기</a>
+        </div>
+
+        <div class="checkbox-row" onclick="toggleCheck('check-marketing-v2')">
+          <div class="custom-check" id="check-marketing-v2">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:12px;color:#A1887F;">[선택]</span>
+            <span style="font-size:13px;color:#3E2723;margin-left:4px;">마케팅 정보 수신 동의</span>
+            <div style="font-size:11px;color:#A1887F;margin-top:2px;">이벤트 및 기획전 알림</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Action Buttons -->
+    <div style="padding:16px 20px 24px;background:#FFFBF5;border-top:1px solid #F0E0D0;">
+      <button type="button" class="btn-primary" id="agree-btn" onclick="agreeAll()" disabled>전체 동의 후 계속</button>
+      <button type="button" class="btn-ghost" onclick="logout()" style="margin-top:8px;">로그아웃</button>
+    </div>
+  </div>
+<script>
+let checks = { 'terms-v2': false, 'privacy-v2': false, 'marketing-v2': false };
+const required = ['terms-v2', 'privacy-v2'];
+
+function toggleCheck(id) {
+  const key = id.replace('check-', '');
+  checks[key] = !checks[key];
+  const el = document.getElementById(id);
+  if (checks[key]) el.classList.add('checked'); else el.classList.remove('checked');
+  updateUI();
+}
+function toggleAll() {
+  const allFilled = Object.values(checks).every(v => v);
+  Object.keys(checks).forEach(k => {
+    checks[k] = !allFilled;
+    const el = document.getElementById('check-' + k);
+    if (!allFilled) el.classList.add('checked'); else el.classList.remove('checked');
+  });
+  updateUI();
+}
+function updateUI() {
+  const allRequired = required.every(k => checks[k]);
+  const allAll = Object.values(checks).every(v => v);
+  const allEl = document.getElementById('check-all');
+  if (allAll) allEl.classList.add('checked'); else allEl.classList.remove('checked');
+  document.getElementById('agree-btn').disabled = !allRequired;
+}
+function agreeAll() { window.location.href = '07-home.html'; }
+function logout() { window.location.href = '02-login.html'; }
+</script>
+</body>
+</html>

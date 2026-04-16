@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 1:1 문의</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .inquiry-item { padding: 14px 16px; border-bottom: 1px solid #F5EDE4; background: #FFFFFF; cursor: pointer; }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 9999px; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">1:1 문의</h1>
+      <a href="27-inquiry-write.html" style="padding:4px;display:flex;" aria-label="문의 작성">
+        <iconify-icon icon="mdi:pencil-plus" width="24" style="color:#FF6B35;"></iconify-icon>
+      </a>
+    </header>
+
+    <div style="margin-top:8px;">
+      <!-- Inquiry 1 (answered) -->
+      <div class="inquiry-item" onclick="toggleInquiry('ans1')">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span class="badge" style="background:#E8F5E9;color:#2E7D32;">답변완료</span>
+          <span style="font-size:12px;color:#A1887F;">2026.04.10</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <p style="font-size:14px;font-weight:500;color:#3E2723;">주문한 상품이 아직 안 왔어요</p>
+          <iconify-icon icon="mdi:chevron-right" width="20" style="color:#A1887F;" id="chevron-ans1"></iconify-icon>
+        </div>
+        <!-- Expanded Answer -->
+        <div id="ans1" style="display:none;margin-top:12px;">
+          <div style="background:#FFF5EB;border-radius:10px;padding:12px;margin-bottom:8px;">
+            <p style="font-size:12px;color:#A1887F;margin-bottom:4px;">고객 문의</p>
+            <p style="font-size:13px;color:#3E2723;line-height:1.6;">주문번호 20260405-00098 상품이 2일이 지났는데 아직 배송 출발도 안 했습니다.</p>
+          </div>
+          <div style="background:#E8F5E9;border-left:3px solid #FF6B35;border-radius:0 10px 10px 0;padding:12px;">
+            <p style="font-size:12px;color:#A1887F;margin-bottom:4px;">우림마켓 답변 · 2026.04.11</p>
+            <p style="font-size:13px;color:#3E2723;line-height:1.6;">고객님, 불편을 드려서 죄송합니다. 해당 주문 확인 결과 물류 시스템 오류로 발송이 지연되었습니다. 2026.04.12 발송 완료 예정입니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inquiry 2 (pending) -->
+      <div class="inquiry-item" onclick="toggleInquiry('ans2')">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <span class="badge" style="background:#FFF8E1;color:#F57F17;">대기중</span>
+          <span style="font-size:12px;color:#A1887F;">2026.04.15</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <p style="font-size:14px;font-weight:500;color:#3E2723;">쿠폰 적용이 안 됩니다</p>
+          <iconify-icon icon="mdi:chevron-right" width="20" style="color:#A1887F;" id="chevron-ans2"></iconify-icon>
+        </div>
+        <div id="ans2" style="display:none;margin-top:12px;">
+          <div style="background:#FFF5EB;border-radius:10px;padding:12px;">
+            <p style="font-size:12px;color:#A1887F;margin-bottom:4px;">고객 문의</p>
+            <p style="font-size:13px;color:#3E2723;line-height:1.6;">3만원 쿠폰이 있는데 결제 화면에서 적용이 안 됩니다. 최소 주문 금액 확인이 필요한가요?</p>
+          </div>
+          <p style="font-size:12px;color:#A1887F;margin-top:8px;text-align:center;">답변 대기 중입니다 (영업일 1~2일 이내)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Write Button -->
+    <div style="padding:16px;">
+      <a href="27-inquiry-write.html" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#FF6B35;border-radius:12px;padding:14px;text-decoration:none;box-shadow:0 4px 12px rgba(255,107,53,0.2);">
+        <iconify-icon icon="mdi:pencil-plus" width="20" style="color:#FFFFFF;"></iconify-icon>
+        <span style="font-size:14px;font-weight:600;color:#FFFFFF;">새 문의 작성</span>
+      </a>
+    </div>
+  </div>
+<script>
+function toggleInquiry(id) {
+  const el = document.getElementById(id);
+  const chevron = document.getElementById('chevron-' + id);
+  const open = el.style.display === 'block';
+  el.style.display = open ? 'none' : 'block';
+  chevron.setAttribute('icon', open ? 'mdi:chevron-right' : 'mdi:chevron-down');
+}
+</script>
+</body>
+</html>

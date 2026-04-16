@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 찜 목록</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .card { background: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 12px rgba(62,39,35,0.06); overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">찜한 상품 (4)</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <a href="09-product-detail.html" class="card" style="display:block;text-decoration:none;">
+        <div style="position:relative;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장 500g" style="width:100%;aspect-ratio:1;object-fit:cover;">
+          <button onclick="removeWish(this, event)" style="position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;" aria-label="찜 해제">
+            <iconify-icon icon="mdi:heart" width="16" style="color:#FF6B35;"></iconify-icon>
+          </button>
+        </div>
+        <div style="padding:10px;">
+          <p style="font-size:12px;font-weight:500;color:#3E2723;margin:0 0 4px;">우림 전통 고추장 500g</p>
+          <p style="font-size:11px;color:#A1887F;text-decoration:line-through;margin:0;">12,000원</p>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:2px;"><span style="font-size:11px;font-weight:700;color:#FF6B35;">26%</span><span style="font-size:14px;font-weight:700;color:#3E2723;">8,900원</span></div>
+          <span style="background:#E8F5E9;color:#2E7D32;font-size:10px;font-weight:600;padding:1px 5px;border-radius:9999px;margin-top:3px;display:inline-block;">무료배송</span>
+        </div>
+      </a>
+      <a href="09-product-detail.html" class="card" style="display:block;text-decoration:none;">
+        <div style="position:relative;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Doenjang.jpg" alt="우림 된장 1kg" style="width:100%;aspect-ratio:1;object-fit:cover;">
+          <button onclick="removeWish(this, event)" style="position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;" aria-label="찜 해제">
+            <iconify-icon icon="mdi:heart" width="16" style="color:#FF6B35;"></iconify-icon>
+          </button>
+        </div>
+        <div style="padding:10px;">
+          <p style="font-size:12px;font-weight:500;color:#3E2723;margin:0 0 4px;">우림 된장 1kg</p>
+          <p style="font-size:11px;color:#A1887F;text-decoration:line-through;margin:0;">15,000원</p>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:2px;"><span style="font-size:11px;font-weight:700;color:#FF6B35;">35%</span><span style="font-size:14px;font-weight:700;color:#3E2723;">9,800원</span></div>
+        </div>
+      </a>
+      <a href="09-product-detail.html" class="card" style="display:block;text-decoration:none;opacity:0.7;">
+        <div style="position:relative;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Cheongyang_chili_and_gochujang.jpg" alt="청양고추 핫소스" style="width:100%;aspect-ratio:1;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:rgba(62,39,35,0.4);display:flex;align-items:center;justify-content:center;">
+            <span style="color:#fff;font-size:13px;font-weight:700;">품절</span>
+          </div>
+          <button onclick="removeWish(this, event)" style="position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;" aria-label="찜 해제">
+            <iconify-icon icon="mdi:heart" width="16" style="color:#FF6B35;"></iconify-icon>
+          </button>
+        </div>
+        <div style="padding:10px;">
+          <p style="font-size:12px;font-weight:500;color:#3E2723;margin:0 0 4px;">청양고추 핫소스 250ml</p>
+          <span style="background:#FFEBEE;color:#E53935;font-size:10px;font-weight:600;padding:1px 6px;border-radius:9999px;">품절</span>
+        </div>
+      </a>
+      <a href="09-product-detail.html" class="card" style="display:block;text-decoration:none;">
+        <div style="position:relative;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Korean_Rice_Vinegar.jpg" alt="유기농 현미식초 500ml" style="width:100%;aspect-ratio:1;object-fit:cover;">
+          <button onclick="removeWish(this, event)" style="position:absolute;top:6px;right:6px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;" aria-label="찜 해제">
+            <iconify-icon icon="mdi:heart" width="16" style="color:#FF6B35;"></iconify-icon>
+          </button>
+        </div>
+        <div style="padding:10px;">
+          <p style="font-size:12px;font-weight:500;color:#3E2723;margin:0 0 4px;">유기농 현미식초 500ml</p>
+          <p style="font-size:11px;color:#A1887F;text-decoration:line-through;margin:0;">13,000원</p>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:2px;"><span style="font-size:11px;font-weight:700;color:#FF6B35;">35%</span><span style="font-size:14px;font-weight:700;color:#3E2723;">8,500원</span></div>
+          <span style="background:#E8F5E9;color:#2E7D32;font-size:10px;font-weight:600;padding:1px 5px;border-radius:9999px;margin-top:3px;display:inline-block;">무료배송</span>
+        </div>
+      </a>
+    </div>
+  </div>
+<script>
+function removeWish(btn, e) {
+  e.preventDefault();
+  if (confirm('찜 목록에서 삭제하시겠습니까?')) {
+    btn.closest('a').remove();
+  }
+}
+</script>
+</body>
+</html>

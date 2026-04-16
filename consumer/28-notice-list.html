@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 공지사항</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .notice-row { padding: 14px 16px; border-bottom: 1px solid #F5EDE4; background: #FFFFFF; cursor: pointer; }
+  .notice-row:hover { background: #FFFAF7; }
+  .notice-row.pinned { background: #FFF8F5; border-left: 3px solid #FF6B35; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">공지사항</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <!-- Pinned Notices -->
+    <div style="background:#FFFFFF;margin-top:8px;">
+      <div style="padding:8px 16px;background:#F5EDE4;"><span style="font-size:11px;font-weight:600;color:#A1887F;">📌 고정 공지</span></div>
+
+      <a href="29-notice-detail.html" class="notice-row pinned" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="background:#FF6B35;color:#FFFFFF;font-size:10px;font-weight:700;padding:2px 6px;border-radius:9999px;">공지</span>
+          <span style="font-size:12px;color:#A1887F;">2026.04.01</span>
+        </div>
+        <p style="font-size:14px;font-weight:600;color:#3E2723;">2026년 봄 기획전 진행 안내 및 배송 일정 공지</p>
+      </a>
+
+      <a href="29-notice-detail.html" class="notice-row pinned" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="background:#FF6B35;color:#FFFFFF;font-size:10px;font-weight:700;padding:2px 6px;border-radius:9999px;">공지</span>
+          <span style="font-size:12px;color:#A1887F;">2026.03.15</span>
+        </div>
+        <p style="font-size:14px;font-weight:600;color:#3E2723;">개인정보처리방침 개정 안내 (2026.04.01 시행)</p>
+      </a>
+    </div>
+
+    <!-- Regular Notices -->
+    <div style="background:#FFFFFF;margin-top:8px;">
+      <div style="padding:8px 16px;background:#F5EDE4;"><span style="font-size:11px;font-weight:600;color:#A1887F;">일반 공지</span></div>
+
+      <a href="29-notice-detail.html" class="notice-row" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:12px;color:#A1887F;">2026.04.14</span>
+          <span style="background:#E8F5E9;color:#2E7D32;font-size:10px;font-weight:600;padding:1px 5px;border-radius:9999px;">이벤트</span>
+        </div>
+        <p style="font-size:14px;color:#3E2723;">신규 회원 가입 시 5,000원 쿠폰 증정 이벤트</p>
+        <p style="font-size:12px;color:#A1887F;margin-top:3px;">2026.04.14 ~ 2026.05.31</p>
+      </a>
+
+      <a href="29-notice-detail.html" class="notice-row" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:12px;color:#A1887F;">2026.04.10</span>
+        </div>
+        <p style="font-size:14px;color:#3E2723;">우림마켓 앱 업데이트 안내 (v2.3.0)</p>
+        <p style="font-size:12px;color:#A1887F;margin-top:3px;">검색 기능 개선 및 오류 수정</p>
+      </a>
+
+      <a href="29-notice-detail.html" class="notice-row" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:12px;color:#A1887F;">2026.04.05</span>
+        </div>
+        <p style="font-size:14px;color:#3E2723;">물류 시스템 점검 안내 (4/6 02:00 ~ 06:00)</p>
+      </a>
+
+      <a href="29-notice-detail.html" class="notice-row" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:12px;color:#A1887F;">2026.03.28</span>
+          <span style="background:#E3F2FD;color:#1565C0;font-size:10px;font-weight:600;padding:1px 5px;border-radius:9999px;">정책</span>
+        </div>
+        <p style="font-size:14px;color:#3E2723;">포인트 제도 변경 안내 (2026.04.01 적용)</p>
+        <p style="font-size:12px;color:#A1887F;margin-top:3px;">최소 사용 금액 변경: 500P → 1,000P</p>
+      </a>
+
+      <a href="29-notice-detail.html" class="notice-row" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:12px;color:#A1887F;">2026.03.20</span>
+        </div>
+        <p style="font-size:14px;color:#3E2723;">구매확정 자동처리 기간 변경 안내 (14일→7일)</p>
+      </a>
+
+      <a href="29-notice-detail.html" class="notice-row" style="display:block;text-decoration:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:12px;color:#A1887F;">2026.03.10</span>
+        </div>
+        <p style="font-size:14px;color:#3E2723;">설 명절 배송 일정 안내</p>
+      </a>
+
+      <a href="29-notice-detail.html" class="notice-row" style="display:block;text-decoration:none; border-bottom:none;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <span style="font-size:12px;color:#A1887F;">2026.02.15</span>
+        </div>
+        <p style="font-size:14px;color:#3E2723;">우림마켓 서비스 오픈 기념 특별 할인전 안내</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

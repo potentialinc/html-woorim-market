@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 회원 탈퇴</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .warning-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #FFEBDF; }
+  .warning-item:last-child { border-bottom: none; }
+  /* Confirmation checkbox */
+  .confirm-check { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+  .confirm-check input[type="checkbox"] { display: none; }
+  .confirm-check .box { width: 20px; height: 20px; border: 2px solid #D4C4B8; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: #FFFFFF; margin-top: 1px; }
+  .confirm-check input:checked + .box { background: #FF6B35; border-color: #FF6B35; }
+  /* Modal overlay */
+  .modal-overlay { display: none; position: absolute; inset: 0; background: rgba(62,39,35,0.5); z-index: 100; align-items: flex-end; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet { background: #FFFBF5; border-radius: 24px 24px 0 0; padding: 24px 20px; width: 100%; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">회원 탈퇴</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <div style="padding:20px 16px;">
+      <!-- Sad Icon -->
+      <div style="text-align:center;padding:8px 0 20px;">
+        <div style="width:64px;height:64px;background:#FFF0E8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+          <iconify-icon icon="mdi:emoticon-sad-outline" width="36" style="color:#FF6B35;"></iconify-icon>
+        </div>
+        <p style="font-size:16px;font-weight:700;color:#3E2723;">정말 떠나시겠어요?</p>
+        <p style="font-size:13px;color:#A1887F;margin-top:4px;">탈퇴 전, 아래 내용을 꼭 확인하세요.</p>
+      </div>
+
+      <!-- Warnings -->
+      <div style="background:#FFF3EE;border-radius:14px;padding:14px 16px;margin-bottom:16px;border:1px solid #FFD5C2;">
+        <p style="font-size:13px;font-weight:700;color:#D84315;margin-bottom:10px;">⚠ 탈퇴 시 삭제되는 정보</p>
+        <div class="warning-item">
+          <iconify-icon icon="mdi:star-circle" width="18" style="color:#FF6B35;flex-shrink:0;margin-top:1px;"></iconify-icon>
+          <p style="font-size:13px;color:#5C4033;line-height:1.5;">보유 포인트 <strong style="color:#FF6B35;">12,500P</strong> 소멸 (환불 불가)</p>
+        </div>
+        <div class="warning-item">
+          <iconify-icon icon="mdi:ticket-percent" width="18" style="color:#FF6B35;flex-shrink:0;margin-top:1px;"></iconify-icon>
+          <p style="font-size:13px;color:#5C4033;line-height:1.5;">보유 쿠폰 <strong style="color:#FF6B35;">3장</strong> 소멸 (환불 불가)</p>
+        </div>
+        <div class="warning-item">
+          <iconify-icon icon="mdi:heart" width="18" style="color:#FF6B35;flex-shrink:0;margin-top:1px;"></iconify-icon>
+          <p style="font-size:13px;color:#5C4033;line-height:1.5;">찜 목록, 최근 본 상품, 리뷰 등 모든 활동 내역 삭제</p>
+        </div>
+        <div class="warning-item">
+          <iconify-icon icon="mdi:account-off" width="18" style="color:#FF6B35;flex-shrink:0;margin-top:1px;"></iconify-icon>
+          <p style="font-size:13px;color:#5C4033;line-height:1.5;">동일 이메일로 30일간 재가입 불가</p>
+        </div>
+        <div class="warning-item" style="border-bottom:none;">
+          <iconify-icon icon="mdi:package-variant" width="18" style="color:#FF6B35;flex-shrink:0;margin-top:1px;"></iconify-icon>
+          <p style="font-size:13px;color:#5C4033;line-height:1.5;">진행 중인 주문이 있으면 탈퇴 불가 (주문 완료 후 진행)</p>
+        </div>
+      </div>
+
+      <!-- Retention Data Notice -->
+      <div style="background:#F5F5F5;border-radius:12px;padding:12px 14px;margin-bottom:20px;">
+        <p style="font-size:12px;font-weight:600;color:#5C4033;margin-bottom:4px;">보관 데이터 안내</p>
+        <p style="font-size:11px;color:#7A6054;line-height:1.6;">관련 법령에 따라 주문/결제 내역은 탈퇴 후 5년간 보관됩니다. (전자상거래법)</p>
+      </div>
+
+      <!-- Reason (optional) -->
+      <div style="margin-bottom:20px;">
+        <p style="font-size:13px;font-weight:600;color:#3E2723;margin-bottom:8px;">탈퇴 이유 <span style="font-weight:400;color:#A1887F;">(선택)</span></p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="radio" name="reason" style="accent-color:#FF6B35;">
+            <span style="font-size:13px;color:#3E2723;">원하는 상품이 없어요</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="radio" name="reason" style="accent-color:#FF6B35;">
+            <span style="font-size:13px;color:#3E2723;">배송이 너무 느려요</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="radio" name="reason" style="accent-color:#FF6B35;">
+            <span style="font-size:13px;color:#3E2723;">앱 사용이 불편해요</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="radio" name="reason" style="accent-color:#FF6B35;">
+            <span style="font-size:13px;color:#3E2723;">개인정보 보호가 걱정돼요</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="radio" name="reason" style="accent-color:#FF6B35;">
+            <span style="font-size:13px;color:#3E2723;">기타</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Confirmation Checkbox -->
+      <label class="confirm-check" id="confirmLabel" style="margin-bottom:20px;display:flex;">
+        <input type="checkbox" id="confirmCheck" onchange="toggleBtn()">
+        <div class="box" id="checkBox"><iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;display:none;" id="checkIcon"></iconify-icon></div>
+        <p style="font-size:13px;color:#5C4033;line-height:1.5;">위 내용을 모두 확인했으며, 탈퇴에 동의합니다.</p>
+      </label>
+
+      <!-- CTA Buttons -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button id="withdrawBtn" disabled onclick="openModal()" style="width:100%;background:#E0E0E0;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:600;color:#FFFFFF;cursor:not-allowed;font-family:inherit;transition:all 0.2s;" id="withdrawBtn">
+          탈퇴하기
+        </button>
+        <a href="18-mypage-main.html" style="display:flex;align-items:center;justify-content:center;background:#F5EDE4;border-radius:12px;padding:15px;text-decoration:none;">
+          <span style="font-size:15px;font-weight:600;color:#7A6054;">계속 이용하기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-sheet">
+      <p style="font-size:17px;font-weight:700;color:#3E2723;margin-bottom:8px;">탈퇴 확인</p>
+      <p style="font-size:13px;color:#7A6054;line-height:1.6;margin-bottom:20px;">정말로 우림마켓을 떠나시겠습니까?<br>탈퇴 후에는 되돌릴 수 없습니다.</p>
+      <div style="display:flex;gap:10px;">
+        <button onclick="closeModal()" style="flex:1;background:#F5EDE4;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:600;color:#7A6054;cursor:pointer;font-family:inherit;">취소</button>
+        <button onclick="doWithdraw()" style="flex:1;background:#E53935;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:inherit;">탈퇴 진행</button>
+      </div>
+    </div>
+  </div>
+<script>
+function toggleBtn() {
+  const checked = document.getElementById('confirmCheck').checked;
+  const btn = document.getElementById('withdrawBtn');
+  const icon = document.getElementById('checkIcon');
+  const box = document.getElementById('checkBox');
+  btn.disabled = !checked;
+  btn.style.background = checked ? '#E53935' : '#E0E0E0';
+  btn.style.cursor = checked ? 'pointer' : 'not-allowed';
+  icon.style.display = checked ? 'block' : 'none';
+}
+function openModal() { document.getElementById('confirmModal').classList.add('open'); }
+function closeModal() { document.getElementById('confirmModal').classList.remove('open'); }
+function doWithdraw() { alert('탈퇴가 완료되었습니다.\n이용해 주셔서 감사합니다.'); window.location.href = '01-splash.html'; }
+</script>
+</body>
+</html>

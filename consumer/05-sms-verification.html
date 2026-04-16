@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 SMS 본인 인증">
+<title>우림마켓 - 본인 인증</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header {
+    height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 0; position: sticky; top: 0; z-index: 10;
+  }
+  .otp-box {
+    width: 44px; height: 56px; border: 1.5px solid #F0E0D0;
+    border-radius: 12px; font-size: 22px; font-weight: 700;
+    color: #3E2723; text-align: center; background: #FFFFFF;
+    outline: none; transition: border-color 150ms; font-family: inherit;
+    caret-color: #FF6B35;
+  }
+  .otp-box:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255,107,53,0.1); }
+  .otp-box.filled { border-color: #FF6B35; background: #FFF0E8; }
+  .otp-box.error { border-color: #E53935; background: #FFEBEE; animation: shake 0.3s ease; }
+  .btn-primary {
+    width: 100%; height: 50px; background: #FF6B35; color: #FFFFFF;
+    border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
+    cursor: pointer; box-shadow: 0 4px 12px rgba(255,107,53,0.2);
+    transition: all 150ms ease-out; font-family: inherit;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    60% { transform: translateX(4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <!-- Header -->
+    <header class="sub-header">
+      <a href="03-register.html" style="padding:4px;display:flex;" aria-label="뒤로가기">
+        <iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon>
+      </a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">본인 인증</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <main style="padding:32px 20px;text-align:center;">
+      <iconify-icon icon="mdi:cellphone-message" width="48" style="color:#FF6B35;" aria-hidden="true"></iconify-icon>
+      <h2 style="font-size:20px;font-weight:600;color:#3E2723;margin-top:16px;">인증번호를 입력해 주세요</h2>
+      <p style="font-size:14px;color:#6D4C41;margin-top:8px;line-height:1.6;">
+        010-1234-5678로 발송된<br>6자리 인증번호를 입력해 주세요
+      </p>
+
+      <!-- OTP 6-box input -->
+      <div id="otp-container" style="display:flex;gap:8px;justify-content:center;margin-top:32px;" role="group" aria-label="인증번호 입력">
+        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="otp0" aria-label="인증번호 1번째 자리" onInput="handleOtpInput(0, this)" onKeydown="handleOtpKeydown(0, event)">
+        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="otp1" aria-label="인증번호 2번째 자리" onInput="handleOtpInput(1, this)" onKeydown="handleOtpKeydown(1, event)">
+        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="otp2" aria-label="인증번호 3번째 자리" onInput="handleOtpInput(2, this)" onKeydown="handleOtpKeydown(2, event)">
+        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="otp3" aria-label="인증번호 4번째 자리" onInput="handleOtpInput(3, this)" onKeydown="handleOtpKeydown(3, event)">
+        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="otp4" aria-label="인증번호 5번째 자리" onInput="handleOtpInput(4, this)" onKeydown="handleOtpKeydown(4, event)">
+        <input class="otp-box" type="text" inputmode="numeric" maxlength="1" id="otp5" aria-label="인증번호 6번째 자리" onInput="handleOtpInput(5, this)" onKeydown="handleOtpKeydown(5, event)">
+      </div>
+
+      <!-- Countdown -->
+      <div id="timer-block" style="margin-top:20px;">
+        <p id="countdown" style="font-size:24px;font-weight:600;color:#FF6B35;">02:59</p>
+      </div>
+
+      <!-- Expired state (hidden) -->
+      <div id="expired-state" style="display:none;margin-top:16px;">
+        <p style="font-size:14px;color:#E53935;font-weight:500;">인증 시간이 만료되었습니다</p>
+        <button type="button" onclick="resendOtp()" style="margin-top:12px;background:none;border:none;color:#FF6B35;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline;">재발송</button>
+      </div>
+
+      <button id="verify-btn" type="button" class="btn-primary" style="margin-top:28px;" onclick="verifyOtp()" disabled>확인</button>
+
+      <!-- Resend -->
+      <button id="resend-btn" type="button" onclick="resendOtp()" style="margin-top:16px;background:none;border:none;color:#A1887F;font-size:13px;cursor:pointer;font-family:inherit;">
+        인증번호를 받지 못하셨나요? <span style="color:#FF6B35;font-weight:500;text-decoration:underline;">재발송</span>
+      </button>
+    </main>
+  </div>
+<script>
+let timeLeft = 179;
+let timerInterval = setInterval(updateTimer, 1000);
+
+function updateTimer() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  document.getElementById('countdown').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  if (timeLeft <= 0) {
+    clearInterval(timerInterval);
+    document.getElementById('timer-block').style.display = 'none';
+    document.getElementById('expired-state').style.display = 'block';
+  }
+  timeLeft--;
+}
+
+function handleOtpInput(idx, input) {
+  const val = input.value.replace(/\D/g, '');
+  input.value = val;
+  if (val) {
+    input.classList.add('filled');
+    if (idx < 5) document.getElementById('otp' + (idx + 1)).focus();
+  } else {
+    input.classList.remove('filled');
+  }
+  checkAllFilled();
+}
+
+function handleOtpKeydown(idx, e) {
+  if (e.key === 'Backspace' && !document.getElementById('otp' + idx).value && idx > 0) {
+    document.getElementById('otp' + (idx - 1)).focus();
+  }
+}
+
+function checkAllFilled() {
+  let code = '';
+  for (let i = 0; i < 6; i++) code += document.getElementById('otp' + i).value;
+  document.getElementById('verify-btn').disabled = code.length < 6;
+  if (code.length === 6) verifyOtp();
+}
+
+function verifyOtp() {
+  let code = '';
+  for (let i = 0; i < 6; i++) code += document.getElementById('otp' + i).value;
+  if (code === '123456') {
+    window.location.href = '07-home.html';
+  } else {
+    for (let i = 0; i < 6; i++) {
+      const el = document.getElementById('otp' + i);
+      el.classList.add('error');
+      setTimeout(() => el.classList.remove('error'), 400);
+    }
+  }
+}
+
+function resendOtp() {
+  timeLeft = 179;
+  document.getElementById('timer-block').style.display = 'block';
+  document.getElementById('expired-state').style.display = 'none';
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimer, 1000);
+  for (let i = 0; i < 6; i++) {
+    document.getElementById('otp' + i).value = '';
+    document.getElementById('otp' + i).classList.remove('filled', 'error');
+  }
+  document.getElementById('otp0').focus();
+}
+
+document.getElementById('otp0').focus();
+</script>
+</body>
+</html>

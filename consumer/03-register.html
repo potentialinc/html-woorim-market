@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 회원가입">
+<title>우림마켓 - 회원가입</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header {
+    height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 0; position: sticky; top: 0; z-index: 10;
+  }
+  .input-field {
+    width: 100%; height: 48px; background: #FFFFFF; border: 1.5px solid #F0E0D0;
+    border-radius: 12px; font-size: 14px; color: #3E2723;
+    padding: 12px 16px; outline: none; transition: border-color 150ms ease;
+    font-family: inherit;
+  }
+  .input-field::placeholder { color: #A1887F; }
+  .input-field:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255,107,53,0.1); }
+  .input-label { font-size: 13px; font-weight: 500; color: #6D4C41; margin-bottom: 6px; }
+  .input-group { margin-bottom: 16px; }
+  .password-wrap { position: relative; }
+  .password-toggle {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .btn-primary {
+    width: 100%; height: 50px; background: #FF6B35; color: #FFFFFF;
+    border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
+    cursor: pointer; box-shadow: 0 4px 12px rgba(255,107,53,0.2);
+    transition: all 150ms ease-out; font-family: inherit;
+  }
+  .btn-primary:disabled { background: #E0C8B0; box-shadow: none; cursor: not-allowed; }
+  .btn-outline-sm {
+    height: 38px; padding: 0 14px; border: 1.5px solid #FF6B35;
+    color: #FF6B35; border-radius: 10px; font-size: 13px; font-weight: 500;
+    background: transparent; cursor: pointer; white-space: nowrap; font-family: inherit;
+  }
+  .section-heading { font-size: 16px; font-weight: 600; color: #3E2723; margin: 24px 0 12px; }
+  .checkbox-row {
+    display: flex; align-items: center; gap: 10px; padding: 12px 0;
+    border-bottom: 1px solid #F5EDE4; cursor: pointer;
+  }
+  .checkbox-row:last-child { border-bottom: none; }
+  .custom-check {
+    width: 20px; height: 20px; border: 1.5px solid #F0E0D0;
+    border-radius: 5px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 150ms;
+  }
+  .custom-check.checked { background: #FF6B35; border-color: #FF6B35; }
+  .otp-input {
+    width: 100%; height: 48px; background: #FFFFFF; border: 1.5px solid #F0E0D0;
+    border-radius: 12px; font-size: 14px; color: #3E2723;
+    padding: 12px 60px 12px 16px; outline: none; font-family: inherit;
+  }
+  .otp-timer {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 14px; font-weight: 600; color: #FF6B35;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <!-- Header -->
+    <header class="sub-header">
+      <a href="02-login.html" style="padding:4px;display:flex;" aria-label="뒤로가기">
+        <iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon>
+      </a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">회원가입</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <main style="padding:24px 20px;">
+      <!-- Section 1: 기본 정보 -->
+      <p class="section-heading">기본 정보</p>
+
+      <div class="input-group">
+        <label for="name" class="input-label">이름</label>
+        <input id="name" type="text" class="input-field" placeholder="이름을 입력하세요" autocomplete="name">
+      </div>
+
+      <div class="input-group">
+        <label for="email" class="input-label">이메일</label>
+        <div style="display:flex;gap:8px;">
+          <input id="email" type="email" class="input-field" placeholder="이메일을 입력하세요" autocomplete="email">
+          <button type="button" class="btn-outline-sm" onclick="checkEmail()">중복확인</button>
+        </div>
+        <p id="email-msg" style="font-size:12px;color:#43A047;margin-top:4px;display:none;">사용 가능한 이메일입니다</p>
+      </div>
+
+      <div class="input-group">
+        <label for="password" class="input-label">비밀번호</label>
+        <div class="password-wrap">
+          <input id="password" type="password" class="input-field" placeholder="비밀번호를 입력하세요" style="padding-right:48px;">
+          <button type="button" class="password-toggle" onclick="togglePw('password')" aria-label="비밀번호 표시/숨기기">
+            <iconify-icon icon="mdi:eye-off-outline" width="22" style="color:#A1887F;"></iconify-icon>
+          </button>
+        </div>
+        <p style="font-size:11px;color:#A1887F;margin-top:4px;">8자 이상, 영문+숫자+특수문자 중 2종 이상</p>
+      </div>
+
+      <div class="input-group">
+        <label for="password-confirm" class="input-label">비밀번호 확인</label>
+        <div class="password-wrap">
+          <input id="password-confirm" type="password" class="input-field" placeholder="비밀번호를 다시 입력하세요" style="padding-right:48px;">
+          <button type="button" class="password-toggle" onclick="togglePw('password-confirm')" aria-label="비밀번호 확인 표시/숨기기">
+            <iconify-icon icon="mdi:eye-off-outline" width="22" style="color:#A1887F;"></iconify-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 2: 휴대폰 인증 -->
+      <p class="section-heading">휴대폰 인증</p>
+
+      <div class="input-group">
+        <label for="phone" class="input-label">휴대폰 번호</label>
+        <div style="display:flex;gap:8px;">
+          <input id="phone" type="tel" class="input-field" placeholder="01012345678" autocomplete="tel">
+          <button type="button" class="btn-outline-sm" onclick="sendOtp()" style="background:#FF6B35;color:#fff;border-color:#FF6B35;">인증번호 받기</button>
+        </div>
+      </div>
+
+      <div class="input-group" id="otp-section" style="display:none;">
+        <label class="input-label">인증번호</label>
+        <div style="position:relative;">
+          <input type="text" class="otp-input" placeholder="인증번호 6자리" maxlength="6" id="otp-input" inputmode="numeric">
+          <span class="otp-timer" id="otp-timer">2:59</span>
+        </div>
+        <button type="button" style="background:none;border:none;color:#FF6B35;font-size:12px;margin-top:6px;cursor:pointer;font-family:inherit;">재발송</button>
+      </div>
+
+      <!-- Section 3: 동의 사항 -->
+      <p class="section-heading">이용 동의</p>
+
+      <div style="background:#FFFFFF;border-radius:16px;padding:8px 16px;border:1px solid #F0E0D0;">
+        <!-- 전체 동의 -->
+        <div class="checkbox-row" onclick="toggleAll()">
+          <div class="custom-check" id="check-all">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:14px;font-weight:500;color:#3E2723;">전체 동의</span>
+            <span style="font-size:12px;color:#A1887F;margin-left:4px;">(선택 포함)</span>
+          </div>
+        </div>
+        <div style="height:1px;background:#F0E0D0;margin:4px 0;"></div>
+        <!-- 필수 항목들 -->
+        <div class="checkbox-row" onclick="toggleCheck('check-age')">
+          <div class="custom-check" id="check-age">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:12px;font-weight:600;color:#FF6B35;">[필수]</span>
+            <span style="font-size:13px;color:#3E2723;margin-left:4px;">만 14세 이상 확인</span>
+          </div>
+          <a href="30-terms-list.html" style="font-size:12px;color:#FF6B35;text-decoration:none;" onclick="e=>e.stopPropagation()">내용보기</a>
+        </div>
+        <div class="checkbox-row" onclick="toggleCheck('check-terms')">
+          <div class="custom-check" id="check-terms">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:12px;font-weight:600;color:#FF6B35;">[필수]</span>
+            <span style="font-size:13px;color:#3E2723;margin-left:4px;">이용약관 동의</span>
+          </div>
+          <a href="30-terms-list.html" style="font-size:12px;color:#FF6B35;text-decoration:none;">내용보기</a>
+        </div>
+        <div class="checkbox-row" onclick="toggleCheck('check-privacy')">
+          <div class="custom-check" id="check-privacy">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:12px;font-weight:600;color:#FF6B35;">[필수]</span>
+            <span style="font-size:13px;color:#3E2723;margin-left:4px;">개인정보 처리방침 동의</span>
+          </div>
+          <a href="31-privacy-policy.html" style="font-size:12px;color:#FF6B35;text-decoration:none;">내용보기</a>
+        </div>
+        <div class="checkbox-row" onclick="toggleCheck('check-marketing')">
+          <div class="custom-check" id="check-marketing">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <div style="flex:1;">
+            <span style="font-size:12px;color:#A1887F;">[선택]</span>
+            <span style="font-size:13px;color:#3E2723;margin-left:4px;">마케팅 수신 동의 (푸시·이메일)</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" id="submit-btn" style="margin-top:24px;" onclick="submitRegister()">가입하기</button>
+    </main>
+  </div>
+<script>
+let checks = { age: false, terms: false, privacy: false, marketing: false };
+function toggleCheck(id) {
+  const key = id.replace('check-', '');
+  checks[key] = !checks[key];
+  const el = document.getElementById(id);
+  if (checks[key]) {
+    el.classList.add('checked');
+  } else {
+    el.classList.remove('checked');
+  }
+  updateAll();
+}
+function updateAll() {
+  const allRequired = checks.age && checks.terms && checks.privacy;
+  const allChecks = allRequired && checks.marketing;
+  const allEl = document.getElementById('check-all');
+  if (allChecks) allEl.classList.add('checked'); else allEl.classList.remove('checked');
+  document.getElementById('submit-btn').disabled = !allRequired;
+}
+function toggleAll() {
+  const allEl = document.getElementById('check-all');
+  const isAll = allEl.classList.contains('checked');
+  ['age','terms','privacy','marketing'].forEach(k => {
+    checks[k] = !isAll;
+    const el = document.getElementById('check-' + k);
+    if (!isAll) el.classList.add('checked'); else el.classList.remove('checked');
+  });
+  if (!isAll) allEl.classList.add('checked'); else allEl.classList.remove('checked');
+  document.getElementById('submit-btn').disabled = isAll;
+}
+function togglePw(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+function checkEmail() {
+  const email = document.getElementById('email').value;
+  if (email) {
+    document.getElementById('email-msg').style.display = 'block';
+  }
+}
+let otpInterval;
+function sendOtp() {
+  document.getElementById('otp-section').style.display = 'block';
+  let seconds = 179;
+  clearInterval(otpInterval);
+  otpInterval = setInterval(() => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    document.getElementById('otp-timer').textContent = m + ':' + String(s).padStart(2,'0');
+    if (seconds <= 0) { clearInterval(otpInterval); document.getElementById('otp-timer').textContent = '만료'; }
+    seconds--;
+  }, 1000);
+}
+function submitRegister() {
+  window.location.href = '07-home.html';
+}
+// Init disabled
+document.getElementById('submit-btn').disabled = true;
+</script>
+</body>
+</html>

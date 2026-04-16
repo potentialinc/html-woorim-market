@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 주문서">
+<title>우림마켓 - 주문서</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header {
+    height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 0; position: sticky; top: 0; z-index: 10;
+  }
+  .section-card {
+    background: #FFFFFF; border-radius: 16px; padding: 16px;
+    margin: 10px 16px 0;
+    box-shadow: 0 4px 12px rgba(62,39,35,0.06);
+  }
+  .section-title { font-size: 15px; font-weight: 600; color: #3E2723; margin-bottom: 12px; }
+  .input-field {
+    width: 100%; height: 44px; background: #FFFFFF; border: 1.5px solid #F0E0D0;
+    border-radius: 12px; font-size: 13px; color: #3E2723;
+    padding: 10px 14px; outline: none; font-family: inherit;
+  }
+  .input-field:focus { border-color: #FF6B35; }
+  .radio-card {
+    display: flex; align-items: center; gap: 10px; padding: 12px;
+    border: 1.5px solid #F0E0D0; border-radius: 12px; cursor: pointer;
+    margin-bottom: 8px; transition: border-color 150ms;
+  }
+  .radio-card.selected { border-color: #FF6B35; background: #FFF0E8; }
+  .radio-dot {
+    width: 18px; height: 18px; border-radius: 50%; border: 2px solid #F0E0D0;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .radio-dot.selected { border-color: #FF6B35; background: #FF6B35; }
+  .pay-btn {
+    width: 100%; height: 50px; background: #FF6B35; color: #FFFFFF;
+    border: none; border-radius: 12px; font-size: 15px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <header class="sub-header">
+      <a href="10-cart.html" style="padding:4px;display:flex;" aria-label="뒤로가기">
+        <iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon>
+      </a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">주문서</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <!-- Section 1: 배송지 -->
+    <div class="section-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <p class="section-title" style="margin-bottom:0;">배송지</p>
+        <button style="background:none;border:1.5px solid #F0E0D0;border-radius:8px;padding:5px 12px;font-size:12px;color:#6D4C41;cursor:pointer;font-family:inherit;">변경</button>
+      </div>
+      <p style="font-size:15px;font-weight:600;color:#3E2723;">김우림 · 010-1234-5678</p>
+      <p style="font-size:13px;color:#6D4C41;margin-top:4px;line-height:1.5;">[12345] 경기도 이천시 영창로 23<br>우림아파트 101동 505호</p>
+      <div style="margin-top:10px;">
+        <input type="text" class="input-field" placeholder="배송 메모를 입력하세요 (선택)">
+      </div>
+    </div>
+
+    <!-- Section 2: 주문 상품 -->
+    <div class="section-card">
+      <p class="section-title">주문 상품</p>
+      <div style="display:flex;gap:10px;align-items:center;padding-bottom:10px;border-bottom:1px solid #F5EDE4;margin-bottom:10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장 500g" style="width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+        <div style="flex:1;">
+          <p style="font-size:13px;font-weight:500;color:#3E2723;margin-bottom:3px;">우림 전통 고추장 500g</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:3px;">옵션: 500g · 수량 2</p>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:12px;color:#A1887F;text-decoration:line-through;">24,000원</span>
+            <span style="font-size:14px;font-weight:700;color:#3E2723;">17,800원</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Doenjang.jpg" alt="우림 된장 1kg" style="width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+        <div style="flex:1;">
+          <p style="font-size:13px;font-weight:500;color:#3E2723;margin-bottom:3px;">우림 된장 1kg</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:3px;">옵션: 1kg · 수량 1</p>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:12px;color:#A1887F;text-decoration:line-through;">15,000원</span>
+            <span style="font-size:14px;font-weight:700;color:#3E2723;">9,800원</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: 결제 수단 -->
+    <div class="section-card">
+      <p class="section-title">결제 수단</p>
+      <div class="radio-card selected" onclick="selectPayment(this)" id="pay-card">
+        <div class="radio-dot selected" id="dot-card"><div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;"></div></div>
+        <iconify-icon icon="mdi:credit-card-outline" width="20" style="color:#3E2723;"></iconify-icon>
+        <span style="font-size:14px;font-weight:500;color:#3E2723;">신용/체크카드</span>
+      </div>
+      <div class="radio-card" onclick="selectPayment(this)" id="pay-kakao">
+        <div class="radio-dot" id="dot-kakao"></div>
+        <div style="width:20px;height:20px;background:#FEE500;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">K</div>
+        <span style="font-size:14px;font-weight:500;color:#3E2723;">카카오페이</span>
+      </div>
+      <div class="radio-card" onclick="selectPayment(this)" id="pay-naver">
+        <div class="radio-dot" id="dot-naver"></div>
+        <div style="width:20px;height:20px;background:#03C75A;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;">N</div>
+        <span style="font-size:14px;font-weight:500;color:#3E2723;">네이버페이</span>
+      </div>
+      <div class="radio-card" onclick="selectPayment(this)" id="pay-transfer" style="margin-bottom:0;">
+        <div class="radio-dot" id="dot-transfer"></div>
+        <iconify-icon icon="mdi:bank-outline" width="20" style="color:#3E2723;"></iconify-icon>
+        <span style="font-size:14px;font-weight:500;color:#3E2723;">무통장입금</span>
+      </div>
+    </div>
+
+    <!-- Section 4: 쿠폰·포인트 -->
+    <div class="section-card">
+      <p class="section-title">쿠폰·포인트</p>
+      <!-- 쿠폰 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;">쿠폰</p>
+          <p style="font-size:12px;color:#A1887F;margin-top:2px;">사용 가능 쿠폰 3장</p>
+        </div>
+        <button style="border:1.5px solid #F0E0D0;border-radius:8px;padding:6px 14px;font-size:12px;color:#6D4C41;background:#FFFFFF;cursor:pointer;font-family:inherit;" onclick="selectCoupon()">선택</button>
+      </div>
+      <!-- 선택된 쿠폰 (hidden initially) -->
+      <div id="coupon-selected" style="display:none;background:#E8F5E9;border-radius:10px;padding:8px 12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;color:#2E7D32;font-weight:500;">신규 가입 5,000원 할인</span>
+        <span style="font-size:13px;font-weight:600;color:#43A047;">-5,000원</span>
+      </div>
+      <!-- 포인트 -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <p style="font-size:13px;font-weight:500;color:#3E2723;">포인트</p>
+          <p style="font-size:12px;color:#A1887F;">보유 12,500P</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input type="number" class="input-field" placeholder="사용할 포인트" id="points-input" style="flex:1;height:40px;">
+          <button onclick="useAllPoints()" style="background:#FFF0E8;border:none;border-radius:10px;padding:0 12px;font-size:12px;font-weight:500;color:#FF6B35;cursor:pointer;height:40px;white-space:nowrap;font-family:inherit;">전액사용</button>
+        </div>
+        <p style="font-size:11px;color:#A1887F;margin-top:4px;">쿠폰+포인트 동시 적용 가능 · 1,000P부터 사용, 1년 유효</p>
+      </div>
+    </div>
+
+    <!-- Section 5: 현금영수증 -->
+    <div class="section-card">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <input type="checkbox" id="cash-receipt" onchange="toggleCashReceipt()" style="width:18px;height:18px;accent-color:#FF6B35;">
+        <span style="font-size:14px;font-weight:500;color:#3E2723;">현금영수증 신청</span>
+      </label>
+      <div id="cash-receipt-detail" style="display:none;margin-top:12px;">
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <button class="sort-pill active" style="padding:6px 12px;border-radius:9999px;font-size:12px;border:1.5px solid #FF6B35;background:#FF6B35;color:#fff;">개인소득공제</button>
+          <button class="sort-pill" style="padding:6px 12px;border-radius:9999px;font-size:12px;border:1.5px solid #F0E0D0;background:#fff;color:#6D4C41;">사업자지출증빙</button>
+        </div>
+        <input type="tel" class="input-field" placeholder="휴대폰 번호를 입력하세요">
+      </div>
+    </div>
+
+    <!-- Section 6: 결제 금액 요약 -->
+    <div class="section-card" style="margin-bottom:0;">
+      <p class="section-title">결제 금액</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;color:#6D4C41;">상품금액</span>
+        <span style="font-size:13px;color:#3E2723;">27,600원</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;color:#6D4C41;">배송비</span>
+        <span style="font-size:13px;color:#43A047;font-weight:500;">무료</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;color:#6D4C41;">쿠폰 할인</span>
+        <span style="font-size:13px;color:#43A047;font-weight:500;">-0원</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span style="font-size:13px;color:#6D4C41;">포인트 사용</span>
+        <span style="font-size:13px;color:#43A047;font-weight:500;" id="points-used-display">-0P</span>
+      </div>
+      <div style="height:1px;background:#F0E0D0;margin-bottom:12px;"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:15px;font-weight:600;color:#3E2723;">최종 결제 금액</span>
+        <span style="font-size:20px;font-weight:700;color:#FF6B35;" id="final-amount">27,600원</span>
+      </div>
+      <p style="font-size:12px;color:#A1887F;margin-top:8px;text-align:right;">구매확정 시 276P 예정 적립</p>
+    </div>
+  </div>
+
+  <!-- Payment Bar -->
+  <div style="position:absolute;bottom:0;left:0;right:0;background:#FFFFFF;border-top:1px solid #F0E0D0;padding:12px 16px;z-index:100;">
+    <a href="12-order-complete.html">
+      <button class="pay-btn">결제하기 (27,600원)</button>
+    </a>
+  </div>
+<script>
+let paymentMethods = ['pay-card','pay-kakao','pay-naver','pay-transfer'];
+function selectPayment(el) {
+  paymentMethods.forEach(id => {
+    const card = document.getElementById(id);
+    const dot = document.getElementById(id.replace('pay-','dot-'));
+    card.classList.remove('selected');
+    if (dot) { dot.classList.remove('selected'); dot.innerHTML = ''; }
+  });
+  el.classList.add('selected');
+  const dotId = el.id.replace('pay-','dot-');
+  const dot = document.getElementById(dotId);
+  if (dot) { dot.classList.add('selected'); dot.innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;"></div>'; }
+}
+function useAllPoints() {
+  document.getElementById('points-input').value = '12500';
+  document.getElementById('points-used-display').textContent = '-12,500P';
+  document.getElementById('final-amount').textContent = '15,100원';
+}
+function toggleCashReceipt() {
+  const detail = document.getElementById('cash-receipt-detail');
+  detail.style.display = document.getElementById('cash-receipt').checked ? 'block' : 'none';
+}
+function selectCoupon() {
+  const el = document.getElementById('coupon-selected');
+  el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 프로필 편집</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .input-field { width: 100%; height: 48px; background: #FFFFFF; border: 1.5px solid #F0E0D0; border-radius: 12px; font-size: 14px; color: #3E2723; padding: 12px 16px; outline: none; transition: border-color 150ms; font-family: inherit; }
+  .input-field:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255,107,53,0.1); }
+  .input-field:disabled { background: #FFF5EB; opacity: 0.7; cursor: not-allowed; }
+  .input-label { font-size: 13px; font-weight: 500; color: #6D4C41; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">프로필 편집</h1>
+      <button onclick="saveProfile()" style="background:none;border:none;color:#FF6B35;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">저장</button>
+    </header>
+
+    <main style="padding:24px 20px;">
+      <!-- Avatar -->
+      <div style="display:flex;justify-content:center;margin-bottom:28px;">
+        <div style="position:relative;">
+          <div style="width:80px;height:80px;border-radius:50%;background:#FFF0E8;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:32px;font-weight:700;color:#FF6B35;">김</span>
+          </div>
+          <button style="position:absolute;bottom:0;right:0;width:26px;height:26px;border-radius:50%;background:#FF6B35;border:2px solid #FFFBF5;display:flex;align-items:center;justify-content:center;cursor:pointer;" aria-label="사진 변경">
+            <iconify-icon icon="mdi:camera" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div style="margin-bottom:16px;">
+        <label for="profile-name" class="input-label">이름</label>
+        <input id="profile-name" type="text" class="input-field" value="김우림">
+      </div>
+
+      <!-- Email (disabled) -->
+      <div style="margin-bottom:16px;">
+        <label for="profile-email" class="input-label">이메일 <span style="font-size:11px;color:#A1887F;">(변경 불가)</span></label>
+        <input id="profile-email" type="email" class="input-field" value="woorim@gmail.com" disabled>
+      </div>
+
+      <!-- Social Account -->
+      <div style="margin-bottom:16px;">
+        <p class="input-label">연동 계정</p>
+        <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:#FFF8E1;border-radius:12px;border:1.5px solid #F0E0D0;">
+          <div style="width:20px;height:20px;background:#FEE500;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">K</div>
+          <span style="font-size:13px;color:#3E2723;font-weight:500;">카카오 연동</span>
+          <span style="margin-left:auto;font-size:11px;color:#A1887F;">woorim@kakao.com</span>
+        </div>
+      </div>
+
+      <!-- Password Change -->
+      <div style="margin-bottom:16px;">
+        <p class="input-label">비밀번호</p>
+        <button onclick="togglePwChange()" style="width:100%;height:48px;background:#FFF5EB;border:1.5px solid #F0E0D0;border-radius:12px;font-size:14px;font-weight:500;color:#6D4C41;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:space-between;padding:0 16px;">
+          <span>비밀번호 변경</span>
+          <iconify-icon icon="mdi:chevron-down" width="20" style="color:#A1887F;" id="pw-chevron"></iconify-icon>
+        </button>
+        <div id="pw-change-section" style="display:none;margin-top:10px;display:flex;flex-direction:column;gap:10px;">
+          <div class="input-field" style="height:auto;padding:0;">
+            <input type="password" placeholder="현재 비밀번호" style="width:100%;height:46px;padding:12px 16px;border:none;background:transparent;outline:none;font-size:14px;font-family:inherit;">
+          </div>
+          <input type="password" class="input-field" placeholder="새 비밀번호 (8자 이상)">
+          <input type="password" class="input-field" placeholder="새 비밀번호 확인">
+        </div>
+      </div>
+    </main>
+  </div>
+<script>
+let pwOpen = false;
+function togglePwChange() {
+  pwOpen = !pwOpen;
+  document.getElementById('pw-change-section').style.display = pwOpen ? 'flex' : 'none';
+  document.getElementById('pw-chevron').setAttribute('icon', pwOpen ? 'mdi:chevron-up' : 'mdi:chevron-down');
+}
+function saveProfile() { alert('프로필이 저장되었습니다'); window.location.href = '18-mypage-main.html'; }
+</script>
+</body>
+</html>

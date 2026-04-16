@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 주문 상세">
+<title>우림마켓 - 주문 상세</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header {
+    height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 0; position: sticky; top: 0; z-index: 10;
+  }
+  .section-card { background: #FFFFFF; border-radius: 16px; padding: 16px; margin: 10px 16px 0; box-shadow: 0 4px 12px rgba(62,39,35,0.06); }
+  .section-title { font-size: 14px; font-weight: 600; color: #3E2723; margin-bottom: 12px; }
+  .step-line { flex: 1; height: 2px; background: #F0E0D0; }
+  .step-line.done { background: #FF6B35; }
+  .step-line.dashed { background: repeating-linear-gradient(to right, #F0E0D0 0, #F0E0D0 4px, transparent 4px, transparent 8px); }
+  .btn-outline {
+    padding: 10px 16px; border: 1.5px solid #F0E0D0; border-radius: 12px;
+    background: #FFFFFF; color: #6D4C41; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit;
+  }
+  .btn-primary-sm {
+    padding: 10px 20px; background: #FF6B35; border: none; border-radius: 12px;
+    color: #FFFFFF; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; box-shadow: 0 3px 8px rgba(255,107,53,0.2);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <header class="sub-header">
+      <a href="13-order-list.html" style="padding:4px;display:flex;" aria-label="뒤로가기">
+        <iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon>
+      </a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">주문 상세</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <!-- Auto-confirm Banner -->
+    <div style="background:#FFF8E1;margin:10px 16px 0;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;">
+      <iconify-icon icon="mdi:information-outline" width="18" style="color:#F57F17;flex-shrink:0;"></iconify-icon>
+      <p style="font-size:12px;color:#F57F17;line-height:1.4;">배송 완료 후 7일 후 자동 구매 확정됩니다<br>(2026.04.17까지)</p>
+    </div>
+
+    <!-- Delivery Stepper -->
+    <div class="section-card">
+      <p class="section-title">배송 현황</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px;">
+        <!-- Step 1: Done -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <span style="font-size:10px;color:#FF6B35;font-weight:500;">결제완료</span>
+        </div>
+        <div class="step-line done"></div>
+        <!-- Step 2: Done -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <span style="font-size:10px;color:#FF6B35;font-weight:500;">상품준비</span>
+        </div>
+        <div class="step-line done"></div>
+        <!-- Step 3: Current (배송중) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#FF6B35;box-shadow:0 0 0 5px rgba(255,107,53,0.15);display:flex;align-items:center;justify-content:center;">
+            <div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;"></div>
+          </div>
+          <span style="font-size:10px;color:#FF6B35;font-weight:600;">배송중</span>
+        </div>
+        <div class="step-line dashed"></div>
+        <!-- Step 4: Future -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+          <div style="width:24px;height:24px;border-radius:50%;border:1.5px solid #F0E0D0;background:#FFFFFF;"></div>
+          <span style="font-size:10px;color:#A1887F;">배송완료</span>
+        </div>
+      </div>
+      <!-- Tracking -->
+      <div style="margin-top:14px;padding:10px 12px;background:#FFF5EB;border-radius:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;color:#6D4C41;">CJ대한통운 · 1234567890</span>
+          <a href="#" style="font-size:12px;color:#FF6B35;font-weight:500;text-decoration:none;">조회</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="section-card">
+      <p class="section-title">주문 상품</p>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #F5EDE4;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장 500g" style="width:60px;height:60px;border-radius:10px;object-fit:cover;">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;margin-bottom:2px;">우림 전통 고추장 500g</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:3px;">500g · 수량 2</p>
+          <p style="font-size:14px;font-weight:700;color:#3E2723;">17,800원</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Doenjang.jpg" alt="우림 된장 1kg" style="width:60px;height:60px;border-radius:10px;object-fit:cover;">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;margin-bottom:2px;">우림 된장 1kg</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:3px;">1kg · 수량 1</p>
+          <p style="font-size:14px;font-weight:700;color:#3E2723;">9,800원</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivery Info -->
+    <div class="section-card">
+      <p class="section-title">배송지</p>
+      <p style="font-size:14px;font-weight:500;color:#3E2723;margin-bottom:4px;">김우림 · 010-1234-5678</p>
+      <p style="font-size:13px;color:#6D4C41;line-height:1.5;">[12345] 경기도 이천시 영창로 23<br>우림아파트 101동 505호</p>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="section-card">
+      <p class="section-title">결제 정보</p>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:13px;color:#6D4C41;">상품금액</span>
+        <span style="font-size:13px;color:#3E2723;">27,600원</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:13px;color:#6D4C41;">배송비</span>
+        <span style="font-size:13px;color:#43A047;">무료</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:13px;color:#6D4C41;">쿠폰 할인</span>
+        <span style="font-size:13px;color:#43A047;">-0원</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:13px;color:#6D4C41;">포인트 사용</span>
+        <span style="font-size:13px;color:#43A047;">-0P</span>
+      </div>
+      <div style="height:1px;background:#F0E0D0;margin-bottom:10px;"></div>
+      <div style="display:flex;justify-content:space-between;">
+        <span style="font-size:14px;font-weight:600;color:#3E2723;">최종 결제 금액</span>
+        <span style="font-size:16px;font-weight:700;color:#FF6B35;">27,600원</span>
+      </div>
+      <p style="font-size:12px;color:#A1887F;margin-top:6px;text-align:right;">신용카드 결제</p>
+    </div>
+
+    <!-- Action Buttons (based on status: 배송중) -->
+    <div style="padding:10px 16px 0;">
+      <p style="font-size:12px;color:#A1887F;margin-bottom:10px;text-align:center;">배송 중인 상품은 취소가 불가합니다</p>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-outline" style="flex:1;" onclick="alert('교환/환불 신청은 배송완료 후 7일 이내에 가능합니다')">교환/환불 문의</button>
+        <a href="34-review-write.html" class="btn-primary-sm" style="flex:1;display:flex;align-items:center;justify-content:center;text-decoration:none;">리뷰 작성</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

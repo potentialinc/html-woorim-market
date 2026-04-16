@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>리뷰 관리 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 400; color: #AEAEB2; padding: 10px 14px; border-bottom: 0.5px solid rgba(0,0,0,0.08); white-space: nowrap; }
+  td { font-size: 13px; padding: 10px 14px; border-bottom: 0.5px solid rgba(0,0,0,0.06); color: #1D1D1F; vertical-align: middle; }
+  tr:hover td { background: #F5F5F7; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .input { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 13px; padding: 8px 12px; height: 36px; width: 100%; outline: none; transition: border-color 150ms ease; }
+  .input:focus { border-color: #0071E3; }
+  .input::placeholder { color: #AEAEB2; }
+  .input-label { font-size: 13px; font-weight: 500; color: #6E6E73; margin-bottom: 4px; display: block; }
+  .btn-primary { background: #0071E3; color: #FFFFFF; font-size: 13px; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; height: 36px; display:flex;align-items:center;gap:6px; transition:background 150ms; }
+  .btn-primary:hover { background: #0059B3; }
+  .btn-outline { background: transparent; color: #6E6E73; font-size: 13px; padding: 8px 16px; border-radius: 6px; border: 0.5px solid rgba(0,0,0,0.15); cursor: pointer; height: 36px; display:flex;align-items:center;gap:4px; }
+  .badge { font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 4px; }
+  .select { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 13px; padding: 8px 12px; height: 36px; outline: none; }
+  .drawer-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:50; }
+  .drawer-overlay.open { display:block; }
+  .drawer { position:fixed;top:0;right:0;bottom:0;width:520px;background:#FFFFFF;box-shadow:-4px 0 16px rgba(0,0,0,0.08);z-index:51;transform:translateX(100%);transition:transform 250ms ease;display:flex;flex-direction:column; }
+  .drawer.open { transform:translateX(0); }
+  .star { color: #FF9500; font-size: 13px; }
+  .star.empty { color: #E5E5EA; }
+  .delete-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center; }
+  .delete-modal.open { display:flex; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;"><span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span><span style="font-size:11px;color:#AEAEB2;">Admin</span></a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item active"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <div>
+      <h1 style="font-size:24px;font-weight:300;margin:0;letter-spacing:-0.015em;">리뷰 관리</h1>
+      <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">총 234개 리뷰</p>
+    </div>
+  </div>
+
+  <div style="padding:24px 32px;">
+
+    <!-- Filter Bar -->
+    <div style="background:#F5F5F7;border-radius:8px;padding:14px 16px;margin-bottom:16px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <input type="text" class="input" style="width:200px;" placeholder="상품명 또는 작성자">
+        <select class="select">
+          <option>별점 전체</option>
+          <option>⭐ 1점</option>
+          <option>⭐ 2점</option>
+          <option>⭐ 3점</option>
+          <option>⭐ 4점</option>
+          <option>⭐ 5점</option>
+        </select>
+        <select class="select">
+          <option>첨부 전체</option>
+          <option>사진 포함</option>
+          <option>동영상 포함</option>
+          <option>첨부 없음</option>
+        </select>
+        <select class="select">
+          <option>노출 전체</option>
+          <option>공개</option>
+          <option>비공개</option>
+        </select>
+        <div style="display:flex;gap:4px;align-items:center;">
+          <span style="font-size:12px;color:#6E6E73;white-space:nowrap;">작성일:</span>
+          <input type="date" class="input" style="width:140px;">
+          <span style="font-size:12px;color:#6E6E73;">~</span>
+          <input type="date" class="input" style="width:140px;">
+        </div>
+        <button class="btn-primary" style="margin-left:auto;">검색</button>
+      </div>
+    </div>
+
+    <!-- Bulk Actions -->
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+      <span style="font-size:12px;color:#6E6E73;">선택 항목:</span>
+      <button class="btn-outline" style="height:32px;font-size:12px;"><iconify-icon icon="mdi:eye-off-outline" width="14"></iconify-icon>비공개 전환</button>
+      <button style="background:transparent;color:#FF3B30;font-size:12px;padding:6px 12px;border-radius:6px;border:0.5px solid rgba(255,59,48,0.3);cursor:pointer;height:32px;display:flex;align-items:center;gap:4px;"><iconify-icon icon="mdi:delete-outline" width="14"></iconify-icon>삭제</button>
+      <div style="flex:1;"></div>
+      <span style="font-size:12px;color:#AEAEB2;">총 234개</span>
+      <select class="select" style="width:100px;height:32px;font-size:12px;padding:4px 8px;">
+        <option>30개</option>
+        <option>50개</option>
+        <option>100개</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <div class="content-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40px;"><input type="checkbox" style="accent-color:#0071E3;"></th>
+            <th>상품</th>
+            <th style="width:100px;">작성자</th>
+            <th style="width:80px;">별점</th>
+            <th>미리보기</th>
+            <th style="width:70px;text-align:center;">첨부</th>
+            <th style="width:60px;text-align:center;">신고수</th>
+            <th style="width:70px;text-align:center;">상태</th>
+            <th style="width:90px;">작성일</th>
+            <th style="width:80px;text-align:center;">액션</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 1: 5-star, public, with photo -->
+          <tr>
+            <td><input type="checkbox" style="accent-color:#0071E3;"></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:36px;height:36px;background:#e8f5e9;border-radius:4px;flex-shrink:0;border:0.5px solid rgba(0,0,0,0.06);"></div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;">공직 직판 5kg 쌀</div>
+                </div>
+              </div>
+            </td>
+            <td><span style="font-size:12px;">김*수</span></td>
+            <td>
+              <div style="display:flex;gap:1px;">
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:#6E6E73;">밥맛이 정말 좋아요. 가격도 착하고 빠른 배송까지 완벽합니다...</span></td>
+            <td style="text-align:center;">
+              <span style="font-size:11px;color:#0071E3;"><iconify-icon icon="mdi:image" width="12"></iconify-icon> 3</span>
+            </td>
+            <td style="text-align:center;"><span style="font-size:12px;color:#AEAEB2;">0</span></td>
+            <td style="text-align:center;"><span class="badge" style="background:#E8F5E9;color:#2E7D32;">공개</span></td>
+            <td><span style="font-size:12px;color:#6E6E73;">2026.04.12</span></td>
+            <td style="text-align:center;">
+              <button class="btn-outline" style="height:28px;font-size:11px;padding:4px 10px;" onclick="openDrawer()">상세</button>
+            </td>
+          </tr>
+          <!-- Row 2: 2-star, public, reported -->
+          <tr>
+            <td><input type="checkbox" style="accent-color:#0071E3;"></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:36px;height:36px;background:#fff3e0;border-radius:4px;flex-shrink:0;border:0.5px solid rgba(0,0,0,0.06);"></div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;">국내산 돼지고기 삼겹살 500g</div>
+                </div>
+              </div>
+            </td>
+            <td><span style="font-size:12px;">박*영</span></td>
+            <td>
+              <div style="display:flex;gap:1px;">
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#E5E5EA;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#E5E5EA;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#E5E5EA;"></iconify-icon>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:#6E6E73;">기대했는데 생각보다 별로였습니다. 다음엔 다른 상품 사볼게요...</span></td>
+            <td style="text-align:center;"><span style="font-size:11px;color:#AEAEB2;">—</span></td>
+            <td style="text-align:center;">
+              <span style="font-size:12px;color:#FF3B30;font-weight:500;">3</span>
+            </td>
+            <td style="text-align:center;"><span class="badge" style="background:#E8F5E9;color:#2E7D32;">공개</span></td>
+            <td><span style="font-size:12px;color:#6E6E73;">2026.04.10</span></td>
+            <td style="text-align:center;">
+              <button class="btn-outline" style="height:28px;font-size:11px;padding:4px 10px;" onclick="openDrawer()">상세</button>
+            </td>
+          </tr>
+          <!-- Row 3: 5-star, hidden (spam) -->
+          <tr>
+            <td><input type="checkbox" style="accent-color:#0071E3;"></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:36px;height:36px;background:#fce4ec;border-radius:4px;flex-shrink:0;border:0.5px solid rgba(0,0,0,0.06);"></div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;">유기농 딸기 500g</div>
+                </div>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:#AEAEB2;">이*진</span></td>
+            <td>
+              <div style="display:flex;gap:1px;">
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:#AEAEB2;">다른 사이트 링크 홍보 내용... 광고성 리뷰 비공개 처리됨</span></td>
+            <td style="text-align:center;">
+              <span style="font-size:11px;color:#AEAEB2;"><iconify-icon icon="mdi:image" width="12"></iconify-icon> 1</span>
+            </td>
+            <td style="text-align:center;"><span style="font-size:12px;color:#FF3B30;font-weight:500;">5</span></td>
+            <td style="text-align:center;"><span class="badge" style="background:#F5F5F7;color:#AEAEB2;">비공개</span></td>
+            <td><span style="font-size:12px;color:#AEAEB2;">2026.04.08</span></td>
+            <td style="text-align:center;">
+              <button class="btn-outline" style="height:28px;font-size:11px;padding:4px 10px;" onclick="openDrawer()">상세</button>
+            </td>
+          </tr>
+          <!-- Row 4: 4-star, public, with video -->
+          <tr>
+            <td><input type="checkbox" style="accent-color:#0071E3;"></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:36px;height:36px;background:#e3f2fd;border-radius:4px;flex-shrink:0;border:0.5px solid rgba(0,0,0,0.06);"></div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;">공직 인삼 홍삼 정과</div>
+                </div>
+              </div>
+            </td>
+            <td><span style="font-size:12px;">최*민</span></td>
+            <td>
+              <div style="display:flex;gap:1px;">
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#FF9500;"></iconify-icon>
+                <iconify-icon icon="mdi:star" width="13" style="color:#E5E5EA;"></iconify-icon>
+              </div>
+            </td>
+            <td><span style="font-size:12px;color:#6E6E73;">맛있어요! 선물용으로 샀는데 포장도 예쁘고 만족스럽습니다...</span></td>
+            <td style="text-align:center;">
+              <span style="font-size:11px;color:#0071E3;"><iconify-icon icon="mdi:video" width="12"></iconify-icon> 1</span>
+            </td>
+            <td style="text-align:center;"><span style="font-size:12px;color:#AEAEB2;">0</span></td>
+            <td style="text-align:center;"><span class="badge" style="background:#E8F5E9;color:#2E7D32;">공개</span></td>
+            <td><span style="font-size:12px;color:#6E6E73;">2026.04.05</span></td>
+            <td style="text-align:center;">
+              <button class="btn-outline" style="height:28px;font-size:11px;padding:4px 10px;" onclick="openDrawer()">상세</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div style="display:flex;justify-content:center;align-items:center;gap:4px;margin-top:20px;">
+      <button style="background:none;border:0.5px solid rgba(0,0,0,0.1);border-radius:6px;width:32px;height:32px;cursor:pointer;color:#AEAEB2;"><iconify-icon icon="mdi:chevron-left" width="14"></iconify-icon></button>
+      <button style="background:#0071E3;color:#FFFFFF;border:none;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:13px;">1</button>
+      <button style="background:none;border:0.5px solid rgba(0,0,0,0.1);border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:13px;color:#6E6E73;">2</button>
+      <button style="background:none;border:0.5px solid rgba(0,0,0,0.1);border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:13px;color:#6E6E73;">3</button>
+      <span style="font-size:13px;color:#AEAEB2;">...</span>
+      <button style="background:none;border:0.5px solid rgba(0,0,0,0.1);border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:13px;color:#6E6E73;">8</button>
+      <button style="background:none;border:0.5px solid rgba(0,0,0,0.1);border-radius:6px;width:32px;height:32px;cursor:pointer;color:#AEAEB2;"><iconify-icon icon="mdi:chevron-right" width="14"></iconify-icon></button>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- Review Detail Drawer -->
+<div class="drawer" id="reviewDrawer">
+  <div style="padding:16px 20px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+    <h2 style="font-size:15px;font-weight:500;margin:0;">리뷰 상세</h2>
+    <button onclick="closeDrawer()" style="background:none;border:none;cursor:pointer;color:#6E6E73;"><iconify-icon icon="mdi:close" width="20"></iconify-icon></button>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:20px;">
+
+    <!-- Product Info -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+      <div style="width:48px;height:48px;background:#e8f5e9;border-radius:6px;flex-shrink:0;border:0.5px solid rgba(0,0,0,0.06);"></div>
+      <div>
+        <div style="font-size:13px;font-weight:500;">공직 직판 5kg 쌀</div>
+        <div style="font-size:12px;color:#AEAEB2;margin-top:2px;">구매일: 2026.04.10</div>
+      </div>
+    </div>
+
+    <!-- Rating & Author -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div style="display:flex;gap:2px;">
+        <iconify-icon icon="mdi:star" width="16" style="color:#FF9500;"></iconify-icon>
+        <iconify-icon icon="mdi:star" width="16" style="color:#FF9500;"></iconify-icon>
+        <iconify-icon icon="mdi:star" width="16" style="color:#FF9500;"></iconify-icon>
+        <iconify-icon icon="mdi:star" width="16" style="color:#FF9500;"></iconify-icon>
+        <iconify-icon icon="mdi:star" width="16" style="color:#FF9500;"></iconify-icon>
+        <span style="font-size:13px;font-weight:500;margin-left:4px;">5.0</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;font-weight:500;">김*수</div>
+        <div style="font-size:11px;color:#AEAEB2;">2026.04.12 14:32</div>
+      </div>
+    </div>
+
+    <!-- Full Review Text -->
+    <div style="background:#F5F5F7;border-radius:8px;padding:14px;margin-bottom:16px;font-size:13px;line-height:1.6;color:#1D1D1F;">
+      밥맛이 정말 좋아요. 가격도 착하고 빠른 배송까지 완벽합니다. 국내산이라 믿고 살 수 있고, 포장도 튼튼하게 되어 있어서 좋았습니다. 매달 구매할 것 같아요. 재구매 의사 100%입니다!
+    </div>
+
+    <!-- Photo Gallery -->
+    <div style="margin-bottom:16px;">
+      <p style="font-size:12px;font-weight:500;color:#6E6E73;margin-bottom:8px;">첨부 사진 (3장)</p>
+      <div style="display:flex;gap:6px;">
+        <div style="width:80px;height:80px;background:#c8e6c9;border-radius:6px;cursor:pointer;border:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;" onclick="alert('라이트박스 미리보기')"><iconify-icon icon="mdi:image" width="20" style="color:#AEAEB2;"></iconify-icon></div>
+        <div style="width:80px;height:80px;background:#e8f5e9;border-radius:6px;cursor:pointer;border:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;" onclick="alert('라이트박스 미리보기')"><iconify-icon icon="mdi:image" width="20" style="color:#AEAEB2;"></iconify-icon></div>
+        <div style="width:80px;height:80px;background:#dcedc8;border-radius:6px;cursor:pointer;border:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;" onclick="alert('라이트박스 미리보기')"><iconify-icon icon="mdi:image" width="20" style="color:#AEAEB2;"></iconify-icon></div>
+      </div>
+    </div>
+
+    <!-- Reports -->
+    <div style="margin-bottom:16px;padding:12px 14px;background:#FFF8F8;border:0.5px solid rgba(255,59,48,0.15);border-radius:6px;">
+      <p style="font-size:12px;font-weight:500;color:#FF3B30;margin:0 0 4px;">신고 내역 (0건)</p>
+      <p style="font-size:12px;color:#AEAEB2;margin:0;">신고된 내역이 없습니다.</p>
+    </div>
+
+    <!-- Policy Note -->
+    <div style="padding:10px 12px;background:#FFFCF0;border:0.5px solid #F0C93A;border-radius:6px;margin-bottom:16px;">
+      <div style="display:flex;gap:6px;align-items:flex-start;">
+        <iconify-icon icon="mdi:information-outline" width="14" style="color:#92580A;flex-shrink:0;margin-top:1px;"></iconify-icon>
+        <p style="font-size:12px;color:#92580A;margin:0;">단순 부정 의견은 비공개 대상이 아닙니다. 정책 사유(욕설·광고·개인정보 포함 등)가 있는 경우에만 비공개 처리하세요.</p>
+      </div>
+    </div>
+
+    <!-- Hide Action -->
+    <div style="margin-bottom:12px;">
+      <p style="font-size:12px;font-weight:500;color:#6E6E73;margin-bottom:6px;">비공개 전환 사유</p>
+      <select style="width:100%;background:#FFFFFF;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;font-size:13px;padding:10px 12px;height:44px;outline:none;margin-bottom:8px;">
+        <option value="">사유 선택...</option>
+        <option>욕설/비방</option>
+        <option>광고성 콘텐츠</option>
+        <option>상품과 무관한 내용</option>
+        <option>부적절한 미디어</option>
+        <option>개인정보 포함</option>
+      </select>
+      <button style="background:#6E6E73;color:#FFFFFF;font-size:13px;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;height:36px;width:100%;">비공개 전환</button>
+    </div>
+  </div>
+
+  <!-- Drawer Footer -->
+  <div style="padding:12px 20px;border-top:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;gap:8px;justify-content:flex-end;">
+    <button onclick="openDeleteModal()" style="background:#FFF0F0;color:#FF3B30;font-size:13px;padding:8px 16px;border-radius:6px;border:0.5px solid rgba(255,59,48,0.2);cursor:pointer;height:36px;display:flex;align-items:center;gap:4px;"><iconify-icon icon="mdi:delete-outline" width="14"></iconify-icon>리뷰 삭제</button>
+    <button onclick="closeDrawer()" class="btn-outline">닫기</button>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="delete-modal" id="deleteModal">
+  <div style="background:#FFFFFF;border-radius:12px;width:400px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.1);">
+    <div style="text-align:center;margin-bottom:16px;">
+      <iconify-icon icon="mdi:alert-circle-outline" width="40" style="color:#FF3B30;"></iconify-icon>
+    </div>
+    <h3 style="font-size:15px;font-weight:500;text-align:center;margin-bottom:8px;">리뷰를 삭제하시겠습니까?</h3>
+    <p style="font-size:13px;color:#6E6E73;text-align:center;margin-bottom:24px;">삭제된 리뷰는 복구할 수 없습니다.</p>
+    <div style="display:flex;gap:8px;">
+      <button onclick="closeDeleteModal()" class="btn-outline" style="flex:1;justify-content:center;">취소</button>
+      <button onclick="closeDeleteModal();closeDrawer();" style="flex:1;background:#FF3B30;color:#FFFFFF;font-size:13px;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;height:36px;">삭제</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openDrawer() {
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('reviewDrawer').classList.add('open');
+}
+function closeDrawer() {
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('reviewDrawer').classList.remove('open');
+}
+function openDeleteModal() { document.getElementById('deleteModal').classList.add('open'); }
+function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); }
+</script>
+</body>
+</html>

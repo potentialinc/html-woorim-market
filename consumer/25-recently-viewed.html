@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 최근 본 상품</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .card { background: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 12px rgba(62,39,35,0.06); overflow: hidden; position: relative; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">최근 본 상품</h1>
+      <button onclick="clearAll()" style="background:none;border:none;color:#A1887F;font-size:13px;cursor:pointer;font-family:inherit;">전체삭제</button>
+    </header>
+
+    <div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="grid">
+      <a href="09-product-detail.html" class="card" id="item1" style="display:block;text-decoration:none;">
+        <div style="position:relative;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장 500g" style="width:100%;aspect-ratio:1;object-fit:cover;">
+          <div style="position:absolute;bottom:0;left:0;background:rgba(0,0,0,0.4);padding:3px 7px;font-size:10px;color:rgba(255,255,255,0.9);">방금 전</div>
+          <button onclick="removeItem('item1',event)" style="position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.4);border:none;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;" aria-label="삭제"><iconify-icon icon="mdi:close" width="12" style="color:#fff;"></iconify-icon></button>
+        </div>
+        <div style="padding:8px;">
+          <p style="font-size:12px;font-weight:500;color:#3E2723;margin:0 0 3px;">우림 전통 고추장 500g</p>
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:11px;font-weight:700;color:#FF6B35;">26%</span><span style="font-size:13px;font-weight:700;color:#3E2723;">8,900원</span></div>
+        </div>
+      </a>
+      <a href="09-product-detail.html" class="card" id="item2" style="display:block;text-decoration:none;">
+        <div style="position:relative;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Doenjang.jpg" alt="우림 된장 1kg" style="width:100%;aspect-ratio:1;object-fit:cover;">
+          <div style="position:absolute;bottom:0;left:0;background:rgba(0,0,0,0.4);padding:3px 7px;font-size:10px;color:rgba(255,255,255,0.9);">3시간 전</div>
+          <button onclick="removeItem('item2',event)" style="position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.4);border:none;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;" aria-label="삭제"><iconify-icon icon="mdi:close" width="12" style="color:#fff;"></iconify-icon></button>
+        </div>
+        <div style="padding:8px;">
+          <p style="font-size:12px;font-weight:500;color:#3E2723;margin:0 0 3px;">우림 된장 1kg</p>
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:11px;font-weight:700;color:#FF6B35;">35%</span><span style="font-size:13px;font-weight:700;color:#3E2723;">9,800원</span></div>
+        </div>
+      </a>
+      <a href="09-product-detail.html" class="card" id="item3" style="display:block;text-decoration:none;">
+        <div style="position:relative;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Korean_Rice_Vinegar.jpg" alt="유기농 현미식초 500ml" style="width:100%;aspect-ratio:1;object-fit:cover;">
+          <div style="position:absolute;bottom:0;left:0;background:rgba(0,0,0,0.4);padding:3px 7px;font-size:10px;color:rgba(255,255,255,0.9);">어제</div>
+          <button onclick="removeItem('item3',event)" style="position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.4);border:none;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;" aria-label="삭제"><iconify-icon icon="mdi:close" width="12" style="color:#fff;"></iconify-icon></button>
+        </div>
+        <div style="padding:8px;">
+          <p style="font-size:12px;font-weight:500;color:#3E2723;margin:0 0 3px;">유기농 현미식초 500ml</p>
+          <div style="display:flex;align-items:center;gap:4px;"><span style="font-size:11px;font-weight:700;color:#FF6B35;">35%</span><span style="font-size:13px;font-weight:700;color:#3E2723;">8,500원</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+<script>
+function removeItem(id, e) { e.preventDefault(); document.getElementById(id).remove(); }
+function clearAll() { if (confirm('전체 삭제하시겠습니까?')) document.getElementById('grid').innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#A1887F;padding:40px 0;">최근 본 상품이 없어요</p>'; }
+</script>
+</body>
+</html>

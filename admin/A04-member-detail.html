@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>회원 상세 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 400; color: #AEAEB2; padding: 10px 16px; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+  td { font-size: 13px; padding: 10px 16px; border-bottom: 0.5px solid rgba(0,0,0,0.06); color: #1D1D1F; }
+  tr:hover td { background: #F5F5F7; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .info-row { display: grid; grid-template-columns: 140px 1fr; gap: 8px; padding: 10px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06); align-items: start; }
+  .info-label { font-size: 12px; color: #AEAEB2; font-weight: 400; }
+  .info-value { font-size: 14px; color: #1D1D1F; font-weight: 400; }
+  .badge { font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 4px; }
+  .section-header { font-size: 13px; font-weight: 500; color: #1D1D1F; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span>
+      <span style="font-size:11px;color:#AEAEB2;font-weight:400;">Admin</span>
+    </a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item active"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;color:#1D1D1F;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <!-- Header -->
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <a href="A03-members-list.html" style="color:#0071E3;font-size:13px;text-decoration:none;display:flex;align-items:center;gap:4px;">
+      <iconify-icon icon="mdi:chevron-left" width="16"></iconify-icon>회원 목록
+    </a>
+    <iconify-icon icon="mdi:chevron-right" width="14" style="color:#AEAEB2;"></iconify-icon>
+    <span style="font-size:13px;color:#1D1D1F;">김민수</span>
+  </div>
+
+  <div style="padding:24px 32px;max-width:960px;">
+    <!-- Member Header -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:56px;height:56px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:300;color:#6E6E73;">김</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <h1 style="font-size:20px;font-weight:400;color:#1D1D1F;margin:0;">김민수</h1>
+            <span style="font-size:11px;font-weight:500;padding:2px 7px;border-radius:4px;background:#F0FFF4;color:#1B7A2B;">활성</span>
+          </div>
+          <p style="font-size:13px;color:#6E6E73;margin:4px 0 0;">kminsoo@gmail.com</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button style="background:#FFF5F5;border:0.5px solid rgba(255,59,48,0.2);color:#FF3B30;font-size:12px;padding:8px 14px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px;">
+          <iconify-icon icon="mdi:logout" width="14"></iconify-icon>강제 로그아웃
+        </button>
+        <button style="background:#0071E3;border:none;color:#FFFFFF;font-size:13px;font-weight:400;padding:8px 20px;border-radius:6px;cursor:pointer;">저장</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <!-- Basic Info -->
+      <div class="content-card" style="padding:20px;">
+        <div class="section-header">기본 정보</div>
+        <div class="info-row"><span class="info-label">이름</span><span class="info-value">김민수</span></div>
+        <div class="info-row"><span class="info-label">이메일</span><span class="info-value">kminsoo@gmail.com</span></div>
+        <div class="info-row"><span class="info-label">휴대폰</span><span class="info-value">010-1234-5678</span></div>
+        <div class="info-row"><span class="info-label">가입 경로</span><span class="info-value">이메일</span></div>
+        <div class="info-row"><span class="info-label">가입일</span><span class="info-value">2025.08.15</span></div>
+        <div class="info-row"><span class="info-label">최근 로그인</span><span class="info-value">2026.04.16 09:34</span></div>
+        <div class="info-row" style="border-bottom:none;"><span class="info-label">마케팅 수신 동의</span><span class="info-value" style="color:#30D158;">동의함</span></div>
+      </div>
+
+      <!-- Account Management -->
+      <div class="content-card" style="padding:20px;">
+        <div class="section-header">계정 관리</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+          <span style="font-size:14px;color:#1D1D1F;">계정 활성화</span>
+          <div style="width:40px;height:22px;background:#30D158;border-radius:11px;position:relative;cursor:pointer;" onclick="toggleStatus(this)">
+            <div style="width:18px;height:18px;background:#FFFFFF;border-radius:50%;position:absolute;right:2px;top:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);transition:right 150ms ease;"></div>
+          </div>
+        </div>
+        <div style="padding-top:12px;">
+          <label style="font-size:12px;font-weight:500;color:#6E6E73;display:block;margin-bottom:4px;">관리자 메모</label>
+          <textarea style="width:100%;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:8px 12px;font-size:13px;resize:vertical;min-height:80px;outline:none;color:#1D1D1F;" placeholder="내부 메모를 입력하세요..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order History -->
+    <div class="content-card" style="margin-bottom:16px;overflow:hidden;">
+      <div style="padding:14px 20px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="font-size:13px;font-weight:500;margin:0;">주문 내역</h3>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <span style="font-size:12px;color:#AEAEB2;">총 18건 · 누적 구매액 542,300원</span>
+          <a href="A09-orders-list.html" style="font-size:12px;color:#0071E3;text-decoration:none;">전체 보기</a>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr><th>주문번호</th><th>상품</th><th>결제금액</th><th>결제수단</th><th>상태</th><th>주문일</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="color:#0071E3;">20260416-00001</td><td>우림 전통 고추장 500g 외 2건</td><td style="font-weight:500;">32,400원</td><td>카드</td><td><span class="badge" style="background:#FFFCF0;color:#92580A;">결제완료</span></td><td style="color:#AEAEB2;">2026.04.16</td></tr>
+          <tr><td style="color:#0071E3;">20260410-00022</td><td>공직 직판 5kg 쌀</td><td style="font-weight:500;">25,900원</td><td>카드</td><td><span class="badge" style="background:#F0FFF4;color:#1B7A2B;">구매확정</span></td><td style="color:#AEAEB2;">2026.04.10</td></tr>
+          <tr><td style="color:#0071E3;">20260401-00018</td><td>전통 된장 1kg 외 1건</td><td style="font-weight:500;">22,800원</td><td>카카오페이</td><td><span class="badge" style="background:#F0FFF4;color:#1B7A2B;">구매확정</span></td><td style="color:#AEAEB2;">2026.04.01</td></tr>
+          <tr><td style="color:#0071E3;">20260315-00009</td><td>유기농 현미식초 500ml 외 3건</td><td style="font-weight:500;">38,600원</td><td>카드</td><td><span class="badge" style="background:#F0FFF4;color:#1B7A2B;">구매확정</span></td><td style="color:#AEAEB2;">2026.03.15</td></tr>
+          <tr><td style="color:#0071E3;">20260228-00044</td><td>청양고추 핫소스 250ml</td><td style="font-weight:500;">8,200원</td><td>카드</td><td><span class="badge" style="background:#F5F5F7;color:#6E6E73;">주문취소</span></td><td style="color:#AEAEB2;">2026.02.28</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <!-- Points/Coupons -->
+      <div class="content-card" style="padding:20px;">
+        <div class="section-header">포인트 / 쿠폰</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div style="background:#F5F5F7;border-radius:6px;padding:16px;text-align:center;">
+            <p style="font-size:11px;color:#AEAEB2;margin:0;">보유 포인트</p>
+            <p style="font-size:22px;font-weight:300;color:#1D1D1F;margin:6px 0 0;">1,250 <span style="font-size:12px;">P</span></p>
+          </div>
+          <div style="background:#F5F5F7;border-radius:6px;padding:16px;text-align:center;">
+            <p style="font-size:11px;color:#AEAEB2;margin:0;">보유 쿠폰</p>
+            <p style="font-size:22px;font-weight:300;color:#1D1D1F;margin:6px 0 0;">3 <span style="font-size:12px;">장</span></p>
+          </div>
+        </div>
+        <table style="font-size:12px;">
+          <thead><tr><th style="font-size:11px;">내용</th><th style="font-size:11px;">포인트</th><th style="font-size:11px;">일시</th></tr></thead>
+          <tbody>
+            <tr><td>구매 적립</td><td style="color:#30D158;">+259P</td><td style="color:#AEAEB2;">2026.04.10</td></tr>
+            <tr><td>쿠폰 사용</td><td style="color:#FF3B30;">-3,000P</td><td style="color:#AEAEB2;">2026.04.01</td></tr>
+            <tr><td>회원가입 축하</td><td style="color:#30D158;">+1,000P</td><td style="color:#AEAEB2;">2025.08.15</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Addresses -->
+      <div class="content-card" style="padding:20px;">
+        <div class="section-header">배송지 목록</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:6px;padding:12px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:500;color:#1D1D1F;">집</span>
+              <span style="font-size:10px;background:#0071E3;color:#FFFFFF;padding:1px 5px;border-radius:3px;">기본</span>
+            </div>
+            <p style="font-size:13px;color:#1D1D1F;margin:0;">서울특별시 강남구 테헤란로 123, 101동 501호</p>
+            <p style="font-size:12px;color:#AEAEB2;margin:2px 0 0;">010-1234-5678</p>
+          </div>
+          <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:6px;padding:12px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:500;color:#1D1D1F;">회사</span>
+            </div>
+            <p style="font-size:13px;color:#1D1D1F;margin:0;">서울특별시 마포구 월드컵북로 400, 7층</p>
+            <p style="font-size:12px;color:#AEAEB2;margin:2px 0 0;">010-1234-5678</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleStatus(el) {
+  const isOn = el.style.background === 'rgb(48, 209, 88)';
+  el.style.background = isOn ? '#E5E5EA' : '#30D158';
+  el.firstElementChild.style.right = isOn ? 'auto' : '2px';
+  el.firstElementChild.style.left = isOn ? '2px' : 'auto';
+}
+</script>
+</body>
+</html>

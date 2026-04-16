@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 문의 작성</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .form-label { font-size: 13px; font-weight: 600; color: #3E2723; margin-bottom: 6px; display: block; }
+  .form-input { width: 100%; border: 1.5px solid #E8DDD2; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #3E2723; background: #FFFFFF; font-family: inherit; outline: none; transition: border-color 0.2s; }
+  .form-input:focus { border-color: #FF6B35; }
+  .form-textarea { width: 100%; border: 1.5px solid #E8DDD2; border-radius: 10px; padding: 11px 14px; font-size: 14px; color: #3E2723; background: #FFFFFF; font-family: inherit; outline: none; resize: none; transition: border-color 0.2s; }
+  .form-textarea:focus { border-color: #FF6B35; }
+  .photo-add { width: 70px; height: 70px; border: 1.5px dashed #D4C4B8; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; background: #FAFAFA; flex-shrink: 0; }
+  .photo-thumb { width: 70px; height: 70px; border-radius: 10px; overflow: hidden; position: relative; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="26-inquiry-list.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">문의 작성</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <div style="padding:16px;display:flex;flex-direction:column;gap:16px;">
+      <!-- Category -->
+      <div>
+        <label class="form-label">문의 유형 <span style="color:#FF6B35;">*</span></label>
+        <div style="position:relative;">
+          <select class="form-input" style="appearance:none;padding-right:36px;cursor:pointer;">
+            <option value="">문의 유형을 선택하세요</option>
+            <option value="delivery">배송 문의</option>
+            <option value="product">상품 문의</option>
+            <option value="order">주문/결제 문의</option>
+            <option value="cancel">취소/반품/교환</option>
+            <option value="coupon">쿠폰/포인트</option>
+            <option value="account">계정/회원</option>
+            <option value="other">기타</option>
+          </select>
+          <iconify-icon icon="mdi:chevron-down" width="18" style="color:#A1887F;position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;"></iconify-icon>
+        </div>
+      </div>
+
+      <!-- Order Link (optional) -->
+      <div>
+        <label class="form-label">관련 주문 <span style="font-size:11px;font-weight:400;color:#A1887F;">(선택)</span></label>
+        <div style="position:relative;">
+          <select class="form-input" style="appearance:none;padding-right:36px;cursor:pointer;">
+            <option value="">주문을 선택하세요</option>
+            <option value="1">주문 #20260415 — 우림 전통 고추장 500g</option>
+            <option value="2">주문 #20260410 — 우림 된장 1kg 외 2개</option>
+            <option value="3">주문 #20260320 — 유기농 현미식초 500ml</option>
+          </select>
+          <iconify-icon icon="mdi:chevron-down" width="18" style="color:#A1887F;position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;"></iconify-icon>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div>
+        <label class="form-label">제목 <span style="color:#FF6B35;">*</span></label>
+        <input type="text" class="form-input" placeholder="문의 제목을 입력하세요 (최대 50자)" maxlength="50" id="titleInput" oninput="updateCount()">
+        <div style="text-align:right;margin-top:4px;"><span id="titleCount" style="font-size:11px;color:#A1887F;">0</span><span style="font-size:11px;color:#A1887F;">/50</span></div>
+      </div>
+
+      <!-- Content -->
+      <div>
+        <label class="form-label">문의 내용 <span style="color:#FF6B35;">*</span></label>
+        <textarea class="form-textarea" rows="6" placeholder="문의 내용을 자세히 입력해 주세요. (최소 10자, 최대 500자)" maxlength="500" id="contentInput" oninput="updateContent()"></textarea>
+        <div style="text-align:right;margin-top:4px;"><span id="contentCount" style="font-size:11px;color:#A1887F;">0</span><span style="font-size:11px;color:#A1887F;">/500</span></div>
+      </div>
+
+      <!-- Photo Upload -->
+      <div>
+        <label class="form-label">사진 첨부 <span style="font-size:11px;font-weight:400;color:#A1887F;">(최대 3장)</span></label>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;" id="photoArea">
+          <!-- Existing photo 1 -->
+          <div class="photo-thumb" id="photo1">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="첨부 이미지" style="width:100%;height:100%;object-fit:cover;">
+            <button onclick="removePhoto('photo1')" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);border:none;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;" aria-label="사진 삭제"><iconify-icon icon="mdi:close" width="11" style="color:#fff;"></iconify-icon></button>
+          </div>
+          <!-- Add button -->
+          <div class="photo-add" onclick="addPhoto()">
+            <iconify-icon icon="mdi:camera-plus-outline" width="22" style="color:#A1887F;"></iconify-icon>
+            <span style="font-size:10px;color:#A1887F;" id="photoCountLabel">1/3</span>
+          </div>
+        </div>
+        <p style="font-size:11px;color:#A1887F;margin-top:6px;">· JPG, PNG 형식만 가능 · 파일당 최대 10MB</p>
+      </div>
+
+      <!-- Privacy Notice -->
+      <div style="background:#FFF8F5;border-radius:10px;padding:12px;border:1px solid #FFD5C2;">
+        <div style="display:flex;gap:6px;align-items:flex-start;">
+          <iconify-icon icon="mdi:information-outline" width="16" style="color:#FF6B35;flex-shrink:0;margin-top:1px;"></iconify-icon>
+          <div>
+            <p style="font-size:12px;font-weight:600;color:#3E2723;margin-bottom:4px;">개인정보 처리 안내</p>
+            <p style="font-size:11px;color:#7A6054;line-height:1.6;">문의 내용에 개인정보(주민번호, 계좌번호 등)를 포함하지 마세요. 문의 처리 완료 후 3년간 보관됩니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button onclick="submitInquiry()" style="width:100%;background:#FF6B35;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:600;color:#FFFFFF;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(255,107,53,0.25);">
+        문의 등록
+      </button>
+    </div>
+  </div>
+<script>
+function updateCount() {
+  document.getElementById('titleCount').textContent = document.getElementById('titleInput').value.length;
+}
+function updateContent() {
+  document.getElementById('contentCount').textContent = document.getElementById('contentInput').value.length;
+}
+function removePhoto(id) {
+  document.getElementById(id).remove();
+  document.getElementById('photoCountLabel').textContent = '1/3';
+}
+function addPhoto() {
+  alert('사진 선택 (갤러리 / 카메라)');
+}
+function submitInquiry() {
+  alert('문의가 등록되었습니다.\n영업일 1~2일 이내 답변 드리겠습니다.');
+  window.location.href = '26-inquiry-list.html';
+}
+</script>
+</body>
+</html>

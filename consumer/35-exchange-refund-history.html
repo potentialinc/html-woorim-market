@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 교환/반품 내역</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .filter-tab { padding: 10px 18px; font-size: 13px; font-weight: 500; color: #A1887F; border: none; background: transparent; border-bottom: 2px solid transparent; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .filter-tab.active { color: #FF6B35; border-bottom-color: #FF6B35; font-weight: 600; }
+  .history-card { background: #FFFFFF; border-radius: 12px; margin: 0 16px 10px; padding: 14px; box-shadow: 0 2px 8px rgba(62,39,35,0.05); }
+  .status-badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 9999px; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">교환/반품 내역</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <!-- Tabs -->
+    <div style="display:flex;border-bottom:1px solid #F0E0D0;background:#FFFFFF;overflow-x:auto;scrollbar-width:none;" role="tablist">
+      <button class="filter-tab active" onclick="switchTab(this,'all')" role="tab">전체</button>
+      <button class="filter-tab" onclick="switchTab(this,'exchange')" role="tab">교환</button>
+      <button class="filter-tab" onclick="switchTab(this,'refund')" role="tab">반품</button>
+      <button class="filter-tab" onclick="switchTab(this,'cancel')" role="tab">취소</button>
+    </div>
+
+    <div style="padding-top:14px;" id="listArea">
+      <!-- Exchange Item 1 -->
+      <div class="history-card" data-type="exchange">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <span style="font-size:12px;color:#A1887F;">2026.04.12</span>
+          <span class="status-badge" style="background:#E3F2FD;color:#1565C0;">교환 배송 중</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="" style="width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+          <div>
+            <p style="font-size:13px;font-weight:600;color:#3E2723;margin-bottom:2px;">우림 전통 고추장 500g</p>
+            <p style="font-size:12px;color:#A1887F;">수량: 1개 · 주문 #20260408</p>
+            <p style="font-size:11px;color:#7A6054;margin-top:3px;">사유: 상품 불량 (용기 파손)</p>
+          </div>
+        </div>
+        <div style="background:#F0F8FF;border-radius:8px;padding:9px 12px;">
+          <p style="font-size:12px;color:#1565C0;font-weight:500;">교환 상품 발송 완료 · 2026.04.14 도착 예정</p>
+          <p style="font-size:11px;color:#7A6054;margin-top:2px;">택배사: CJ대한통운 · 운송장: 1234567890</p>
+        </div>
+      </div>
+
+      <!-- Refund Item 1 -->
+      <div class="history-card" data-type="refund">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <span style="font-size:12px;color:#A1887F;">2026.03.22</span>
+          <span class="status-badge" style="background:#E8F5E9;color:#2E7D32;">환불 완료</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Doenjang.jpg" alt="" style="width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+          <div>
+            <p style="font-size:13px;font-weight:600;color:#3E2723;margin-bottom:2px;">우림 된장 1kg</p>
+            <p style="font-size:12px;color:#A1887F;">수량: 2개 · 주문 #20260315</p>
+            <p style="font-size:11px;color:#7A6054;margin-top:3px;">사유: 단순 변심</p>
+          </div>
+        </div>
+        <div style="background:#F1F8E9;border-radius:8px;padding:9px 12px;">
+          <p style="font-size:12px;color:#2E7D32;font-weight:500;">환불 금액: 19,600원</p>
+          <p style="font-size:11px;color:#7A6054;margin-top:2px;">KB국민카드 · 3~5 영업일 내 환불 (완료)</p>
+        </div>
+      </div>
+
+      <!-- Cancel Item 1 -->
+      <div class="history-card" data-type="cancel">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <span style="font-size:12px;color:#A1887F;">2026.02.28</span>
+          <span class="status-badge" style="background:#F3E5F5;color:#7B1FA2;">취소 완료</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Korean_Rice_Vinegar.jpg" alt="" style="width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+          <div>
+            <p style="font-size:13px;font-weight:600;color:#3E2723;margin-bottom:2px;">유기농 현미식초 500ml</p>
+            <p style="font-size:12px;color:#A1887F;">수량: 1개 · 주문 #20260228</p>
+            <p style="font-size:11px;color:#7A6054;margin-top:3px;">사유: 주문 실수</p>
+          </div>
+        </div>
+        <div style="background:#F8F0FF;border-radius:8px;padding:9px 12px;">
+          <p style="font-size:12px;color:#7B1FA2;font-weight:500;">환불 금액: 8,500원</p>
+          <p style="font-size:11px;color:#7A6054;margin-top:2px;">신한카드 · 취소 처리 완료</p>
+        </div>
+      </div>
+
+      <!-- Refund Item 2 (in progress) -->
+      <div class="history-card" data-type="refund">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <span style="font-size:12px;color:#A1887F;">2026.04.15</span>
+          <span class="status-badge" style="background:#FFF8E1;color:#F57F17;">반품 수거 중</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Cheongyang_chili_and_gochujang.jpg" alt="" style="width:52px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+          <div>
+            <p style="font-size:13px;font-weight:600;color:#3E2723;margin-bottom:2px;">청양고추 핫소스 250ml</p>
+            <p style="font-size:12px;color:#A1887F;">수량: 1개 · 주문 #20260412</p>
+            <p style="font-size:11px;color:#7A6054;margin-top:3px;">사유: 상품 불량</p>
+          </div>
+        </div>
+        <div style="background:#FFFDE7;border-radius:8px;padding:9px 12px;">
+          <p style="font-size:12px;color:#F57F17;font-weight:500;">반품 수거 대기 중 · 수거 예정: 2026.04.17</p>
+          <p style="font-size:11px;color:#7A6054;margin-top:2px;">수거 완료 후 3~5 영업일 내 환불 예정</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+function switchTab(el, type) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('[data-type]').forEach(card => {
+    card.style.display = (type === 'all' || card.dataset.type === type) ? 'block' : 'none';
+  });
+}
+</script>
+</body>
+</html>

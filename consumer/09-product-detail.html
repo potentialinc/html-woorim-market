@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림 전통 고추장 500g - 공장도 직배송">
+<title>우림마켓 - 상품 상세</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .bottom-action-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; max-width: 375px; margin: 0 auto;
+    height: 76px; background: #FFFFFF;
+    border-top: 1px solid #F0E0D0;
+    box-shadow: 0 -4px 16px rgba(62,39,35,0.06);
+    display: flex; align-items: center; padding: 12px 16px; gap: 10px;
+    z-index: 100;
+  }
+  .option-chip {
+    padding: 7px 14px; border-radius: 9999px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 1.5px solid #F0E0D0; background: #FFFFFF;
+    color: #3E2723; transition: all 150ms;
+  }
+  .option-chip.selected { background: #FF6B35; color: #FFFFFF; border-color: #FF6B35; }
+  .option-chip.sold-out { opacity: 0.4; cursor: not-allowed; }
+  .qty-btn {
+    width: 36px; height: 36px; border: 1.5px solid #F0E0D0; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: #FFFFFF; cursor: pointer; font-size: 18px; color: #3E2723;
+  }
+  .tab-btn {
+    flex: 1; padding: 12px 0; font-size: 13px; font-weight: 500;
+    color: #A1887F; border: none; background: transparent;
+    border-bottom: 2px solid transparent; cursor: pointer;
+    font-family: inherit; transition: all 150ms;
+  }
+  .tab-btn.active { color: #3E2723; border-bottom-color: #FF6B35; font-weight: 600; }
+  .img-carousel {
+    width: 100%; aspect-ratio: 1; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #FFF0E8, #FFF5EB);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <!-- Floating Header (over image) -->
+    <div id="floating-header" style="position:absolute;top:0;left:0;right:0;z-index:10;padding:40px 16px 0;display:flex;justify-content:space-between;align-items:center;">
+      <a href="08-category.html" style="width:38px;height:38px;background:rgba(255,255,255,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);" aria-label="뒤로가기">
+        <iconify-icon icon="ic:round-arrow-back" width="22" style="color:#3E2723;"></iconify-icon>
+      </a>
+      <div style="display:flex;gap:8px;">
+        <button id="wish-btn" onclick="toggleWish()" style="width:38px;height:38px;background:rgba(255,255,255,0.85);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);" aria-label="찜하기">
+          <iconify-icon icon="mdi:heart-outline" width="22" style="color:#FF8A80;" id="wish-icon"></iconify-icon>
+        </button>
+        <a href="10-cart.html" style="width:38px;height:38px;background:rgba(255,255,255,0.85);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;backdrop-filter:blur(4px);" aria-label="장바구니">
+          <iconify-icon icon="mdi:cart-outline" width="22" style="color:#3E2723;"></iconify-icon>
+          <span style="position:absolute;top:2px;right:2px;background:#D84315;color:#fff;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;">3</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Product Image Carousel -->
+    <div class="img-carousel">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장 500g" style="width:100%;height:100%;object-fit:cover;">
+      <div style="position:absolute;top:10px;left:10px;z-index:4;background:rgba(255,107,53,0.9);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:9999px;">공장직송</div>
+      <!-- Carousel Dots -->
+      <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:5px;">
+        <div style="width:16px;height:5px;border-radius:3px;background:#FF6B35;"></div>
+        <div style="width:6px;height:5px;border-radius:3px;background:rgba(255,255,255,0.5);"></div>
+        <div style="width:6px;height:5px;border-radius:3px;background:rgba(255,255,255,0.5);"></div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <section style="padding:18px 16px 0;background:#FFFBF5;">
+      <!-- Name -->
+      <h1 style="font-size:18px;font-weight:600;color:#3E2723;line-height:1.4;">우림 전통 고추장 500g</h1>
+      <!-- Price Block -->
+      <div style="margin-top:10px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:14px;font-weight:700;color:#FF6B35;">26%</span>
+          <span style="font-size:14px;color:#A1887F;text-decoration:line-through;">12,000원</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+          <span style="font-size:24px;font-weight:700;color:#3E2723;">8,900원</span>
+          <span style="background:#E8F5E9;color:#2E7D32;font-size:11px;font-weight:600;padding:3px 8px;border-radius:9999px;">무료배송</span>
+        </div>
+      </div>
+      <!-- Star Rating -->
+      <div style="display:flex;align-items:center;gap:4px;margin-top:8px;cursor:pointer;">
+        <iconify-icon icon="mdi:star" width="14" style="color:#FFB300;"></iconify-icon>
+        <iconify-icon icon="mdi:star" width="14" style="color:#FFB300;"></iconify-icon>
+        <iconify-icon icon="mdi:star" width="14" style="color:#FFB300;"></iconify-icon>
+        <iconify-icon icon="mdi:star" width="14" style="color:#FFB300;"></iconify-icon>
+        <iconify-icon icon="mdi:star-half-full" width="14" style="color:#FFB300;"></iconify-icon>
+        <span style="font-size:13px;font-weight:500;color:#3E2723;">4.8</span>
+        <span style="font-size:12px;color:#A1887F;">(128개 리뷰)</span>
+      </div>
+      <!-- Factory Badge -->
+      <div style="display:flex;align-items:center;gap:6px;margin-top:8px;">
+        <iconify-icon icon="mdi:factory" width="15" style="color:#26A69A;"></iconify-icon>
+        <span style="font-size:12px;color:#26A69A;font-weight:500;">공장직송 · 경기도 이천</span>
+      </div>
+    </section>
+
+    <!-- F&B Info -->
+    <div style="margin:12px 16px 0;background:#FFF5EB;border-radius:12px;padding:12px 16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;">
+        <div><p style="font-size:11px;color:#A1887F;margin-bottom:2px;">원산지</p><p style="font-size:12px;color:#3E2723;font-weight:500;">국산 (경기도)</p></div>
+        <div><p style="font-size:11px;color:#A1887F;margin-bottom:2px;">제조사</p><p style="font-size:12px;color:#3E2723;font-weight:500;">우림식품(주)</p></div>
+        <div><p style="font-size:11px;color:#A1887F;margin-bottom:2px;">유통기한</p><p style="font-size:12px;color:#3E2723;font-weight:500;">2027-04-30</p></div>
+        <div><p style="font-size:11px;color:#A1887F;margin-bottom:2px;">용량</p><p style="font-size:12px;color:#3E2723;font-weight:500;">500g</p></div>
+        <div><p style="font-size:11px;color:#A1887F;margin-bottom:2px;">보관법</p><p style="font-size:12px;color:#3E2723;font-weight:500;">서늘한 곳 보관</p></div>
+      </div>
+    </div>
+
+    <!-- Option Selector -->
+    <section style="padding:16px 16px 0;">
+      <div style="margin-bottom:12px;">
+        <p style="font-size:13px;font-weight:500;color:#6D4C41;margin-bottom:8px;">용량 선택</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="option-chip selected" onclick="selectOption(this)">500g</button>
+          <button class="option-chip" onclick="selectOption(this)">1kg</button>
+          <button class="option-chip sold-out" disabled aria-disabled="true">2kg (품절)</button>
+        </div>
+      </div>
+      <!-- Quantity -->
+      <div style="display:flex;align-items:center;gap:10px;">
+        <p style="font-size:13px;font-weight:500;color:#6D4C41;">수량</p>
+        <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+          <button class="qty-btn" onclick="changeQty(-1)" aria-label="수량 감소">−</button>
+          <span id="qty-display" style="font-size:16px;font-weight:600;color:#3E2723;min-width:24px;text-align:center;">1</span>
+          <button class="qty-btn" onclick="changeQty(1)" aria-label="수량 증가">+</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs: 상품 설명 / 상품 정보 / 리뷰 -->
+    <div style="margin-top:20px;border-bottom:1px solid #F0E0D0;">
+      <div style="display:flex;padding:0 16px;">
+        <button class="tab-btn active" onclick="switchProductTab(this, 'desc')">상품 설명</button>
+        <button class="tab-btn" onclick="switchProductTab(this, 'info')">상품 정보</button>
+        <button class="tab-btn" onclick="switchProductTab(this, 'review')">리뷰 (128)</button>
+      </div>
+    </div>
+
+    <!-- Tab Content: 상품 설명 -->
+    <div id="tab-desc" style="padding:16px;">
+      <h3 style="font-size:15px;font-weight:600;color:#3E2723;margin-bottom:10px;">경기도 이천 공장에서 직배송</h3>
+      <p style="font-size:14px;color:#6D4C41;line-height:1.7;">대대로 이어온 전통 방식 그대로, 국산 고추만을 엄선하여 만든 우림 전통 고추장입니다. 화학 방부제를 첨가하지 않아 자연 그대로의 맛을 즐기실 수 있습니다.</p>
+      <div style="margin-top:14px;background:#FFF0E8;border-radius:12px;padding:14px;">
+        <p style="font-size:13px;font-weight:600;color:#FF6B35;margin-bottom:6px;">이런 분께 추천드려요</p>
+        <ul style="font-size:13px;color:#6D4C41;line-height:2;padding-left:16px;">
+          <li>건강한 발효 식품을 찾으시는 분</li>
+          <li>화학 첨가물 없는 식품을 원하시는 분</li>
+          <li>선물용으로 활용하실 분</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab Content: 상품 정보 (hidden) -->
+    <div id="tab-info" style="padding:16px;display:none;">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <tr style="border-bottom:1px solid #F0E0D0;"><td style="padding:10px 0;color:#A1887F;width:40%;">식품유형</td><td style="padding:10px 0;color:#3E2723;">고추장</td></tr>
+        <tr style="border-bottom:1px solid #F0E0D0;"><td style="padding:10px 0;color:#A1887F;">제조원</td><td style="padding:10px 0;color:#3E2723;">우림식품(주)</td></tr>
+        <tr style="border-bottom:1px solid #F0E0D0;"><td style="padding:10px 0;color:#A1887F;">원산지</td><td style="padding:10px 0;color:#3E2723;">국산 (경기도 이천)</td></tr>
+        <tr style="border-bottom:1px solid #F0E0D0;"><td style="padding:10px 0;color:#A1887F;">알레르기</td><td style="padding:10px 0;color:#3E2723;">대두, 밀 함유</td></tr>
+        <tr><td style="padding:10px 0;color:#A1887F;">포장</td><td style="padding:10px 0;color:#3E2723;">친환경 재활용 포장</td></tr>
+      </table>
+    </div>
+
+    <!-- Tab Content: 리뷰 (hidden) -->
+    <div id="tab-review" style="padding:16px;display:none;">
+      <!-- Rating Summary -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:16px;background:#FFF5EB;border-radius:12px;">
+        <div style="text-align:center;">
+          <p style="font-size:32px;font-weight:700;color:#3E2723;line-height:1;">4.8</p>
+          <div style="display:flex;gap:2px;margin-top:4px;justify-content:center;">
+            <iconify-icon icon="mdi:star" width="12" style="color:#FFB300;"></iconify-icon>
+            <iconify-icon icon="mdi:star" width="12" style="color:#FFB300;"></iconify-icon>
+            <iconify-icon icon="mdi:star" width="12" style="color:#FFB300;"></iconify-icon>
+            <iconify-icon icon="mdi:star" width="12" style="color:#FFB300;"></iconify-icon>
+            <iconify-icon icon="mdi:star-half-full" width="12" style="color:#FFB300;"></iconify-icon>
+          </div>
+          <p style="font-size:11px;color:#A1887F;margin-top:4px;">128개 리뷰</p>
+        </div>
+      </div>
+      <!-- Review Cards -->
+      <div style="border-bottom:1px solid #F5EDE4;padding-bottom:14px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:#FFF0E8;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#FF6B35;">김</div>
+          <div>
+            <p style="font-size:13px;font-weight:500;color:#3E2723;">김민수</p>
+            <div style="display:flex;gap:2px;">
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+            </div>
+          </div>
+          <span style="font-size:11px;color:#A1887F;margin-left:auto;">2026.03.14</span>
+        </div>
+        <p style="font-size:13px;color:#3E2723;line-height:1.6;">정말 맛있어요! 시중 고추장과 비교하면 깊은 맛이 달라요. 공장 직배송이라 신선하고 가격도 훨씬 저렴합니다. 재구매 의사 100%입니다.</p>
+      </div>
+      <div style="border-bottom:1px solid #F5EDE4;padding-bottom:14px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:#E8F5E9;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#2E7D32;">이</div>
+          <div>
+            <p style="font-size:13px;font-weight:500;color:#3E2723;">이지은</p>
+            <div style="display:flex;gap:2px;">
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star" width="11" style="color:#FFB300;"></iconify-icon>
+              <iconify-icon icon="mdi:star-outline" width="11" style="color:#FFB300;"></iconify-icon>
+            </div>
+          </div>
+          <span style="font-size:11px;color:#A1887F;margin-left:auto;">2026.02.28</span>
+        </div>
+        <p style="font-size:13px;color:#3E2723;line-height:1.6;">어머니가 드시기 딱 좋은 전통 고추장이에요. 양도 넉넉하고 포장도 튼튼하게 왔어요. 온 가족이 좋아합니다!</p>
+      </div>
+      <button style="width:100%;padding:12px;border:1.5px solid #F0E0D0;border-radius:12px;background:transparent;color:#6D4C41;font-size:14px;cursor:pointer;font-family:inherit;">리뷰 더보기</button>
+    </div>
+  </div>
+
+  <!-- Fixed Bottom Action Bar -->
+  <div class="bottom-action-bar">
+    <button onclick="toggleWish()" style="width:50px;height:50px;border:1.5px solid #F0E0D0;border-radius:12px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" aria-label="찜하기">
+      <iconify-icon icon="mdi:heart-outline" width="24" style="color:#6D4C41;" id="action-wish"></iconify-icon>
+    </button>
+    <button onclick="addToCart()" style="flex:1;height:50px;border:1.5px solid #FF6B35;border-radius:12px;background:#FFFFFF;color:#FF6B35;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">장바구니</button>
+    <a href="11-checkout.html" style="flex:1;height:50px;background:#FF6B35;border-radius:12px;color:#FFFFFF;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 12px rgba(255,107,53,0.2);">바로 구매</a>
+  </div>
+<script>
+let qty = 1;
+let wished = false;
+function changeQty(delta) {
+  qty = Math.max(1, qty + delta);
+  document.getElementById('qty-display').textContent = qty;
+}
+function selectOption(el) {
+  document.querySelectorAll('.option-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function toggleWish() {
+  wished = !wished;
+  document.getElementById('wish-icon').setAttribute('icon', wished ? 'mdi:heart' : 'mdi:heart-outline');
+  document.getElementById('wish-icon').style.color = wished ? '#FF6B35' : '#FF8A80';
+  document.getElementById('action-wish').setAttribute('icon', wished ? 'mdi:heart' : 'mdi:heart-outline');
+  document.getElementById('action-wish').style.color = wished ? '#FF6B35' : '#6D4C41';
+}
+function addToCart() {
+  alert('장바구니에 담았습니다!');
+}
+function switchProductTab(el, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  ['desc','info','review'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tabId ? 'block' : 'none';
+  });
+}
+</script>
+</body>
+</html>

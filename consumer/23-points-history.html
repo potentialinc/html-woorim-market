@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 포인트 내역</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  .tx-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #F5EDE4; }
+  .tx-row:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">포인트</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <!-- Balance Hero -->
+    <div style="margin:14px 16px 0;background:linear-gradient(135deg,#FF6B35,#FF8A80);border-radius:20px;padding:24px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:8px;">보유 포인트</p>
+      <p style="font-size:32px;font-weight:700;color:#FFFFFF;line-height:1;">12,500 P</p>
+      <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:10px;line-height:1.4;">1,000P부터 사용 가능 · 구매확정 금액의 1% 적립<br>만료 14일 전 알림 발송 · 포인트 유효기간: 1년</p>
+    </div>
+
+    <!-- Upcoming Expiry -->
+    <div style="margin:12px 16px 0;background:#FFF8E1;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;">
+      <iconify-icon icon="mdi:clock-alert-outline" width="18" style="color:#F57F17;flex-shrink:0;"></iconify-icon>
+      <p style="font-size:12px;color:#F57F17;line-height:1.4;"><strong>500P</strong>가 14일 후 만료됩니다 (2026.04.30)</p>
+    </div>
+
+    <!-- Transaction List -->
+    <div style="background:#FFFFFF;margin-top:14px;">
+      <div class="tx-row">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;">구매 적립 (주문 #20260410)</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:2px;">만료 2027.04.10</p>
+        </div>
+        <div style="text-align:right;">
+          <p style="font-size:13px;font-weight:600;color:#43A047;">+98P</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:1px;">2026.04.10</p>
+        </div>
+      </div>
+      <div class="tx-row">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;">포인트 사용 (주문 #20260320)</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:2px;"></p>
+        </div>
+        <div style="text-align:right;">
+          <p style="font-size:13px;font-weight:600;color:#E53935;">-2,000P</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:1px;">2026.03.20</p>
+        </div>
+      </div>
+      <div class="tx-row">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;">구매 적립 (주문 #20260320)</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:2px;">만료 2027.03.20</p>
+        </div>
+        <div style="text-align:right;">
+          <p style="font-size:13px;font-weight:600;color:#43A047;">+59P</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:1px;">2026.03.20</p>
+        </div>
+      </div>
+      <div class="tx-row">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;">회원가입 기념 포인트</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:2px;">만료 2026.04.30</p>
+        </div>
+        <div style="text-align:right;">
+          <p style="font-size:13px;font-weight:600;color:#43A047;">+500P</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:1px;">2025.10.01</p>
+        </div>
+      </div>
+      <div class="tx-row">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;">구매 적립 (주문 #20260201)</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:2px;">만료 2027.02.01</p>
+        </div>
+        <div style="text-align:right;">
+          <p style="font-size:13px;font-weight:600;color:#43A047;">+143P</p>
+          <p style="font-size:11px;color:#A1887F;margin-top:1px;">2026.02.01</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

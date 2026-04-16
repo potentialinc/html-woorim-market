@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 검색</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .search-header { background: #FFFBF5; border-bottom: 1px solid #E8DDD2; padding: 8px 16px 12px; position: sticky; top: 0; z-index: 10; }
+  .search-box { display: flex; align-items: center; background: #F5EDE4; border-radius: 12px; padding: 10px 12px; gap: 8px; }
+  .search-input { flex: 1; border: none; background: transparent; font-size: 14px; color: #3E2723; outline: none; font-family: inherit; }
+  .search-input::placeholder { color: #A1887F; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; background: #FFFFFF; border: 1px solid #E8DDD2; border-radius: 9999px; padding: 6px 10px; font-size: 12px; color: #5C4033; cursor: pointer; white-space: nowrap; }
+  .chip:hover { background: #FFF0E8; border-color: #FF6B35; }
+  .rank-row { display: flex; align-items: center; padding: 9px 16px; cursor: pointer; }
+  .rank-row:hover { background: #FFFAF7; }
+  .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; max-width: 375px; margin: 0 auto; height: 64px; background: #FFFBF5; border-top: 1px solid #E8DDD2; display: flex; z-index: 10; }
+  .tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: none; background: transparent; cursor: pointer; font-family: inherit; }
+  .tab-label { font-size: 10px; font-weight: 500; color: #9E8E82; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+
+    <!-- Search Header -->
+    <div class="search-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
+        <a href="07-home.html" style="display:flex;padding:4px;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+        <div class="search-box" style="flex:1;" onclick="document.getElementById('searchInput').focus()">
+          <iconify-icon icon="mdi:magnify" width="20" style="color:#A1887F;flex-shrink:0;"></iconify-icon>
+          <input type="text" class="search-input" id="searchInput" placeholder="상품, 브랜드 검색" autofocus onkeydown="if(event.key==='Enter')doSearch()">
+          <button onclick="document.getElementById('searchInput').value=''" style="background:none;border:none;cursor:pointer;padding:0;display:flex;" aria-label="지우기"><iconify-icon icon="mdi:close-circle" width="18" style="color:#C4B5AD;"></iconify-icon></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Searches -->
+    <div style="padding:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <p style="font-size:13px;font-weight:700;color:#3E2723;">최근 검색어</p>
+        <button onclick="clearRecent()" style="background:none;border:none;font-size:12px;color:#A1887F;cursor:pointer;font-family:inherit;">전체 삭제</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;" id="recentArea">
+        <span class="chip" onclick="fillSearch('고추장')">고추장 <iconify-icon icon="mdi:close" width="12" style="color:#A1887F;" onclick="event.stopPropagation();this.closest('.chip').remove()"></iconify-icon></span>
+        <span class="chip" onclick="fillSearch('된장찌개')">된장찌개 <iconify-icon icon="mdi:close" width="12" style="color:#A1887F;" onclick="event.stopPropagation();this.closest('.chip').remove()"></iconify-icon></span>
+        <span class="chip" onclick="fillSearch('식초')">식초 <iconify-icon icon="mdi:close" width="12" style="color:#A1887F;" onclick="event.stopPropagation();this.closest('.chip').remove()"></iconify-icon></span>
+        <span class="chip" onclick="fillSearch('전통간장')">전통간장 <iconify-icon icon="mdi:close" width="12" style="color:#A1887F;" onclick="event.stopPropagation();this.closest('.chip').remove()"></iconify-icon></span>
+        <span class="chip" onclick="fillSearch('유기농')">유기농 <iconify-icon icon="mdi:close" width="12" style="color:#A1887F;" onclick="event.stopPropagation();this.closest('.chip').remove()"></iconify-icon></span>
+      </div>
+    </div>
+
+    <div style="height:1px;background:#F0E0D0;margin:0 16px;"></div>
+
+    <!-- Popular Keywords -->
+    <div style="padding:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <p style="font-size:13px;font-weight:700;color:#3E2723;">인기 검색어</p>
+        <span style="font-size:11px;color:#A1887F;">2026.04.16 기준</span>
+      </div>
+
+      <!-- Top 10 Keywords in two columns -->
+      <div style="background:#FFFFFF;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(62,39,35,0.05);">
+        <div style="display:grid;grid-template-columns:1fr 1fr;">
+          <div>
+            <div class="rank-row" onclick="fillSearch('고추장')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#FF6B35;">1</span>
+              <span style="font-size:13px;color:#3E2723;">고추장</span>
+              <iconify-icon icon="mdi:trending-up" width="14" style="color:#E53935;margin-left:4px;"></iconify-icon>
+            </div>
+            <div class="rank-row" onclick="fillSearch('된장')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#FF6B35;">2</span>
+              <span style="font-size:13px;color:#3E2723;">된장</span>
+              <iconify-icon icon="mdi:trending-up" width="14" style="color:#E53935;margin-left:4px;"></iconify-icon>
+            </div>
+            <div class="rank-row" onclick="fillSearch('간장')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">3</span>
+              <span style="font-size:13px;color:#3E2723;">간장</span>
+              <span style="font-size:10px;color:#A1887F;margin-left:4px;">-</span>
+            </div>
+            <div class="rank-row" onclick="fillSearch('식초')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">4</span>
+              <span style="font-size:13px;color:#3E2723;">식초</span>
+              <iconify-icon icon="mdi:trending-down" width="14" style="color:#1565C0;margin-left:4px;"></iconify-icon>
+            </div>
+            <div class="rank-row" onclick="fillSearch('전통장류')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">5</span>
+              <span style="font-size:13px;color:#3E2723;">전통장류</span>
+            </div>
+          </div>
+          <div style="border-left:1px solid #F5EDE4;">
+            <div class="rank-row" onclick="fillSearch('유기농')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">6</span>
+              <span style="font-size:13px;color:#3E2723;">유기농</span>
+              <iconify-icon icon="mdi:trending-up" width="14" style="color:#E53935;margin-left:4px;"></iconify-icon>
+            </div>
+            <div class="rank-row" onclick="fillSearch('청양고추')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">7</span>
+              <span style="font-size:13px;color:#3E2723;">청양고추</span>
+              <span style="background:#E8F5E9;color:#2E7D32;font-size:9px;font-weight:700;padding:1px 4px;border-radius:4px;margin-left:4px;">NEW</span>
+            </div>
+            <div class="rank-row" onclick="fillSearch('저염')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">8</span>
+              <span style="font-size:13px;color:#3E2723;">저염</span>
+              <iconify-icon icon="mdi:trending-down" width="14" style="color:#1565C0;margin-left:4px;"></iconify-icon>
+            </div>
+            <div class="rank-row" onclick="fillSearch('발효식품')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">9</span>
+              <span style="font-size:13px;color:#3E2723;">발효식품</span>
+            </div>
+            <div class="rank-row" onclick="fillSearch('선물세트')">
+              <span style="width:22px;font-size:14px;font-weight:700;color:#3E2723;">10</span>
+              <span style="font-size:13px;color:#3E2723;">선물세트</span>
+              <iconify-icon icon="mdi:trending-up" width="14" style="color:#E53935;margin-left:4px;"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Quick Links -->
+    <div style="padding:0 16px 16px;">
+      <p style="font-size:13px;font-weight:700;color:#3E2723;margin-bottom:10px;">카테고리 빠른 이동</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <a href="08-category.html" style="background:#FFF0E8;border-radius:9999px;padding:7px 14px;font-size:12px;font-weight:500;color:#FF6B35;text-decoration:none;">장류</a>
+        <a href="08-category.html" style="background:#FFF0E8;border-radius:9999px;padding:7px 14px;font-size:12px;font-weight:500;color:#FF6B35;text-decoration:none;">발효식품</a>
+        <a href="08-category.html" style="background:#FFF0E8;border-radius:9999px;padding:7px 14px;font-size:12px;font-weight:500;color:#FF6B35;text-decoration:none;">식초/오일</a>
+        <a href="08-category.html" style="background:#FFF0E8;border-radius:9999px;padding:7px 14px;font-size:12px;font-weight:500;color:#FF6B35;text-decoration:none;">선물세트</a>
+        <a href="08-category.html" style="background:#FFF0E8;border-radius:9999px;padding:7px 14px;font-size:12px;font-weight:500;color:#FF6B35;text-decoration:none;">소스/드레싱</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-bar">
+    <button class="tab-btn" onclick="location.href='07-home.html'">
+      <iconify-icon icon="mdi:home-outline" width="22" style="color:#9E8E82;"></iconify-icon>
+      <span class="tab-label">홈</span>
+    </button>
+    <button class="tab-btn" onclick="location.href='08-category.html'">
+      <iconify-icon icon="mdi:view-grid-outline" width="22" style="color:#9E8E82;"></iconify-icon>
+      <span class="tab-label">카테고리</span>
+    </button>
+    <button class="tab-btn" onclick="location.href='13-order-list.html'">
+      <iconify-icon icon="mdi:package-variant-closed-outline" width="22" style="color:#9E8E82;"></iconify-icon>
+      <span class="tab-label">주문내역</span>
+    </button>
+    <button class="tab-btn" onclick="location.href='18-mypage-main.html'">
+      <iconify-icon icon="mdi:account-outline" width="22" style="color:#9E8E82;"></iconify-icon>
+      <span class="tab-label">마이페이지</span>
+    </button>
+  </nav>
+</div>
+<script>
+function fillSearch(kw) {
+  document.getElementById('searchInput').value = kw;
+  document.getElementById('searchInput').focus();
+}
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (q) window.location.href = '37-search-results.html';
+}
+function clearRecent() {
+  if (confirm('최근 검색어를 모두 삭제하시겠습니까?')) {
+    document.getElementById('recentArea').innerHTML = '<p style="font-size:13px;color:#A1887F;padding:4px 0;">최근 검색어가 없어요</p>';
+  }
+}
+</script>
+</body>
+</html>

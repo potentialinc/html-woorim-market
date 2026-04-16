@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>상품 등록 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); padding: 24px; margin-bottom: 16px; }
+  .section-title { font-size: 14px; font-weight: 500; color: #1D1D1F; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 0.5px solid rgba(0,0,0,0.08); display:flex;align-items:center;gap:8px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .input-label { font-size: 13px; font-weight: 500; color: #6E6E73; margin-bottom: 4px; display: block; }
+  .required { color: #FF3B30; }
+  .input { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 14px; padding: 10px 12px; height: 44px; width: 100%; outline: none; transition: border-color 150ms ease; }
+  .input:focus { border-color: #0071E3; box-shadow: 0 0 0 3px rgba(0,113,227,0.1); }
+  .input::placeholder { color: #AEAEB2; }
+  textarea.input { height: auto; min-height: 80px; resize: vertical; padding: 10px 12px; }
+  select.input { cursor: pointer; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .btn-primary { background: #0071E3; color: #FFFFFF; font-size: 13px; font-weight: 400; padding: 8px 20px; border-radius: 6px; border: none; cursor: pointer; height: 38px; transition: background 150ms ease; display:flex;align-items:center;gap:6px; }
+  .btn-primary:hover { background: #0059B3; }
+  .btn-outline { background: transparent; color: #6E6E73; font-size: 13px; padding: 8px 20px; border-radius: 6px; border: 0.5px solid rgba(0,0,0,0.15); cursor: pointer; height: 38px; }
+  .upload-zone { border: 1px dashed rgba(0,0,0,0.15); border-radius: 6px; padding: 24px; text-align: center; cursor: pointer; transition: border-color 150ms ease; }
+  .upload-zone:hover { border-color: #0071E3; background: rgba(0,113,227,0.02); }
+  .chip { display:inline-flex;align-items:center;gap:4px;background:#F5F5F7;border-radius:4px;padding:3px 8px;font-size:12px;color:#1D1D1F; }
+  .chip button { background:none;border:none;cursor:pointer;color:#AEAEB2;display:flex;align-items:center;padding:0; }
+  .discount-badge { display:inline-block;background:#F5F5F7;color:#AEAEB2;font-size:12px;padding:3px 8px;border-radius:4px;margin-left:8px; }
+  .warning-banner { background:#FFFCF0;border:0.5px solid rgba(255,159,10,0.3);border-radius:6px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:12px;color:#92580A; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;"><span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span><span style="font-size:11px;color:#AEAEB2;">Admin</span></a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item active"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <!-- Header -->
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <a href="A06-products-list.html" style="color:#0071E3;font-size:13px;text-decoration:none;display:flex;align-items:center;gap:4px;"><iconify-icon icon="mdi:chevron-left" width="16"></iconify-icon>상품 목록</a>
+      <iconify-icon icon="mdi:chevron-right" width="14" style="color:#AEAEB2;"></iconify-icon>
+      <span style="font-size:13px;color:#1D1D1F;">상품 등록</span>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <a href="A06-products-list.html" class="btn-outline" style="text-decoration:none;display:flex;align-items:center;">취소</a>
+      <button class="btn-primary"><iconify-icon icon="mdi:content-save-outline" width="16"></iconify-icon>저장</button>
+    </div>
+  </div>
+
+  <div style="padding:24px 32px;max-width:900px;">
+
+    <!-- Section 1: 기본 정보 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:information-outline" width="16" style="color:#0071E3;"></iconify-icon>기본 정보</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">상품명 <span class="required">*</span></label>
+          <input class="input" type="text" placeholder="상품명을 입력하세요">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">SKU <span class="required">*</span></label>
+          <div style="display:flex;gap:8px;">
+            <input class="input" type="text" placeholder="WR-XXXX-000" style="flex:1;">
+            <button class="btn-primary" style="white-space:nowrap;min-width:72px;">중복 확인</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">대분류 <span class="required">*</span></label>
+          <select class="input">
+            <option value="">대분류 선택</option>
+            <option>소스류</option><option>장류</option><option>양념/조미료</option><option>곡류/쌀</option><option>건강식품</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">소분류 <span class="required">*</span></label>
+          <select class="input">
+            <option value="">소분류 선택</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="input-label">대표 이미지 <span class="required">*</span></label>
+        <div class="upload-zone">
+          <iconify-icon icon="mdi:image-plus-outline" width="32" style="color:#AEAEB2;display:block;margin:0 auto 8px;"></iconify-icon>
+          <p style="font-size:13px;color:#6E6E73;margin:0;">클릭 또는 드래그하여 업로드</p>
+          <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">JPG, PNG, WEBP · 최대 5MB</p>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="input-label">상세 이미지</label>
+        <div class="upload-zone">
+          <iconify-icon icon="mdi:image-multiple-outline" width="32" style="color:#AEAEB2;display:block;margin:0 auto 8px;"></iconify-icon>
+          <p style="font-size:13px;color:#6E6E73;margin:0;">다중 선택 가능 · 최대 20장</p>
+          <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">JPG, PNG, WEBP · 각 5MB 이하</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: 가격 & 재고 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:currency-krw" width="16" style="color:#0071E3;"></iconify-icon>가격 &amp; 재고</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">정가 (원) <span class="required">*</span></label>
+          <input class="input" type="number" placeholder="0" id="originalPrice" oninput="calcDiscount()">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">판매가 (원) <span class="required">*</span></label>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input class="input" type="number" placeholder="0" id="salePrice" oninput="calcDiscount()" style="flex:1;">
+            <div id="discountBadge" class="discount-badge" style="white-space:nowrap;">0%<span style="font-size:10px;color:#AEAEB2;display:block;font-size:9px;">(DB 미저장)</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">재고 수량 <span class="required">*</span></label>
+          <input class="input" type="number" placeholder="0" min="0">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">과세 구분</label>
+          <select class="input"><option>과세</option><option>면세</option><option>영세</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: F&B 표기 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:food-variant" width="16" style="color:#0071E3;"></iconify-icon>F&amp;B 표기 사항</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">원산지 <span class="required">*</span></label>
+          <input class="input" type="text" placeholder="예: 국내산 (충청남도)">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">제조사 / 브랜드 <span class="required">*</span></label>
+          <input class="input" type="text" placeholder="예: 우림식품">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">유통기한</label>
+          <input class="input" type="date">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">용량</label>
+          <input class="input" type="text" placeholder="예: 500g, 1L">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="input-label">보관법</label>
+        <textarea class="input" placeholder="예: 직사광선을 피하고 서늘한 곳에 보관, 개봉 후 냉장 보관"></textarea>
+      </div>
+    </div>
+
+    <!-- Section 4: 판매 조건 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:tag-outline" width="16" style="color:#0071E3;"></iconify-icon>판매 조건</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">판매 시작일</label>
+          <input class="input" type="datetime-local">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">판매 종료일</label>
+          <input class="input" type="datetime-local">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">최소 구매 수량</label>
+          <input class="input" type="number" value="1" min="1">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">최대 구매 수량</label>
+          <input class="input" type="number" placeholder="제한 없음" min="1">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="input-label">진열 우선순위 <span style="font-size:12px;font-weight:400;color:#AEAEB2;">(숫자 클수록 상단 노출)</span></label>
+        <input class="input" type="number" value="0" style="max-width:200px;">
+      </div>
+    </div>
+
+    <!-- Section 5: 배송 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:truck-outline" width="16" style="color:#0071E3;"></iconify-icon>배송 정보</div>
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:14px;background:#F5F5F7;border-radius:6px;">
+          <input type="checkbox" id="freeShipping" style="width:16px;height:16px;margin-top:2px;cursor:pointer;" onchange="toggleFreeShipping(this)">
+          <div>
+            <label for="freeShipping" style="font-size:14px;font-weight:500;color:#1D1D1F;cursor:pointer;">무료배송 상품</label>
+            <p id="freeShipWarning" style="font-size:12px;color:#92580A;margin:4px 0 0;display:none;">
+              <iconify-icon icon="mdi:alert-outline" width="13" style="vertical-align:-2px;"></iconify-icon>
+              ON 시 이 상품을 장바구니에 담으면 전체 주문 무료배송 처리됩니다.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">무게 (g)</label>
+          <input class="input" type="number" placeholder="예: 500">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="input-label">부피</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+            <input class="input" type="number" placeholder="가로(cm)">
+            <input class="input" type="number" placeholder="세로(cm)">
+            <input class="input" type="number" placeholder="높이(cm)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: 콘텐츠 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:text-box-outline" width="16" style="color:#0071E3;"></iconify-icon>상품 설명</div>
+      <!-- Mock Rich Text Editor Toolbar -->
+      <div style="border:0.5px solid rgba(0,0,0,0.12);border-radius:6px 6px 0 0;background:#F5F5F7;padding:8px 12px;display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
+        <button style="padding:4px 8px;border-radius:4px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:700;color:#1D1D1F;">B</button>
+        <button style="padding:4px 8px;border-radius:4px;border:none;background:none;cursor:pointer;font-size:13px;font-style:italic;color:#1D1D1F;">I</button>
+        <button style="padding:4px 8px;border-radius:4px;border:none;background:none;cursor:pointer;font-size:13px;text-decoration:underline;color:#1D1D1F;">U</button>
+        <div style="width:1px;height:18px;background:rgba(0,0,0,0.1);margin:0 4px;"></div>
+        <button style="padding:4px 8px;border-radius:4px;border:none;background:none;cursor:pointer;"><iconify-icon icon="mdi:format-list-bulleted" width="14" style="color:#6E6E73;"></iconify-icon></button>
+        <button style="padding:4px 8px;border-radius:4px;border:none;background:none;cursor:pointer;"><iconify-icon icon="mdi:format-list-numbered" width="14" style="color:#6E6E73;"></iconify-icon></button>
+        <div style="width:1px;height:18px;background:rgba(0,0,0,0.1);margin:0 4px;"></div>
+        <button style="padding:4px 8px;border-radius:4px;border:none;background:none;cursor:pointer;"><iconify-icon icon="mdi:image-plus-outline" width="14" style="color:#6E6E73;"></iconify-icon></button>
+      </div>
+      <div style="border:0.5px solid rgba(0,0,0,0.12);border-top:none;border-radius:0 0 6px 6px;min-height:200px;padding:14px;font-size:14px;color:#AEAEB2;cursor:text;" contenteditable="true">
+        상품 설명을 입력하세요...
+      </div>
+    </div>
+
+    <!-- Section 7: 옵션 & 태그 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:tune" width="16" style="color:#0071E3;"></iconify-icon>옵션 &amp; 태그</div>
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <label class="input-label" style="margin-bottom:0;">상품 옵션 <span style="font-size:12px;color:#AEAEB2;">(최대 2개)</span></label>
+          <button onclick="addOption()" style="background:#F5F5F7;border:0.5px solid rgba(0,0,0,0.12);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;color:#1D1D1F;"><iconify-icon icon="mdi:plus" width="12"></iconify-icon>옵션 추가</button>
+        </div>
+        <div id="optionsContainer">
+          <div style="background:#F5F5F7;border-radius:6px;padding:14px;margin-bottom:8px;" id="option1">
+            <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin-bottom:8px;">
+              <input class="input" type="text" placeholder="옵션명 (예: 용량)" style="background:#FFFFFF;">
+              <button style="background:none;border:none;cursor:pointer;color:#AEAEB2;"><iconify-icon icon="mdi:close" width="16"></iconify-icon></button>
+            </div>
+            <div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;">
+                <span class="chip">500g<button><iconify-icon icon="mdi:close" width="10"></iconify-icon></button></span>
+                <span class="chip">1kg<button><iconify-icon icon="mdi:close" width="10"></iconify-icon></button></span>
+                <span class="chip">2kg<button><iconify-icon icon="mdi:close" width="10"></iconify-icon></button></span>
+              </div>
+              <input class="input" type="text" placeholder="값 입력 후 Enter (최대 10개)" style="background:#FFFFFF;font-size:13px;height:36px;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SKU Combination Table -->
+      <div style="margin-bottom:16px;">
+        <label class="input-label">SKU 조합 <span style="font-size:12px;color:#AEAEB2;">(자동 생성)</span></label>
+        <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:6px;overflow:hidden;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead><tr style="background:#F5F5F7;">
+              <th style="padding:8px 14px;font-size:12px;color:#AEAEB2;text-align:left;border-bottom:0.5px solid rgba(0,0,0,0.08);">옵션 조합</th>
+              <th style="padding:8px 14px;font-size:12px;color:#AEAEB2;text-align:left;border-bottom:0.5px solid rgba(0,0,0,0.08);">가격 추가분 (원)</th>
+              <th style="padding:8px 14px;font-size:12px;color:#AEAEB2;text-align:left;border-bottom:0.5px solid rgba(0,0,0,0.08);">재고</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding:8px 14px;font-size:13px;border-bottom:0.5px solid rgba(0,0,0,0.06);">500g</td><td style="padding:8px 14px;"><input style="border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:4px 8px;font-size:12px;width:80px;outline:none;" value="0"></td><td style="padding:8px 14px;"><input style="border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:4px 8px;font-size:12px;width:80px;outline:none;" value="100"></td></tr>
+              <tr><td style="padding:8px 14px;font-size:13px;border-bottom:0.5px solid rgba(0,0,0,0.06);">1kg</td><td style="padding:8px 14px;"><input style="border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:4px 8px;font-size:12px;width:80px;outline:none;" value="5000"></td><td style="padding:8px 14px;"><input style="border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:4px 8px;font-size:12px;width:80px;outline:none;" value="42"></td></tr>
+              <tr><td style="padding:8px 14px;font-size:13px;">2kg</td><td style="padding:8px 14px;"><input style="border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:4px 8px;font-size:12px;width:80px;outline:none;" value="12000"></td><td style="padding:8px 14px;"><input style="border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:4px 8px;font-size:12px;width:80px;outline:none;" value="20"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="input-label">태그</label>
+        <div style="border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px;min-height:44px;align-items:center;" onclick="this.querySelector('input').focus()">
+          <span class="chip">고추장<button><iconify-icon icon="mdi:close" width="10"></iconify-icon></button></span>
+          <span class="chip">전통발효<button><iconify-icon icon="mdi:close" width="10"></iconify-icon></button></span>
+          <span class="chip">공장직송<button><iconify-icon icon="mdi:close" width="10"></iconify-icon></button></span>
+          <input type="text" placeholder="태그 입력 후 Enter" style="border:none;outline:none;font-size:13px;color:#1D1D1F;min-width:120px;flex:1;" class="input" style="border:none;height:auto;padding:0;">
+        </div>
+        <p style="font-size:11px;color:#AEAEB2;margin-top:4px;">쉼표(,)로 구분 입력 가능</p>
+      </div>
+    </div>
+
+    <!-- Section 8: 상태 -->
+    <div class="content-card">
+      <div class="section-title"><iconify-icon icon="mdi:toggle-switch-outline" width="16" style="color:#0071E3;"></iconify-icon>판매 상태</div>
+      <div style="display:flex;gap:16px;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="radio" name="status" value="sale" checked style="width:16px;height:16px;accent-color:#0071E3;">
+          <span style="font-size:14px;color:#1D1D1F;">판매중</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="radio" name="status" value="hidden" style="width:16px;height:16px;accent-color:#0071E3;">
+          <span style="font-size:14px;color:#1D1D1F;">숨김</span>
+        </label>
+      </div>
+      <p style="font-size:12px;color:#AEAEB2;margin-top:8px;">※ 품절 상태는 재고 0 시 자동 전환됩니다.</p>
+    </div>
+
+    <!-- Footer Actions -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;">
+      <a href="A06-products-list.html" style="background:transparent;color:#6E6E73;font-size:13px;padding:8px 20px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.15);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">취소</a>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-outline" style="display:flex;align-items:center;gap:6px;"><iconify-icon icon="mdi:content-copy" width="14"></iconify-icon>임시저장</button>
+        <button class="btn-primary"><iconify-icon icon="mdi:content-save-outline" width="16"></iconify-icon>상품 등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function calcDiscount() {
+  const orig = parseInt(document.getElementById('originalPrice').value) || 0;
+  const sale = parseInt(document.getElementById('salePrice').value) || 0;
+  const badge = document.getElementById('discountBadge');
+  if (orig > 0 && sale > 0 && sale < orig) {
+    const pct = Math.round((1 - sale / orig) * 100);
+    badge.innerHTML = pct + '%<span style="font-size:9px;color:#AEAEB2;display:block;">(DB 미저장)</span>';
+    badge.style.color = '#FF3B30';
+    badge.style.background = '#FFF5F5';
+  } else {
+    badge.innerHTML = '0%<span style="font-size:9px;color:#AEAEB2;display:block;">(DB 미저장)</span>';
+    badge.style.color = '#AEAEB2';
+    badge.style.background = '#F5F5F7';
+  }
+}
+function toggleFreeShipping(cb) {
+  document.getElementById('freeShipWarning').style.display = cb.checked ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 스플래시 화면">
+<title>우림마켓 - 스플래시</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; display: flex; align-items: center; justify-content: center; }
+  .splash-screen {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, #FFF0E8 0%, #FFFBF5 60%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    position: relative;
+  }
+  .logo-badge {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #FF6B35, #FF8A80);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(255,107,53,0.3);
+    animation: fadeInScale 0.6s ease-out both;
+  }
+  .app-name {
+    font-size: 28px;
+    font-weight: 700;
+    color: #3E2723;
+    margin-top: 16px;
+    letter-spacing: -0.01em;
+    animation: fadeInUp 0.6s 0.2s ease-out both;
+  }
+  .tagline {
+    font-size: 14px;
+    font-weight: 400;
+    color: #6D4C41;
+    margin-top: 8px;
+    animation: fadeInUp 0.6s 0.3s ease-out both;
+  }
+  .loading-dots {
+    position: absolute;
+    bottom: 60px;
+    display: flex;
+    gap: 8px;
+    animation: fadeInUp 0.6s 0.5s ease-out both;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: #FF6B35;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: dotPulse 1.2s infinite ease-in-out;
+  }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+  @keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="splash-screen">
+    <div class="logo-badge">
+      <iconify-icon icon="mdi:store" width="40" style="color:#FFFFFF;"></iconify-icon>
+    </div>
+    <p class="app-name">우림마켓</p>
+    <p class="tagline">공장도 가격 직배송</p>
+    <div class="loading-dots" role="status" aria-label="로딩 중">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+<script>
+  // Simulate auto-redirect after 2 seconds
+  setTimeout(() => {
+    // session valid → 07-home.html, invalid → 02-login.html
+    // For prototype: redirect to login
+    // window.location.href = '02-login.html';
+  }, 2000);
+</script>
+</body>
+</html>

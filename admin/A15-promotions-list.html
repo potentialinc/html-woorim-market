@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>기획전 관리 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 400; color: #AEAEB2; padding: 10px 14px; border-bottom: 0.5px solid rgba(0,0,0,0.08); white-space: nowrap; }
+  td { font-size: 13px; padding: 10px 14px; border-bottom: 0.5px solid rgba(0,0,0,0.06); color: #1D1D1F; vertical-align: middle; }
+  tr:hover td { background: #F5F5F7; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .input { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 14px; padding: 10px 12px; height: 44px; width: 100%; outline: none; transition: border-color 150ms ease; }
+  .input:focus { border-color: #0071E3; box-shadow: 0 0 0 3px rgba(0,113,227,0.1); }
+  .input::placeholder { color: #AEAEB2; }
+  .input-label { font-size: 13px; font-weight: 500; color: #6E6E73; margin-bottom: 4px; display: block; }
+  .btn-primary { background: #0071E3; color: #FFFFFF; font-size: 13px; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; height: 36px; display:flex;align-items:center;gap:6px; transition:background 150ms; }
+  .btn-primary:hover { background: #0059B3; }
+  .btn-outline { background: transparent; color: #6E6E73; font-size: 13px; padding: 8px 16px; border-radius: 6px; border: 0.5px solid rgba(0,0,0,0.15); cursor: pointer; height: 36px; display:flex;align-items:center;gap:4px; }
+  .badge { font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 4px; }
+  .select { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 14px; padding: 10px 12px; height: 44px; width: 100%; outline: none; }
+  .form-group { margin-bottom: 16px; }
+  .section-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); margin-bottom: 16px; }
+  .section-header { padding: 16px 20px; border-bottom: 0.5px solid rgba(0,0,0,0.06); display:flex; justify-content:space-between; align-items:center; }
+  .product-chip { display:inline-flex; align-items:center; gap:6px; background:#F5F5F7; border-radius:20px; padding:4px 12px; font-size:12px; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;"><span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span><span style="font-size:11px;color:#AEAEB2;">Admin</span></a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item active"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content: List View (shown by default) -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;" id="listView">
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <div>
+      <h1 style="font-size:24px;font-weight:300;margin:0;letter-spacing:-0.015em;">기획전 관리</h1>
+      <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">총 6개 기획전</p>
+    </div>
+    <button class="btn-primary" onclick="showEditView('new')">
+      <iconify-icon icon="mdi:plus" width="16"></iconify-icon>기획전 등록
+    </button>
+  </div>
+
+  <div style="padding:24px 32px;">
+    <!-- Filter -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <select class="select" style="width:140px;height:36px;font-size:13px;padding:8px 12px;">
+        <option>전체 상태</option>
+        <option>예약</option>
+        <option>진행중</option>
+        <option>종료</option>
+      </select>
+      <input type="text" style="background:#FFFFFF;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;font-size:13px;padding:8px 12px;height:36px;width:240px;outline:none;" placeholder="기획전명 검색">
+      <div style="flex:1;"></div>
+      <span style="font-size:12px;color:#AEAEB2;line-height:36px;">총 6개</span>
+    </div>
+
+    <!-- Table -->
+    <div class="content-card">
+      <table>
+        <thead>
+          <tr>
+            <th>제목</th>
+            <th style="width:160px;">대표이미지</th>
+            <th>노출 기간</th>
+            <th style="width:80px;text-align:center;">상태</th>
+            <th style="width:80px;text-align:center;">상품 수</th>
+            <th style="width:120px;text-align:center;">액션</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div style="font-size:13px;font-weight:500;">봄철 신선 채소 묶음 기획전</div>
+              <div style="font-size:11px;color:#AEAEB2;margin-top:2px;">슬러그: spring-veggie-2026</div>
+            </td>
+            <td>
+              <div style="width:120px;height:64px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:4px;border:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;">
+                <iconify-icon icon="mdi:image-outline" width="20" style="color:#AEAEB2;"></iconify-icon>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:12px;">2026.04.01 ~ 2026.04.30</div>
+              <div style="font-size:11px;color:#34C759;margin-top:2px;">진행중</div>
+            </td>
+            <td style="text-align:center;"><span class="badge" style="background:#E8F5E9;color:#2E7D32;">진행중</span></td>
+            <td style="text-align:center;"><span style="font-size:13px;font-weight:500;">8</span></td>
+            <td style="text-align:center;">
+              <div style="display:flex;gap:6px;justify-content:center;">
+                <button class="btn-outline" style="height:28px;font-size:11px;padding:4px 10px;" onclick="showEditView('edit')">수정</button>
+                <button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;padding:4px;"><iconify-icon icon="mdi:delete-outline" width="14"></iconify-icon></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-size:13px;font-weight:500;">국내산 과일 선물세트 기획전</div>
+              <div style="font-size:11px;color:#AEAEB2;margin-top:2px;">슬러그: fruit-gift-2026</div>
+            </td>
+            <td>
+              <div style="width:120px;height:64px;background:linear-gradient(135deg,#fff3e0,#ffe0b2);border-radius:4px;border:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;">
+                <iconify-icon icon="mdi:image-outline" width="20" style="color:#AEAEB2;"></iconify-icon>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:12px;">2026.05.01 ~ 2026.05.31</div>
+              <div style="font-size:11px;color:#FF9500;margin-top:2px;">예약 (D+15)</div>
+            </td>
+            <td style="text-align:center;"><span class="badge" style="background:#FFF3E0;color:#E65100;">예약</span></td>
+            <td style="text-align:center;"><span style="font-size:13px;font-weight:500;">12</span></td>
+            <td style="text-align:center;">
+              <div style="display:flex;gap:6px;justify-content:center;">
+                <button class="btn-outline" style="height:28px;font-size:11px;padding:4px 10px;" onclick="showEditView('edit')">수정</button>
+                <button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;padding:4px;"><iconify-icon icon="mdi:delete-outline" width="14"></iconify-icon></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-size:13px;font-weight:500;color:#AEAEB2;">설 한우 특선 기획전</div>
+              <div style="font-size:11px;color:#AEAEB2;margin-top:2px;">슬러그: lunar-hanwoo-2026</div>
+            </td>
+            <td>
+              <div style="width:120px;height:64px;background:#F5F5F7;border-radius:4px;border:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;">
+                <iconify-icon icon="mdi:image-off-outline" width="20" style="color:#AEAEB2;"></iconify-icon>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:12px;color:#AEAEB2;">2026.01.20 ~ 2026.02.10</div>
+              <div style="font-size:11px;color:#AEAEB2;margin-top:2px;">종료</div>
+            </td>
+            <td style="text-align:center;"><span class="badge" style="background:#F5F5F7;color:#AEAEB2;">종료</span></td>
+            <td style="text-align:center;"><span style="font-size:13px;color:#AEAEB2;">15</span></td>
+            <td style="text-align:center;">
+              <div style="display:flex;gap:6px;justify-content:center;">
+                <button class="btn-outline" style="height:28px;font-size:11px;padding:4px 10px;" onclick="showEditView('edit')">수정</button>
+                <button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;padding:4px;"><iconify-icon icon="mdi:delete-outline" width="14"></iconify-icon></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Edit/Create Page (Full-page form, hidden by default) -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;display:none;" id="editView">
+  <!-- Sticky Header with breadcrumb -->
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <button onclick="showListView()" style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:12px;display:flex;align-items:center;gap:4px;">
+          <iconify-icon icon="mdi:chevron-left" width="14"></iconify-icon>기획전 목록
+        </button>
+      </div>
+      <h1 style="font-size:24px;font-weight:300;margin:0;letter-spacing:-0.015em;" id="editPageTitle">기획전 등록</h1>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="showListView()" class="btn-outline">취소</button>
+      <button class="btn-primary">저장</button>
+    </div>
+  </div>
+
+  <div style="padding:24px 32px;max-width:900px;">
+
+    <!-- Section: 기본 정보 -->
+    <div class="section-card">
+      <div class="section-header">
+        <span style="font-size:14px;font-weight:500;">기본 정보</span>
+      </div>
+      <div style="padding:20px;">
+        <div class="form-group">
+          <label class="input-label">기획전 제목 <span style="color:#FF3B30;">*</span></label>
+          <input type="text" class="input" value="봄철 신선 채소 묶음 기획전" placeholder="기획전 제목 입력">
+        </div>
+        <div class="form-group">
+          <label class="input-label">대표 배너 이미지 <span style="color:#FF3B30;">*</span></label>
+          <div style="border:0.5px dashed rgba(0,0,0,0.2);border-radius:8px;padding:24px;text-align:center;cursor:pointer;background:#FAFAFA;position:relative;">
+            <div style="width:240px;height:128px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;">
+              <iconify-icon icon="mdi:image-outline" width="32" style="color:#AEAEB2;"></iconify-icon>
+            </div>
+            <p style="font-size:12px;color:#6E6E73;margin:0;">spring-veggie-banner.jpg</p>
+            <p style="font-size:11px;color:#AEAEB2;margin:4px 0 0;">권장 1125×600px · 3MB 이하</p>
+            <button class="btn-outline" style="margin-top:10px;height:32px;font-size:12px;">이미지 교체</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="input-label">노출 기간 <span style="color:#FF3B30;">*</span></label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="date" class="input" value="2026-04-01" style="flex:1;">
+            <span style="font-size:13px;color:#6E6E73;">~</span>
+            <input type="date" class="input" value="2026-04-30" style="flex:1;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="input-label">상태</label>
+          <select class="select">
+            <option>진행중</option>
+            <option>예약</option>
+            <option>종료</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: 설명 -->
+    <div class="section-card">
+      <div class="section-header">
+        <span style="font-size:14px;font-weight:500;">설명 (Rich Text)</span>
+      </div>
+      <div style="padding:20px;">
+        <!-- Mock Rich Text Editor -->
+        <div style="border:0.5px solid rgba(0,0,0,0.12);border-radius:6px;overflow:hidden;">
+          <div style="background:#F5F5F7;padding:8px 12px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;gap:12px;">
+            <button style="background:none;border:none;cursor:pointer;font-weight:700;font-size:13px;color:#1D1D1F;">B</button>
+            <button style="background:none;border:none;cursor:pointer;font-style:italic;font-size:13px;color:#1D1D1F;">I</button>
+            <button style="background:none;border:none;cursor:pointer;font-size:13px;text-decoration:underline;color:#1D1D1F;">U</button>
+            <span style="width:0.5px;height:20px;background:rgba(0,0,0,0.1);margin:0 4px;display:inline-block;"></span>
+            <button style="background:none;border:none;cursor:pointer;font-size:12px;color:#6E6E73;">H1</button>
+            <button style="background:none;border:none;cursor:pointer;font-size:12px;color:#6E6E73;">H2</button>
+            <button style="background:none;border:none;cursor:pointer;font-size:12px;color:#6E6E73;">목록</button>
+          </div>
+          <div style="padding:16px;min-height:120px;font-size:14px;line-height:1.6;color:#1D1D1F;" contenteditable="true">
+            봄철 제철 채소를 특별한 가격에 만나보세요. 우림마켓이 엄선한 국내산 신선 채소를 묶음 패키지로 제공합니다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: 상품 묶음 -->
+    <div class="section-card">
+      <div class="section-header">
+        <span style="font-size:14px;font-weight:500;">상품 묶음 <span style="font-size:12px;color:#AEAEB2;font-weight:400;">8개 선택됨</span></span>
+        <button class="btn-outline" style="height:32px;font-size:12px;" onclick="document.getElementById('productSearchBox').style.display='block'">
+          <iconify-icon icon="mdi:plus" width="14"></iconify-icon>상품 추가
+        </button>
+      </div>
+      <div style="padding:20px;">
+        <!-- Product Search Box -->
+        <div id="productSearchBox" style="display:none;background:#F5F5F7;border-radius:8px;padding:16px;margin-bottom:16px;">
+          <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <input type="text" style="flex:1;background:#FFFFFF;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;font-size:13px;padding:8px 12px;height:36px;outline:none;" placeholder="상품명 또는 코드 검색">
+            <button class="btn-primary" style="height:36px;">검색</button>
+          </div>
+          <!-- Search Results Mock -->
+          <div style="background:#FFFFFF;border:0.5px solid rgba(0,0,0,0.08);border-radius:6px;overflow:hidden;">
+            <div style="padding:10px 14px;border-bottom:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:10px;cursor:pointer;" onmouseenter="this.style.background='#F5F5F7'" onmouseleave="this.style.background=''">
+              <input type="checkbox" style="accent-color:#0071E3;">
+              <div style="width:40px;height:40px;background:#e8f5e9;border-radius:4px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:13px;font-weight:500;">공직 직판 유기농 시금치 200g</div>
+                <div style="font-size:11px;color:#AEAEB2;">3,800원 · 재고 142</div>
+              </div>
+              <button class="btn-primary" style="margin-left:auto;height:28px;font-size:11px;padding:4px 10px;">추가</button>
+            </div>
+            <div style="padding:10px 14px;border-bottom:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:10px;cursor:pointer;" onmouseenter="this.style.background='#F5F5F7'" onmouseleave="this.style.background=''">
+              <input type="checkbox" style="accent-color:#0071E3;">
+              <div style="width:40px;height:40px;background:#e8f5e9;border-radius:4px;flex-shrink:0;"></div>
+              <div>
+                <div style="font-size:13px;font-weight:500;">국내산 완두콩 1kg</div>
+                <div style="font-size:11px;color:#AEAEB2;">8,500원 · 재고 67</div>
+              </div>
+              <button class="btn-primary" style="margin-left:auto;height:28px;font-size:11px;padding:4px 10px;">추가</button>
+            </div>
+          </div>
+          <button onclick="document.getElementById('productSearchBox').style.display='none'" style="background:none;border:none;cursor:pointer;color:#6E6E73;font-size:12px;margin-top:8px;">닫기</button>
+        </div>
+
+        <!-- Selected Products List (Drag Reorder) -->
+        <div style="display:flex;flex-direction:column;gap:4px;" id="productList">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#FAFAFA;border:0.5px solid rgba(0,0,0,0.06);border-radius:6px;cursor:grab;">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;"></iconify-icon>
+            <div style="width:40px;height:40px;background:#e8f5e9;border-radius:4px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:500;">공직 직판 유기농 시금치 200g</div>
+              <div style="font-size:11px;color:#AEAEB2;">3,800원</div>
+            </div>
+            <button style="background:none;border:none;cursor:pointer;color:#AEAEB2;"><iconify-icon icon="mdi:close" width="14"></iconify-icon></button>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#FAFAFA;border:0.5px solid rgba(0,0,0,0.06);border-radius:6px;cursor:grab;">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;"></iconify-icon>
+            <div style="width:40px;height:40px;background:#e8f5e9;border-radius:4px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:500;">국내산 완두콩 1kg</div>
+              <div style="font-size:11px;color:#AEAEB2;">8,500원</div>
+            </div>
+            <button style="background:none;border:none;cursor:pointer;color:#AEAEB2;"><iconify-icon icon="mdi:close" width="14"></iconify-icon></button>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#FAFAFA;border:0.5px solid rgba(0,0,0,0.06);border-radius:6px;cursor:grab;">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;"></iconify-icon>
+            <div style="width:40px;height:40px;background:#c8e6c9;border-radius:4px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:500;">친환경 열무 500g</div>
+              <div style="font-size:11px;color:#AEAEB2;">2,900원</div>
+            </div>
+            <button style="background:none;border:none;cursor:pointer;color:#AEAEB2;"><iconify-icon icon="mdi:close" width="14"></iconify-icon></button>
+          </div>
+        </div>
+        <p style="font-size:11px;color:#AEAEB2;margin-top:8px;"><iconify-icon icon="mdi:drag" width="12"></iconify-icon> 드래그하여 노출 순서를 조정하세요</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showEditView(mode) {
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('editView').style.display = 'flex';
+  document.getElementById('editView').style.flexDirection = 'column';
+  document.getElementById('editPageTitle').textContent = mode === 'new' ? '기획전 등록' : '기획전 수정';
+}
+function showListView() {
+  document.getElementById('listView').style.display = 'flex';
+  document.getElementById('listView').style.flexDirection = 'column';
+  document.getElementById('editView').style.display = 'none';
+}
+</script>
+</body>
+</html>

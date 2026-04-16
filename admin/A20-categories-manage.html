@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .input { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 14px; padding: 10px 12px; height: 44px; width: 100%; outline: none; transition: border-color 150ms ease; }
+  .input:focus { border-color: #0071E3; box-shadow: 0 0 0 3px rgba(0,113,227,0.1); }
+  .input::placeholder { color: #AEAEB2; }
+  .input-label { font-size: 13px; font-weight: 500; color: #6E6E73; margin-bottom: 4px; display: block; }
+  .btn-primary { background: #0071E3; color: #FFFFFF; font-size: 13px; font-weight: 400; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; display:flex;align-items:center;gap:6px; transition: background 150ms ease; }
+  .btn-primary:hover { background: #0059B3; }
+  .btn-outline { background: transparent; color: #6E6E73; font-size: 13px; padding: 8px 16px; border-radius: 6px; border: 0.5px solid rgba(0,0,0,0.15); cursor: pointer; }
+  .btn-outline:hover { background: #F5F5F7; }
+  .cat-parent { display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:6px;cursor:pointer;border-bottom:0.5px solid rgba(0,0,0,0.06); }
+  .cat-parent:hover { background:#F5F5F7; }
+  .cat-parent:hover .cat-actions { opacity:1; }
+  .cat-child { display:flex;align-items:center;gap:8px;padding:8px 12px 8px 32px;cursor:pointer;border-bottom:0.5px solid rgba(0,0,0,0.04); }
+  .cat-child:hover { background:#F5F5F7; }
+  .cat-child:hover .cat-actions { opacity:1; }
+  .cat-actions { opacity:0;display:flex;gap:4px;margin-left:auto;transition:opacity 150ms ease; }
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span>
+      <span style="font-size:11px;color:#AEAEB2;font-weight:400;">Admin</span>
+    </a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item active"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;color:#1D1D1F;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <div>
+      <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">2단계 트리 구조 · 대분류 5개</p>
+    </div>
+    <button class="btn-primary" onclick="openCatModal()">
+      <iconify-icon icon="mdi:plus" width="16"></iconify-icon>대분류 추가
+    </button>
+  </div>
+
+  <div style="padding:24px 32px;">
+    <div style="display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start;">
+      <!-- Category Tree -->
+      <div class="content-card" style="overflow:hidden;">
+        <div style="padding:12px 16px;border-bottom:0.5px solid rgba(0,0,0,0.08);font-size:13px;font-weight:500;color:#1D1D1F;">
+          카테고리 트리
+        </div>
+
+        <!-- 소스류 -->
+        <div>
+          <div class="cat-parent" onclick="selectCat('소스류','parent',null)">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;cursor:grab;"></iconify-icon>
+            <iconify-icon icon="mdi:chevron-down" width="14" style="color:#6E6E73;"></iconify-icon>
+            <span style="font-size:14px;font-weight:500;color:#1D1D1F;">소스류</span>
+            <span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 6px;border-radius:3px;margin-left:4px;">34개</span>
+            <div class="cat-actions">
+              <button onclick="event.stopPropagation();selectCat('소스류','parent',null)" style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button>
+              <button onclick="event.stopPropagation();showDeleteBlock()" style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button>
+            </div>
+          </div>
+          <div class="cat-child" onclick="selectCat('양념 소스','child','소스류')">
+            <iconify-icon icon="mdi:drag" width="14" style="color:#AEAEB2;cursor:grab;"></iconify-icon>
+            <span style="font-size:13px;color:#1D1D1F;">양념 소스</span>
+            <span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 5px;border-radius:3px;margin-left:4px;">12개</span>
+            <div class="cat-actions">
+              <button onclick="event.stopPropagation();selectCat('양념 소스','child','소스류')" style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button>
+              <button onclick="event.stopPropagation()" style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button>
+            </div>
+          </div>
+          <div class="cat-child" onclick="selectCat('핫소스','child','소스류')">
+            <iconify-icon icon="mdi:drag" width="14" style="color:#AEAEB2;cursor:grab;"></iconify-icon>
+            <span style="font-size:13px;color:#1D1D1F;">핫소스</span>
+            <span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 5px;border-radius:3px;margin-left:4px;">8개</span>
+            <div class="cat-actions">
+              <button onclick="event.stopPropagation();selectCat('핫소스','child','소스류')" style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button>
+              <button onclick="event.stopPropagation()" style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button>
+            </div>
+          </div>
+          <div style="padding:6px 12px 6px 32px;">
+            <button onclick="selectCat('','child','소스류')" style="font-size:12px;color:#0071E3;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;">
+              <iconify-icon icon="mdi:plus" width="12"></iconify-icon>소분류 추가
+            </button>
+          </div>
+        </div>
+
+        <!-- 장류 -->
+        <div>
+          <div class="cat-parent" onclick="selectCat('장류','parent',null)">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;cursor:grab;"></iconify-icon>
+            <iconify-icon icon="mdi:chevron-down" width="14" style="color:#6E6E73;"></iconify-icon>
+            <span style="font-size:14px;font-weight:500;color:#1D1D1F;">장류</span>
+            <span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 6px;border-radius:3px;margin-left:4px;">28개</span>
+            <div class="cat-actions">
+              <button onclick="event.stopPropagation();selectCat('장류','parent',null)" style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button>
+              <button onclick="event.stopPropagation();showDeleteBlock()" style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button>
+            </div>
+          </div>
+          <div class="cat-child"><iconify-icon icon="mdi:drag" width="14" style="color:#AEAEB2;cursor:grab;"></iconify-icon><span style="font-size:13px;">고추장</span><span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 5px;border-radius:3px;margin-left:4px;">10개</span><div class="cat-actions"><button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button><button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button></div></div>
+          <div class="cat-child"><iconify-icon icon="mdi:drag" width="14" style="color:#AEAEB2;cursor:grab;"></iconify-icon><span style="font-size:13px;">된장</span><span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 5px;border-radius:3px;margin-left:4px;">9개</span><div class="cat-actions"><button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button><button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button></div></div>
+          <div class="cat-child"><iconify-icon icon="mdi:drag" width="14" style="color:#AEAEB2;cursor:grab;"></iconify-icon><span style="font-size:13px;">간장</span><span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 5px;border-radius:3px;margin-left:4px;">9개</span><div class="cat-actions"><button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button><button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button></div></div>
+          <div style="padding:6px 12px 6px 32px;"><button style="font-size:12px;color:#0071E3;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;"><iconify-icon icon="mdi:plus" width="12"></iconify-icon>소분류 추가</button></div>
+        </div>
+
+        <!-- 양념/조미료 -->
+        <div>
+          <div class="cat-parent">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;cursor:grab;"></iconify-icon>
+            <iconify-icon icon="mdi:chevron-right" width="14" style="color:#6E6E73;"></iconify-icon>
+            <span style="font-size:14px;font-weight:500;color:#1D1D1F;">양념/조미료</span>
+            <span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 6px;border-radius:3px;margin-left:4px;">21개</span>
+            <div class="cat-actions"><button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button><button onclick="showDeleteBlock()" style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button></div>
+          </div>
+        </div>
+
+        <!-- 곡류/쌀 -->
+        <div>
+          <div class="cat-parent">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;cursor:grab;"></iconify-icon>
+            <iconify-icon icon="mdi:chevron-right" width="14" style="color:#6E6E73;"></iconify-icon>
+            <span style="font-size:14px;font-weight:500;color:#1D1D1F;">곡류/쌀</span>
+            <span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 6px;border-radius:3px;margin-left:4px;">15개</span>
+            <div class="cat-actions"><button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button><button onclick="showDeleteBlock()" style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button></div>
+          </div>
+        </div>
+
+        <!-- 건강식품 -->
+        <div>
+          <div class="cat-parent" style="border-bottom:none;">
+            <iconify-icon icon="mdi:drag" width="16" style="color:#AEAEB2;cursor:grab;"></iconify-icon>
+            <iconify-icon icon="mdi:chevron-right" width="14" style="color:#6E6E73;"></iconify-icon>
+            <span style="font-size:14px;font-weight:500;color:#1D1D1F;">건강식품</span>
+            <span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:1px 6px;border-radius:3px;margin-left:4px;">0개</span>
+            <div class="cat-actions"><button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:pencil-outline" width="12"></iconify-icon>수정</button><button style="background:none;border:none;cursor:pointer;color:#FF3B30;font-size:11px;display:flex;align-items:center;gap:2px;"><iconify-icon icon="mdi:trash-can-outline" width="12"></iconify-icon>삭제</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Panel -->
+      <div id="editPanel" class="content-card" style="padding:24px;">
+        <div id="noSelect" style="text-align:center;padding:40px 0;">
+          <iconify-icon icon="mdi:shape-outline" width="40" style="color:#AEAEB2;display:block;margin:0 auto 12px;"></iconify-icon>
+          <p style="font-size:14px;color:#AEAEB2;">카테고리를 선택하면 편집 패널이 열립니다</p>
+        </div>
+        <div id="editForm" style="display:none;">
+          <h3 id="editTitle" style="font-size:16px;font-weight:500;margin-bottom:20px;"></h3>
+          <div style="margin-bottom:16px;">
+            <label class="input-label">카테고리명 <span style="color:#FF3B30;">*</span></label>
+            <input class="input" id="catName" type="text" placeholder="카테고리명 입력">
+          </div>
+          <div id="parentField" style="margin-bottom:16px;display:none;">
+            <label class="input-label">상위 카테고리</label>
+            <select class="input" id="parentSelect">
+              <option>소스류</option><option>장류</option><option>양념/조미료</option><option>곡류/쌀</option><option>건강식품</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:0.5px solid rgba(0,0,0,0.06);border-bottom:0.5px solid rgba(0,0,0,0.06);margin-bottom:16px;">
+            <span style="font-size:14px;color:#1D1D1F;">활성화</span>
+            <div id="activeToggle" style="width:40px;height:22px;background:#30D158;border-radius:11px;position:relative;cursor:pointer;" onclick="toggleActive(this)">
+              <div style="width:18px;height:18px;background:#FFFFFF;border-radius:50%;position:absolute;right:2px;top:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button onclick="closeEdit()" class="btn-outline" style="flex:1;">취소</button>
+            <button class="btn-primary" style="flex:2;justify-content:center;">저장</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Blocked Modal -->
+<div class="modal-overlay" id="deleteBlockModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div style="background:#FFFFFF;border-radius:10px;padding:24px;max-width:400px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.1);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="width:40px;height:40px;background:#FFF5F5;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <iconify-icon icon="mdi:alert-circle-outline" width="20" style="color:#FF3B30;"></iconify-icon>
+      </div>
+      <h3 style="font-size:16px;font-weight:500;color:#1D1D1F;">삭제 불가</h3>
+    </div>
+    <p style="font-size:14px;color:#6E6E73;line-height:1.6;margin-bottom:20px;">하위 상품이 있어 삭제할 수 없습니다.<br>상품을 다른 카테고리로 이동 후 삭제해 주세요.</p>
+    <div style="display:flex;justify-content:flex-end;">
+      <button onclick="document.getElementById('deleteBlockModal').classList.remove('open')" class="btn-primary">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Category Modal -->
+<div class="modal-overlay" id="catModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div style="background:#FFFFFF;border-radius:10px;width:400px;box-shadow:0 8px 32px rgba(0,0,0,0.1);">
+    <div style="padding:20px 24px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;">
+      <h2 style="font-size:16px;font-weight:500;margin:0;">대분류 추가</h2>
+      <button onclick="document.getElementById('catModal').classList.remove('open')" style="background:none;border:none;cursor:pointer;color:#6E6E73;"><iconify-icon icon="mdi:close" width="20"></iconify-icon></button>
+    </div>
+    <div style="padding:24px;">
+      <label class="input-label">카테고리명 <span style="color:#FF3B30;">*</span></label>
+      <input class="input" type="text" placeholder="예: 발효식품">
+    </div>
+    <div style="padding:16px 24px;border-top:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:flex-end;gap:8px;">
+      <button onclick="document.getElementById('catModal').classList.remove('open')" class="btn-outline">취소</button>
+      <button class="btn-primary">추가</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function selectCat(name, type, parent) {
+  document.getElementById('noSelect').style.display = 'none';
+  document.getElementById('editForm').style.display = 'block';
+  document.getElementById('catName').value = name;
+  document.getElementById('editTitle').textContent = name ? name + ' 수정' : '소분류 추가';
+  const pf = document.getElementById('parentField');
+  pf.style.display = type === 'child' ? 'block' : 'none';
+  if (parent) document.getElementById('parentSelect').value = parent;
+}
+function closeEdit() {
+  document.getElementById('editForm').style.display = 'none';
+  document.getElementById('noSelect').style.display = 'block';
+}
+function openCatModal() {
+  document.getElementById('catModal').classList.add('open');
+}
+function showDeleteBlock() {
+  document.getElementById('deleteBlockModal').classList.add('open');
+}
+function toggleActive(el) {
+  const isOn = el.style.background === 'rgb(48, 209, 88)';
+  el.style.background = isOn ? '#E5E5EA' : '#30D158';
+}
+</script>
+</body>
+</html>

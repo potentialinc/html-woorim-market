@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 알림 설정</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+  /* iOS-style toggle */
+  .toggle-wrap { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #F5EDE4; background: #FFFFFF; }
+  .toggle-wrap:last-child { border-bottom: none; }
+  .ios-toggle { position: relative; width: 46px; height: 26px; cursor: pointer; flex-shrink: 0; }
+  .ios-toggle input { opacity: 0; width: 0; height: 0; }
+  .ios-slider { position: absolute; inset: 0; background: #D4C4B8; border-radius: 13px; transition: background 0.25s; }
+  .ios-slider::before { content: ''; position: absolute; width: 22px; height: 22px; left: 2px; top: 2px; background: #FFFFFF; border-radius: 50%; transition: transform 0.25s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+  .ios-toggle input:checked + .ios-slider { background: #FF6B35; }
+  .ios-toggle input:checked + .ios-slider::before { transform: translateX(20px); }
+  .section-header { padding: 10px 16px 6px; background: #FFFBF5; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">알림 설정</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <!-- Global toggle -->
+    <div style="margin-top:8px;background:#FFFFFF;">
+      <div class="toggle-wrap" style="border-bottom:2px solid #F0E0D0;">
+        <div>
+          <p style="font-size:15px;font-weight:700;color:#3E2723;">전체 알림</p>
+          <p style="font-size:12px;color:#A1887F;margin-top:2px;">모든 알림을 켜거나 끕니다</p>
+        </div>
+        <label class="ios-toggle"><input type="checkbox" checked onchange="toggleAll(this)"><span class="ios-slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Order Notifications -->
+    <div style="margin-top:10px;">
+      <div class="section-header"><p style="font-size:12px;font-weight:700;color:#A1887F;">주문/배송 알림</p></div>
+      <div style="background:#FFFFFF;">
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">주문 완료</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">결제 및 주문 확인 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">배송 출발</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">상품 발송 시 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">배송 완료</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">배송 도착 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">구매확정 예정</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">자동 구매확정 D-1 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Notifications -->
+    <div style="margin-top:10px;">
+      <div class="section-header"><p style="font-size:12px;font-weight:700;color:#A1887F;">활동 알림</p></div>
+      <div style="background:#FFFFFF;">
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">1:1 문의 답변</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">문의 답변 등록 시 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">포인트 적립/만료</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">포인트 변동 및 만료 14일 전 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">쿠폰 만료 임박</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">쿠폰 만료 3일 전 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">찜 상품 재입고</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">품절 찜 상품 재입고 알림</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox"><span class="ios-slider"></span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marketing Notifications -->
+    <div style="margin-top:10px;">
+      <div class="section-header"><p style="font-size:12px;font-weight:700;color:#A1887F;">마케팅 알림 (선택)</p></div>
+      <div style="background:#FFFFFF;">
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">이벤트/기획전</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">신규 기획전 및 할인 정보</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox" checked><span class="ios-slider"></span></label>
+        </div>
+        <div class="toggle-wrap">
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#3E2723;">야간 마케팅 알림</p>
+            <p style="font-size:11px;color:#A1887F;margin-top:1px;">21:00 ~ 08:00 마케팅 알림 허용</p>
+          </div>
+          <label class="ios-toggle"><input type="checkbox"><span class="ios-slider"></span></label>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;color:#A1887F;text-align:center;padding:16px;">마케팅 알림 동의는 언제든지 철회 가능합니다.</p>
+  </div>
+<script>
+function toggleAll(el) {
+  document.querySelectorAll('.ios-toggle input[type="checkbox"]').forEach(t => {
+    if (t !== el) t.checked = el.checked;
+  });
+}
+</script>
+</body>
+</html>

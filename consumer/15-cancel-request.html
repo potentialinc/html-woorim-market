@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 취소 신청">
+<title>우림마켓 - 취소 신청</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header {
+    height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 0; position: sticky; top: 0; z-index: 10;
+  }
+  .radio-row {
+    display: flex; align-items: center; gap: 10px; padding: 12px 0;
+    border-bottom: 1px solid #F5EDE4; cursor: pointer;
+  }
+  .radio-row:last-child { border-bottom: none; }
+  .radio-dot {
+    width: 20px; height: 20px; border-radius: 50%; border: 2px solid #F0E0D0;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 150ms;
+  }
+  .radio-dot.selected { border-color: #FF6B35; background: #FF6B35; }
+  .btn-primary {
+    width: 100%; height: 50px; background: #FF6B35; color: #FFFFFF;
+    border: none; border-radius: 12px; font-size: 15px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;">
+        <iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon>
+        <iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon>
+        <iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon>
+      </div>
+    </div>
+    <header class="sub-header">
+      <a href="14-order-detail.html" style="padding:4px;display:flex;" aria-label="뒤로가기">
+        <iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon>
+      </a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">취소 신청</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <main style="padding:16px;">
+      <!-- Order Summary -->
+      <div style="background:#FFFFFF;border-radius:16px;padding:14px;margin-bottom:16px;box-shadow:0 4px 12px rgba(62,39,35,0.06);display:flex;gap:10px;align-items:center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장 500g" style="width:52px;height:52px;border-radius:10px;object-fit:cover;">
+        <div>
+          <p style="font-size:13px;font-weight:500;color:#3E2723;margin-bottom:2px;">우림 전통 고추장 500g</p>
+          <p style="font-size:12px;color:#A1887F;">500g · 수량 2 · 17,800원</p>
+        </div>
+      </div>
+
+      <!-- Cancel Reason -->
+      <div style="background:#FFFFFF;border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(62,39,35,0.06);">
+        <p style="font-size:14px;font-weight:600;color:#3E2723;margin-bottom:10px;">취소 사유</p>
+        <div id="reasons">
+          <div class="radio-row" onclick="selectReason(this, false)">
+            <div class="radio-dot selected"><div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;"></div></div>
+            <span style="font-size:14px;color:#3E2723;">단순 변심</span>
+          </div>
+          <div class="radio-row" onclick="selectReason(this, false)">
+            <div class="radio-dot"></div>
+            <span style="font-size:14px;color:#3E2723;">상품 정보 불일치</span>
+          </div>
+          <div class="radio-row" onclick="selectReason(this, false)">
+            <div class="radio-dot"></div>
+            <span style="font-size:14px;color:#3E2723;">배송 지연</span>
+          </div>
+          <div class="radio-row" onclick="selectReason(this, true)">
+            <div class="radio-dot"></div>
+            <span style="font-size:14px;color:#3E2723;">기타</span>
+          </div>
+        </div>
+        <!-- 기타 textarea (hidden) -->
+        <textarea id="other-reason" placeholder="기타 사유를 입력해 주세요" style="display:none;width:100%;min-height:100px;border:1.5px solid #F0E0D0;border-radius:12px;padding:12px;font-size:13px;color:#3E2723;font-family:inherit;outline:none;resize:none;margin-top:8px;" maxlength="300"></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button class="btn-primary" onclick="submitCancel()">취소 신청하기</button>
+      <p style="font-size:12px;color:#A1887F;margin-top:12px;text-align:center;line-height:1.5;">취소 승인 후 영업일 기준 3~5일 내 환불됩니다</p>
+    </main>
+  </div>
+<script>
+function selectReason(row, showTextarea) {
+  document.querySelectorAll('.radio-dot').forEach(d => { d.classList.remove('selected'); d.innerHTML = ''; });
+  row.querySelector('.radio-dot').classList.add('selected');
+  row.querySelector('.radio-dot').innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;"></div>';
+  document.getElementById('other-reason').style.display = showTextarea ? 'block' : 'none';
+}
+function submitCancel() {
+  if (confirm('취소 신청하시겠습니까?')) window.location.href = '13-order-list.html';
+}
+</script>
+</body>
+</html>

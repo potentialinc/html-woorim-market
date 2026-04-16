@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>데이터 내보내기 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .btn-primary { background: #0071E3; color: #FFFFFF; font-size: 13px; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; height: 36px; display:flex;align-items:center;gap:6px; transition:background 150ms; }
+  .btn-primary:hover { background: #0059B3; }
+  .btn-primary:disabled { background: #AEAEB2; cursor:not-allowed; }
+  .input { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 13px; padding: 8px 12px; height: 36px; outline: none; transition: border-color 150ms; }
+  .input:focus { border-color: #0071E3; }
+  .input-label { font-size: 12px; font-weight: 500; color: #6E6E73; margin-bottom: 4px; display: block; }
+  .export-card { background: #FFFFFF; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.08); padding: 24px; transition: box-shadow 200ms; }
+  .export-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .radio-label { display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer; }
+  .loading-bar { display:none;height:3px;background:#E5E5EA;border-radius:2px;overflow:hidden;margin-top:12px; }
+  .loading-bar.active { display:block; }
+  .loading-bar-fill { height:100%;background:#0071E3;animation:loadProgress 2s ease-in-out forwards; }
+  @keyframes loadProgress { from { width:0%; } to { width:100%; } }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;"><span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span><span style="font-size:11px;color:#AEAEB2;">Admin</span></a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item active"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <h1 style="font-size:24px;font-weight:300;margin:0;letter-spacing:-0.015em;">데이터 내보내기</h1>
+    <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">원하는 데이터 유형과 기간을 선택하여 다운로드하세요.</p>
+  </div>
+
+  <div style="padding:24px 32px;">
+
+    <!-- Info Banner -->
+    <div style="background:#F0F8FF;border:0.5px solid #B3D7FF;border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+      <iconify-icon icon="mdi:information-outline" width="16" style="color:#0071E3;flex-shrink:0;"></iconify-icon>
+      <span style="font-size:13px;color:#004A99;">최대 조회 기간은 1년입니다. 대용량 데이터 내보내기는 최대 수 분이 소요될 수 있습니다.</span>
+    </div>
+
+    <!-- Export Cards Grid -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+
+      <!-- Card 1: 주문 데이터 -->
+      <div class="export-card">
+        <div style="margin-bottom:16px;">
+          <div style="width:48px;height:48px;background:#F0F8FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+            <iconify-icon icon="mdi:receipt-text-outline" width="24" style="color:#0071E3;"></iconify-icon>
+          </div>
+          <h3 style="font-size:15px;font-weight:500;margin-bottom:4px;">주문 데이터</h3>
+          <p style="font-size:12px;color:#6E6E73;line-height:1.5;">주문 번호, 주문자, 상품, 결제 정보, 배송 정보, 주문 상태 등 주문 전체 데이터를 내보냅니다.</p>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label class="input-label">조회 기간</label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="date" class="input" value="2026-04-01" style="flex:1;" id="orderFrom" oninput="checkDateRange('order')">
+            <span style="font-size:12px;color:#6E6E73;">~</span>
+            <input type="date" class="input" value="2026-04-16" style="flex:1;" id="orderTo" oninput="checkDateRange('order')">
+          </div>
+          <p style="font-size:11px;color:#FF3B30;margin-top:4px;display:none;" id="orderDateWarning">
+            <iconify-icon icon="mdi:alert-outline" width="11"></iconify-icon> 최대 조회 기간은 1년입니다.
+          </p>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label class="input-label">파일 형식</label>
+          <div style="display:flex;gap:16px;">
+            <label class="radio-label"><input type="radio" name="orderFormat" value="csv" checked style="accent-color:#0071E3;"> CSV</label>
+            <label class="radio-label"><input type="radio" name="orderFormat" value="xlsx" style="accent-color:#0071E3;"> Excel (.xlsx)</label>
+          </div>
+        </div>
+
+        <div class="loading-bar" id="orderLoadingBar"><div class="loading-bar-fill"></div></div>
+
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="startDownload('order',this)" id="orderBtn">
+          <iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>다운로드
+        </button>
+      </div>
+
+      <!-- Card 2: 회원 데이터 -->
+      <div class="export-card">
+        <div style="margin-bottom:16px;">
+          <div style="width:48px;height:48px;background:#F0F8FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+            <iconify-icon icon="mdi:account-group-outline" width="24" style="color:#0071E3;"></iconify-icon>
+          </div>
+          <h3 style="font-size:15px;font-weight:500;margin-bottom:4px;">회원 데이터</h3>
+          <p style="font-size:12px;color:#6E6E73;line-height:1.5;">회원 이름, 이메일, 가입일, 주문 수, 포인트, 등급 등 회원 전체 데이터를 내보냅니다.</p>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label class="input-label">가입일 기준 기간</label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="date" class="input" value="2026-01-01" style="flex:1;" id="memberFrom" oninput="checkDateRange('member')">
+            <span style="font-size:12px;color:#6E6E73;">~</span>
+            <input type="date" class="input" value="2026-04-16" style="flex:1;" id="memberTo" oninput="checkDateRange('member')">
+          </div>
+          <p style="font-size:11px;color:#FF3B30;margin-top:4px;display:none;" id="memberDateWarning">
+            <iconify-icon icon="mdi:alert-outline" width="11"></iconify-icon> 최대 조회 기간은 1년입니다.
+          </p>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label class="input-label">파일 형식</label>
+          <div style="display:flex;gap:16px;">
+            <label class="radio-label"><input type="radio" name="memberFormat" value="csv" checked style="accent-color:#0071E3;"> CSV</label>
+            <label class="radio-label"><input type="radio" name="memberFormat" value="xlsx" style="accent-color:#0071E3;"> Excel (.xlsx)</label>
+          </div>
+        </div>
+
+        <div style="padding:10px 12px;background:#FFFCF0;border:0.5px solid #F0C93A;border-radius:6px;margin-bottom:12px;">
+          <div style="display:flex;gap:6px;align-items:flex-start;">
+            <iconify-icon icon="mdi:shield-lock-outline" width="13" style="color:#92580A;flex-shrink:0;margin-top:1px;"></iconify-icon>
+            <p style="font-size:11px;color:#92580A;margin:0;">개인정보(이메일, 연락처)가 포함됩니다. 내부 관리 목적으로만 사용하세요.</p>
+          </div>
+        </div>
+
+        <div class="loading-bar" id="memberLoadingBar"><div class="loading-bar-fill"></div></div>
+
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="startDownload('member',this)" id="memberBtn">
+          <iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>다운로드
+        </button>
+      </div>
+
+      <!-- Card 3: 상품 데이터 -->
+      <div class="export-card">
+        <div style="margin-bottom:16px;">
+          <div style="width:48px;height:48px;background:#F0F8FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+            <iconify-icon icon="mdi:package-variant-closed" width="24" style="color:#0071E3;"></iconify-icon>
+          </div>
+          <h3 style="font-size:15px;font-weight:500;margin-bottom:4px;">상품 데이터</h3>
+          <p style="font-size:12px;color:#6E6E73;line-height:1.5;">상품명, 카테고리, 가격, 재고, 판매 수량, 상태 등 전체 상품 데이터를 내보냅니다.</p>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label class="input-label">등록일 기준 기간</label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="date" class="input" value="2026-01-01" style="flex:1;" id="productFrom" oninput="checkDateRange('product')">
+            <span style="font-size:12px;color:#6E6E73;">~</span>
+            <input type="date" class="input" value="2026-04-16" style="flex:1;" id="productTo" oninput="checkDateRange('product')">
+          </div>
+          <p style="font-size:11px;color:#AEAEB2;margin-top:4px;">날짜를 비워두면 전체 상품을 내보냅니다.</p>
+          <p style="font-size:11px;color:#FF3B30;margin-top:4px;display:none;" id="productDateWarning">
+            <iconify-icon icon="mdi:alert-outline" width="11"></iconify-icon> 최대 조회 기간은 1년입니다.
+          </p>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label class="input-label">파일 형식</label>
+          <div style="display:flex;gap:16px;">
+            <label class="radio-label"><input type="radio" name="productFormat" value="csv" checked style="accent-color:#0071E3;"> CSV</label>
+            <label class="radio-label"><input type="radio" name="productFormat" value="xlsx" style="accent-color:#0071E3;"> Excel (.xlsx)</label>
+          </div>
+        </div>
+
+        <div class="loading-bar" id="productLoadingBar"><div class="loading-bar-fill"></div></div>
+
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="startDownload('product',this)" id="productBtn">
+          <iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>다운로드
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Recent Downloads -->
+    <div style="margin-top:32px;">
+      <h3 style="font-size:14px;font-weight:500;margin-bottom:12px;">최근 다운로드 내역</h3>
+      <div style="background:#FFFFFF;border-radius:8px;border:0.5px solid rgba(0,0,0,0.08);">
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+          <iconify-icon icon="mdi:file-delimited-outline" width="20" style="color:#0071E3;flex-shrink:0;"></iconify-icon>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:500;">주문_데이터_2026-04-01_2026-04-15.csv</div>
+            <div style="font-size:11px;color:#AEAEB2;margin-top:2px;">2026.04.15 14:32 · 관리자</div>
+          </div>
+          <span style="font-size:11px;color:#AEAEB2;">423건 · 87KB</span>
+          <button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:12px;display:flex;align-items:center;gap:4px;"><iconify-icon icon="mdi:download-outline" width="14"></iconify-icon>재다운로드</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+          <iconify-icon icon="mdi:microsoft-excel" width="20" style="color:#2E7D32;flex-shrink:0;"></iconify-icon>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:500;">회원_데이터_2026-01-01_2026-04-10.xlsx</div>
+            <div style="font-size:11px;color:#AEAEB2;margin-top:2px;">2026.04.10 09:15 · 관리자</div>
+          </div>
+          <span style="font-size:11px;color:#AEAEB2;">1,284명 · 245KB</span>
+          <button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:12px;display:flex;align-items:center;gap:4px;"><iconify-icon icon="mdi:download-outline" width="14"></iconify-icon>재다운로드</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;">
+          <iconify-icon icon="mdi:file-delimited-outline" width="20" style="color:#0071E3;flex-shrink:0;"></iconify-icon>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:500;">상품_데이터_전체.csv</div>
+            <div style="font-size:11px;color:#AEAEB2;margin-top:2px;">2026.04.01 11:08 · 관리자</div>
+          </div>
+          <span style="font-size:11px;color:#AEAEB2;">68개 · 32KB</span>
+          <button style="background:none;border:none;cursor:pointer;color:#0071E3;font-size:12px;display:flex;align-items:center;gap:4px;"><iconify-icon icon="mdi:download-outline" width="14"></iconify-icon>재다운로드</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function checkDateRange(type) {
+  const from = new Date(document.getElementById(type + 'From').value);
+  const to = new Date(document.getElementById(type + 'To').value);
+  const diff = (to - from) / (1000 * 60 * 60 * 24);
+  const warning = document.getElementById(type + 'DateWarning');
+  warning.style.display = diff > 365 ? 'flex' : 'none';
+}
+
+function startDownload(type, btn) {
+  btn.disabled = true;
+  btn.innerHTML = '<iconify-icon icon="mdi:loading" width="16" style="animation:spin 1s linear infinite;"></iconify-icon>생성 중...';
+
+  const loadingBar = document.getElementById(type + 'LoadingBar');
+  loadingBar.classList.add('active');
+  loadingBar.innerHTML = '<div class="loading-bar-fill"></div>';
+
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerHTML = '<iconify-icon icon="mdi:check-circle-outline" width="16" style="color:#34C759;"></iconify-icon>다운로드 완료';
+    loadingBar.classList.remove('active');
+    setTimeout(() => {
+      btn.innerHTML = '<iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>다운로드';
+    }, 3000);
+  }, 2200);
+}
+
+const style = document.createElement('style');
+style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+document.head.appendChild(style);
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 환불 신청">
+<title>우림마켓 - 환불 신청</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header {
+    height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 0; position: sticky; top: 0; z-index: 10;
+  }
+  .section-card { background: #FFFFFF; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(62,39,35,0.06); }
+  .radio-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #F5EDE4; cursor: pointer; }
+  .radio-row:last-child { border-bottom: none; }
+  .radio-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #F0E0D0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 150ms; }
+  .radio-dot.selected { border-color: #FF6B35; background: #FF6B35; }
+  .custom-check { width: 20px; height: 20px; border: 1.5px solid #F0E0D0; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 150ms; cursor: pointer; }
+  .custom-check.checked { background: #FF6B35; border-color: #FF6B35; }
+  .btn-primary { width: 100%; height: 50px; background: #FF6B35; color: #FFFFFF; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .input-field { width: 100%; height: 44px; background: #FFFFFF; border: 1.5px solid #F0E0D0; border-radius: 12px; font-size: 13px; color: #3E2723; padding: 10px 14px; outline: none; font-family: inherit; }
+  .input-field:focus { border-color: #FF6B35; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;">
+        <iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon>
+        <iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon>
+        <iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon>
+      </div>
+    </div>
+    <header class="sub-header">
+      <a href="14-order-detail.html" style="padding:4px;display:flex;" aria-label="뒤로가기">
+        <iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon>
+      </a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">환불 신청</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <main style="padding:16px;">
+      <!-- 7-day Window Notice -->
+      <div style="background:#E3F2FD;border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+        <iconify-icon icon="mdi:calendar-clock" width="18" style="color:#1565C0;flex-shrink:0;"></iconify-icon>
+        <p style="font-size:12px;color:#1565C0;line-height:1.4;">배송완료 후 7일 이내에만 신청 가능합니다<br>신청 가능 기간: ~2026.04.17</p>
+      </div>
+
+      <!-- Item Selection (Partial Refund) -->
+      <div class="section-card">
+        <p style="font-size:14px;font-weight:600;color:#3E2723;margin-bottom:10px;">환불 상품 선택</p>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div class="custom-check checked" onclick="toggleItem(this)">
+            <iconify-icon icon="mdi:check" width="14" style="color:#FFFFFF;"></iconify-icon>
+          </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Doenjang.jpg" alt="우림 된장 1kg" style="width:52px;height:52px;border-radius:10px;object-fit:cover;">
+          <div style="flex:1;">
+            <p style="font-size:13px;font-weight:500;color:#3E2723;">우림 된장 1kg</p>
+            <p style="font-size:12px;color:#A1887F;">1kg · 수량 1 · 9,800원</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Refund Reason -->
+      <div class="section-card">
+        <p style="font-size:14px;font-weight:600;color:#3E2723;margin-bottom:10px;">환불 사유</p>
+        <div>
+          <div class="radio-row" onclick="selectReason(this)">
+            <div class="radio-dot selected"><div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;"></div></div>
+            <span style="font-size:13px;color:#3E2723;">단순 변심</span>
+          </div>
+          <div class="radio-row" onclick="selectReason(this)">
+            <div class="radio-dot"></div>
+            <span style="font-size:13px;color:#3E2723;">상품 불량/파손</span>
+          </div>
+          <div class="radio-row" onclick="selectReason(this)">
+            <div class="radio-dot"></div>
+            <span style="font-size:13px;color:#3E2723;">오배송</span>
+          </div>
+          <div class="radio-row" onclick="selectReason(this)">
+            <div class="radio-dot"></div>
+            <span style="font-size:13px;color:#3E2723;">기타</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Refund Amount Summary -->
+      <div class="section-card" style="background:#FFF5EB;">
+        <p style="font-size:14px;font-weight:600;color:#3E2723;margin-bottom:10px;">환불 예상 금액</p>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:13px;color:#6D4C41;">상품금액</span>
+          <span style="font-size:13px;color:#3E2723;">9,800원</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:13px;color:#6D4C41;">배송비</span>
+          <span style="font-size:13px;color:#3E2723;">0원</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span style="font-size:13px;color:#6D4C41;">쿠폰 복구 예상</span>
+          <span style="font-size:13px;color:#43A047;">+0원</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+          <span style="font-size:13px;color:#6D4C41;">포인트 복구 예상</span>
+          <span style="font-size:13px;color:#43A047;">+0P</span>
+        </div>
+        <div style="height:1px;background:#F0E0D0;margin-bottom:10px;"></div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="font-size:14px;font-weight:600;color:#3E2723;">환불 예상 금액</span>
+          <span style="font-size:16px;font-weight:700;color:#FF6B35;">9,800원</span>
+        </div>
+      </div>
+
+      <!-- Bank Account (for wire transfer refunds) -->
+      <div class="section-card" id="bank-section" style="display:none;">
+        <p style="font-size:14px;font-weight:600;color:#3E2723;margin-bottom:12px;">환불 계좌 정보</p>
+        <div style="margin-bottom:10px;">
+          <label style="font-size:12px;color:#6D4C41;margin-bottom:4px;display:block;">은행</label>
+          <input type="text" class="input-field" placeholder="은행명 입력 (예: 국민은행)">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label style="font-size:12px;color:#6D4C41;margin-bottom:4px;display:block;">계좌번호</label>
+          <input type="text" class="input-field" placeholder="계좌번호를 입력하세요">
+        </div>
+        <div>
+          <label style="font-size:12px;color:#6D4C41;margin-bottom:4px;display:block;">예금주</label>
+          <input type="text" class="input-field" placeholder="예금주명을 입력하세요">
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="submitRefund()">환불 신청하기</button>
+      <p style="font-size:12px;color:#A1887F;margin-top:12px;text-align:center;line-height:1.5;">환불 승인 후 영업일 기준 3~5일 내 처리됩니다</p>
+    </main>
+  </div>
+<script>
+function selectReason(row) {
+  document.querySelectorAll('.radio-dot').forEach(d => { d.classList.remove('selected'); d.innerHTML = ''; });
+  row.querySelector('.radio-dot').classList.add('selected');
+  row.querySelector('.radio-dot').innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:#FFFFFF;"></div>';
+}
+function toggleItem(el) { el.classList.toggle('checked'); }
+function submitRefund() {
+  if (confirm('환불 신청하시겠습니까?')) window.location.href = '35-exchange-refund-history.html';
+}
+</script>
+</body>
+</html>

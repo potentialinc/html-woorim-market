@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="우림마켓 주문내역">
+<title>우림마켓 - 주문내역</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+  .sub-header {
+    height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 0; position: sticky; top: 0; z-index: 10;
+  }
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; max-width: 375px; margin: 0 auto;
+    height: 56px; background: #FFFFFF; border-top: 1px solid #F0E0D0;
+    display: flex; align-items: center; justify-content: space-around;
+    box-shadow: 0 -2px 12px rgba(62,39,35,0.04); z-index: 100;
+  }
+  .tab-item { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; text-decoration: none; }
+  .filter-tab {
+    padding: 8px 14px; font-size: 13px; font-weight: 500;
+    color: #A1887F; border: none; background: transparent;
+    border-bottom: 2px solid transparent; cursor: pointer; font-family: inherit;
+    white-space: nowrap;
+  }
+  .filter-tab.active { color: #FF6B35; border-bottom-color: #FF6B35; font-weight: 600; }
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 9999px; }
+  .badge-pending { background: #FFF8E1; color: #F57F17; }
+  .badge-preparing { background: #E3F2FD; color: #1565C0; }
+  .badge-shipping { background: #FFF0E8; color: #FF6B35; }
+  .badge-delivered { background: #E8F5E9; color: #2E7D32; }
+  .badge-confirmed { background: #E8F5E9; color: #1B5E20; }
+  .badge-cancelled { background: #F5F0EB; color: #8D6E63; }
+  .action-btn {
+    padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 500;
+    cursor: pointer; border: 1.5px solid #F0E0D0; background: #FFFFFF;
+    color: #6D4C41; font-family: inherit;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <header class="sub-header">
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">주문내역</h1>
+      <a href="10-cart.html" style="position:relative;padding:4px;" aria-label="장바구니">
+        <iconify-icon icon="mdi:cart-outline" width="24" style="color:#6D4C41;"></iconify-icon>
+        <span style="position:absolute;top:0;right:0;background:#D84315;color:#FFF;font-size:9px;font-weight:700;min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;">3</span>
+      </a>
+    </header>
+
+    <!-- Filter Tabs -->
+    <div style="display:flex;overflow-x:auto;border-bottom:1px solid #F0E0D0;background:#FFFFFF;scrollbar-width:none;" role="tablist">
+      <button class="filter-tab active" role="tab" aria-selected="true" onclick="filterOrders(this)">전체</button>
+      <button class="filter-tab" role="tab" aria-selected="false" onclick="filterOrders(this)">배송중</button>
+      <button class="filter-tab" role="tab" aria-selected="false" onclick="filterOrders(this)">배송완료</button>
+      <button class="filter-tab" role="tab" aria-selected="false" onclick="filterOrders(this)">취소/환불</button>
+    </div>
+
+    <!-- Order Items -->
+    <!-- Order 1: 배송중 -->
+    <div style="background:#FFFFFF;padding:14px 16px;border-bottom:1px solid #F5EDE4;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <span style="font-size:12px;color:#A1887F;">20260416-00142</span>
+          <span style="font-size:12px;color:#A1887F;margin-left:8px;">2026.04.16</span>
+        </div>
+        <span class="badge badge-shipping">배송중</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Korean_chili_pepper_paste_GOCHUJANG.jpg" alt="우림 전통 고추장" style="width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+        <div>
+          <p style="font-size:14px;font-weight:500;color:#3E2723;margin-bottom:2px;">우림 전통 고추장 500g</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:4px;">500g · 수량 2</p>
+          <p style="font-size:14px;font-weight:700;color:#3E2723;">27,600원</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a href="14-order-detail.html" class="action-btn">주문 상세</a>
+      </div>
+    </div>
+
+    <!-- Order 2: 배송완료 (구매확정 가능) -->
+    <div style="background:#FFFFFF;padding:14px 16px;border-bottom:1px solid #F5EDE4;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <span style="font-size:12px;color:#A1887F;">20260410-00098</span>
+          <span style="font-size:12px;color:#A1887F;margin-left:8px;">2026.04.10</span>
+        </div>
+        <span class="badge badge-delivered">배송완료</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Doenjang.jpg" alt="우림 된장" style="width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+        <div>
+          <p style="font-size:14px;font-weight:500;color:#3E2723;margin-bottom:2px;">우림 된장 1kg</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:4px;">1kg · 수량 1</p>
+          <p style="font-size:14px;font-weight:700;color:#3E2723;">9,800원</p>
+        </div>
+      </div>
+      <div style="background:#FFF8E1;border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:12px;color:#F57F17;">
+        배송 완료 후 7일 후 자동 구매 확정됩니다 (2026.04.17까지)
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a href="14-order-detail.html" class="action-btn">주문 상세</a>
+        <button class="action-btn" style="border-color:#FF6B35;color:#FF6B35;" onclick="alert('구매 확정 처리')">구매 확정</button>
+        <a href="34-review-write.html" class="action-btn">리뷰 작성</a>
+      </div>
+    </div>
+
+    <!-- Order 3: 구매확정 -->
+    <div style="background:#FFFFFF;padding:14px 16px;border-bottom:1px solid #F5EDE4;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <span style="font-size:12px;color:#A1887F;">20260320-00055</span>
+          <span style="font-size:12px;color:#A1887F;margin-left:8px;">2026.03.20</span>
+        </div>
+        <span class="badge badge-confirmed">구매확정</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Cheongyang_chili_and_gochujang.jpg" alt="매콤 양념소스" style="width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+        <div>
+          <p style="font-size:14px;font-weight:500;color:#3E2723;margin-bottom:2px;">매콤 양념소스 300ml</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:4px;">300ml · 수량 1</p>
+          <p style="font-size:14px;font-weight:700;color:#3E2723;">5,900원</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a href="14-order-detail.html" class="action-btn">주문 상세</a>
+        <a href="34-review-write.html" class="action-btn" style="border-color:#FF6B35;color:#FF6B35;">리뷰 작성</a>
+      </div>
+    </div>
+
+    <!-- Order 4: 취소됨 -->
+    <div style="background:#FFFFFF;padding:14px 16px;border-bottom:1px solid #F5EDE4;opacity:0.8;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <span style="font-size:12px;color:#A1887F;">20260301-00012</span>
+          <span style="font-size:12px;color:#A1887F;margin-left:8px;">2026.03.01</span>
+        </div>
+        <span class="badge badge-cancelled">취소됨</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Korean_Rice_Vinegar.jpg" alt="유기농 현미식초" style="width:60px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+        <div>
+          <p style="font-size:14px;font-weight:500;color:#3E2723;margin-bottom:2px;">유기농 현미식초 500ml</p>
+          <p style="font-size:12px;color:#A1887F;margin-bottom:4px;">500ml · 수량 2</p>
+          <p style="font-size:14px;font-weight:700;color:#3E2723;">17,000원</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a href="14-order-detail.html" class="action-btn">주문 상세</a>
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div style="display:flex;justify-content:center;padding:20px;">
+      <div style="width:22px;height:22px;border:2px solid #F0E0D0;border-top-color:#FF6B35;border-radius:50%;animation:spin 1s linear infinite;" aria-label="로딩 중"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Tab Navigation -->
+  <nav class="bottom-bar" aria-label="하단 탭 메뉴">
+    <a href="07-home.html" class="tab-item" aria-label="홈">
+      <iconify-icon icon="mdi:home-outline" width="22" style="color:#9E8E82;"></iconify-icon>
+      <span style="font-size:11px;font-weight:500;color:#9E8E82;">홈</span>
+    </a>
+    <a href="08-category.html" class="tab-item" aria-label="카테고리">
+      <iconify-icon icon="mdi:view-grid-outline" width="22" style="color:#9E8E82;"></iconify-icon>
+      <span style="font-size:11px;font-weight:500;color:#9E8E82;">카테고리</span>
+    </a>
+    <a href="13-order-list.html" class="tab-item" aria-current="page" aria-label="주문내역">
+      <div style="background:#FFF0E8;border-radius:8px;padding:2px 10px;">
+        <iconify-icon icon="mdi:receipt-text" width="22" style="color:#D84315;"></iconify-icon>
+      </div>
+      <span style="font-size:11px;font-weight:600;color:#D84315;">주문내역</span>
+    </a>
+    <a href="18-mypage-main.html" class="tab-item" aria-label="마이페이지">
+      <iconify-icon icon="mdi:account-outline" width="22" style="color:#9E8E82;"></iconify-icon>
+      <span style="font-size:11px;font-weight:500;color:#9E8E82;">마이페이지</span>
+    </a>
+  </nav>
+</div>
+<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+<script>
+function filterOrders(el) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

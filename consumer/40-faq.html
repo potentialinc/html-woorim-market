@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우림마켓 - 자주묻는 질문</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; }
+  html, body { height: 100%; background: #FFFBF5; }
+  .phone-screen { max-width: 375px; margin: 0 auto; min-height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; padding-bottom: 72px; }
+  .sub-header { height: 52px; background: #FFFBF5; border-bottom: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-between; padding: 8px 16px 0; position: sticky; top: 0; z-index: 10; }
+
+  /* Search bar */
+  .search-bar { padding: 12px 16px; background: #FFFBF5; position: sticky; top: 52px; z-index: 9; }
+  .search-bar input { width: 100%; height: 44px; background: #FFFFFF; border: 1.5px solid #F0E0D0; border-radius: 12px; padding: 0 16px 0 40px; font-size: 14px; color: #3E2723; outline: none; transition: border-color 150ms; }
+  .search-bar input::placeholder { color: #A1887F; }
+  .search-bar input:focus { border-color: #FF6B35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+  .search-icon { position: absolute; left: 28px; top: 50%; transform: translateY(-50%); color: #A1887F; }
+
+  /* Category tabs */
+  .category-tabs { display: flex; gap: 6px; padding: 0 16px 12px; overflow-x: auto; scrollbar-width: none; background: #FFFBF5; position: sticky; top: 108px; z-index: 9; }
+  .category-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 9999px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid #F0E0D0; background: #FFFFFF; color: #6D4C41; transition: all 150ms; white-space: nowrap; }
+  .cat-tab.active { background: #FF6B35; color: #FFFFFF; border-color: #FF6B35; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2); }
+  .cat-tab:not(.active):hover { background: #FFF5EB; border-color: #E0C8B0; }
+
+  /* Accordion */
+  .faq-list { padding: 0 16px 16px; }
+  .faq-item { background: #FFFFFF; border-radius: 16px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(62, 39, 35, 0.04); overflow: hidden; border: 1px solid #F5EDE4; }
+  .faq-item details { }
+  .faq-item summary { padding: 16px; font-size: 14px; font-weight: 500; color: #3E2723; cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; line-height: 1.5; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after { content: ''; flex-shrink: 0; width: 20px; height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'%3E%3Cpath fill='%23A1887F' d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E") center no-repeat; transition: transform 200ms ease; }
+  .faq-item details[open] summary::after { transform: rotate(180deg); }
+  .faq-item details[open] summary { color: #FF6B35; }
+  .faq-answer { padding: 0 16px 16px; font-size: 13px; color: #6D4C41; line-height: 1.7; border-top: 1px solid #F5EDE4; margin-top: 0; }
+  .faq-answer p { padding-top: 12px; }
+  .faq-cat-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; background: #FFF0E8; color: #FF6B35; margin-bottom: 4px; }
+
+  /* Empty state */
+  .empty-state { text-align: center; padding: 48px 16px; }
+  .empty-state p { font-size: 14px; color: #A1887F; margin-top: 8px; }
+
+  /* Bottom nav */
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); max-width: 375px; width: 100%; height: 56px; background: #FFFFFF; border-top: 1px solid #E8DDD2; display: flex; align-items: center; justify-content: space-around; z-index: 20; box-shadow: 0 -2px 12px rgba(62, 39, 35, 0.04); padding-bottom: env(safe-area-inset-bottom); }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #9E8E82; font-size: 11px; font-weight: 500; }
+  .nav-item.active { color: #D84315; }
+  .nav-item.active .nav-icon-wrap { background: #FFF0E8; border-radius: 12px; padding: 2px 12px; }
+</style>
+</head>
+<body>
+<div class="phone-screen">
+    <!-- Status Bar -->
+    <div style="height:36px;padding:10px 20px 0;display:flex;justify-content:space-between;align-items:center;background:#FFFBF5;">
+      <span style="font-size:13px;font-weight:600;color:#3E2723;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;"><iconify-icon icon="mdi:signal-cellular-3" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:wifi" width="13" style="color:#3E2723;"></iconify-icon><iconify-icon icon="mdi:battery" width="17" style="color:#3E2723;"></iconify-icon></div>
+    </div>
+
+    <!-- Header -->
+    <!-- TODO: Add link to this page from 18-mypage-main.html settings menu (자주묻는 질문 row) -->
+    <header class="sub-header">
+      <a href="18-mypage-main.html" style="padding:4px;display:flex;" aria-label="뒤로가기"><iconify-icon icon="ic:round-arrow-back" width="24" style="color:#3E2723;"></iconify-icon></a>
+      <h1 style="font-size:16px;font-weight:600;color:#3E2723;">자주묻는 질문</h1>
+      <div style="width:32px;"></div>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-bar" style="position:relative;">
+      <iconify-icon icon="mdi:magnify" width="18" class="search-icon" style="position:absolute;left:28px;top:50%;transform:translateY(-50%);"></iconify-icon>
+      <input type="text" id="faqSearch" placeholder="질문 또는 답변 검색" oninput="filterFAQ()">
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      <div class="cat-tab active" onclick="selectCategory(this, 'all')">전체</div>
+      <div class="cat-tab" onclick="selectCategory(this, 'order')">주문·배송</div>
+      <div class="cat-tab" onclick="selectCategory(this, 'payment')">결제·환불</div>
+      <div class="cat-tab" onclick="selectCategory(this, 'member')">회원</div>
+      <div class="cat-tab" onclick="selectCategory(this, 'product')">상품</div>
+      <div class="cat-tab" onclick="selectCategory(this, 'etc')">기타</div>
+    </div>
+
+    <!-- FAQ List -->
+    <div class="faq-list" id="faqList">
+
+      <!-- 주문·배송 -->
+      <div class="faq-item" data-cat="order" data-q="배송은 얼마나 걸리나요" data-a="주문 후 영업일 기준 2~3일 내 배송됩니다 제주 도서산간 지역은 1~2일 추가 소요될 수 있습니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">주문·배송</span><br>배송은 얼마나 걸리나요?</span></summary>
+          <div class="faq-answer"><p>주문 후 영업일 기준 2~3일 내 배송됩니다. 제주/도서산간 지역은 1~2일 추가 소요될 수 있습니다. 주문 폭주 시 배송이 지연될 수 있으며, 지연 시 자동으로 안내 푸시가 발송됩니다.</p></div>
+        </details>
+      </div>
+
+      <div class="faq-item" data-cat="order" data-q="무료배송 기준이 뭔가요" data-a="3만원 이상 주문 시 무료배송됩니다 무료배송 상품이 장바구니에 포함되면 주문 전체가 무료배송">
+        <details>
+          <summary><span><span class="faq-cat-badge">주문·배송</span><br>무료배송 기준이 뭔가요?</span></summary>
+          <div class="faq-answer"><p>3만원 이상 주문 시 무료배송됩니다. 또한, 무료배송 상품이 장바구니에 1개라도 포함되면 주문 전체가 무료배송으로 처리됩니다. 제주/도서산간 지역은 추가 배송비가 부과될 수 있습니다.</p></div>
+        </details>
+      </div>
+
+      <div class="faq-item" data-cat="order" data-q="배송 조회는 어디서 하나요" data-a="주문내역 탭에서 해당 주문을 선택하면 배송 상태를 실시간으로 확인할 수 있습니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">주문·배송</span><br>배송 조회는 어디서 하나요?</span></summary>
+          <div class="faq-answer"><p>하단 '주문내역' 탭에서 해당 주문을 선택하면 배송 상태를 실시간으로 확인할 수 있습니다. 배송중 상태에서는 운송장 번호도 함께 제공됩니다.</p></div>
+        </details>
+      </div>
+
+      <!-- 결제·환불 -->
+      <div class="faq-item" data-cat="payment" data-q="교환 환불은 어떻게 하나요" data-a="배송완료 후 7일 이내에 주문 상세 페이지에서 교환 또는 환불 신청이 가능합니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">결제·환불</span><br>교환·환불은 어떻게 하나요?</span></summary>
+          <div class="faq-answer"><p>배송완료 후 7일 이내에 주문 상세 페이지에서 교환 또는 환불 신청이 가능합니다. 7일이 지나면 자동으로 구매확정되어 신청이 불가합니다. 카드 결제 환불은 PG사를 통해 자동 처리됩니다.</p></div>
+        </details>
+      </div>
+
+      <div class="faq-item" data-cat="payment" data-q="결제 수단은 어떤 것이 있나요" data-a="카드 결제 카카오페이 네이버페이 무통장입금 총 4가지 결제 수단을 지원합니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">결제·환불</span><br>결제 수단은 어떤 것이 있나요?</span></summary>
+          <div class="faq-answer"><p>카드 결제, 카카오페이, 네이버페이, 무통장입금 총 4가지 결제 수단을 지원합니다. 포인트와 쿠폰도 결제 시 함께 사용 가능합니다.</p></div>
+        </details>
+      </div>
+
+      <div class="faq-item" data-cat="payment" data-q="쿠폰과 포인트를 동시에 사용할 수 있나요" data-a="네 한 주문에 쿠폰과 포인트를 동시에 적용할 수 있습니다 차감 순서는 쿠폰 먼저 포인트 순입니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">결제·환불</span><br>쿠폰과 포인트를 동시에 사용할 수 있나요?</span></summary>
+          <div class="faq-answer"><p>네, 한 주문에 쿠폰과 포인트를 동시에 적용할 수 있습니다. 차감 순서는 쿠폰이 먼저 적용되고 포인트가 이후에 적용됩니다. 포인트는 주문 금액의 100%까지 사용 가능합니다.</p></div>
+        </details>
+      </div>
+
+      <!-- 회원 -->
+      <div class="faq-item" data-cat="member" data-q="회원 탈퇴는 어떻게 하나요" data-a="마이페이지 설정 메뉴 하단의 회원 탈퇴를 선택하면 진행할 수 있습니다 탈퇴 시 개인정보는 즉시 삭제됩니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">회원</span><br>회원 탈퇴는 어떻게 하나요?</span></summary>
+          <div class="faq-answer"><p>마이페이지 > 설정 메뉴 하단의 '회원 탈퇴'를 선택하면 진행할 수 있습니다. 탈퇴 시 개인정보는 즉시 삭제되며, 주문 이력은 법적 요구에 따라 5년간 보관됩니다.</p></div>
+        </details>
+      </div>
+
+      <div class="faq-item" data-cat="member" data-q="포인트 적립은 어떻게 되나요" data-a="구매확정 시 결제 금액의 1%가 포인트로 적립됩니다 1000포인트부터 사용 가능하며 유효기간은 적립일로부터 1년입니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">회원</span><br>포인트 적립은 어떻게 되나요?</span></summary>
+          <div class="faq-answer"><p>구매확정 시 결제 금액의 1%가 포인트로 적립됩니다. 1,000포인트부터 사용 가능하며, 유효기간은 적립일로부터 1년입니다. 만료 14일 전에 알림을 보내드립니다.</p></div>
+        </details>
+      </div>
+
+      <!-- 상품 -->
+      <div class="faq-item" data-cat="product" data-q="유통기한은 어디서 확인하나요" data-a="상품 상세 페이지 하단에 유통기한이 표시됩니다 YYYY-MM-DD 형식으로 명확하게 안내됩니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">상품</span><br>유통기한은 어디서 확인하나요?</span></summary>
+          <div class="faq-answer"><p>상품 상세 페이지 하단의 'F&B 정보' 영역에 유통기한이 YYYY-MM-DD 형식으로 명확하게 표시됩니다. 원산지, 보관법 등의 정보도 함께 확인하실 수 있습니다.</p></div>
+        </details>
+      </div>
+
+      <div class="faq-item" data-cat="product" data-q="품절 상품은 언제 다시 구매할 수 있나요" data-a="품절 상품에 재입고 알림을 신청하시면 재고가 입고되는 즉시 푸시 알림을 보내드립니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">상품</span><br>품절 상품은 언제 다시 구매할 수 있나요?</span></summary>
+          <div class="faq-answer"><p>품절 상품에 '재입고 알림' 버튼을 누르시면, 재고가 입고되는 즉시 푸시 알림을 보내드립니다. 인기 상품은 빠르게 소진될 수 있으니 알림 수신 후 바로 구매해 주세요.</p></div>
+        </details>
+      </div>
+
+      <!-- 기타 -->
+      <div class="faq-item" data-cat="etc" data-q="공직 마켓은 어떤 곳인가요" data-a="공직은 우림에프엔비의 공장직거래 D2C 플랫폼입니다 유통 마진 없이 공장도 가격으로 고품질 식품을 직접 판매합니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">기타</span><br>공직 마켓은 어떤 곳인가요?</span></summary>
+          <div class="faq-answer"><p>공직(공장직거래)은 우림에프엔비의 D2C 플랫폼입니다. 유통 마진 없이 공장도 가격으로 고품질 식품을 직접 판매하여, 시중 대비 합리적인 가격에 상품을 구매하실 수 있습니다.</p></div>
+        </details>
+      </div>
+
+      <div class="faq-item" data-cat="etc" data-q="앱 알림 설정은 어디서 변경하나요" data-a="마이페이지 알림 설정에서 주문 관련 알림과 마케팅 알림을 각각 설정할 수 있습니다">
+        <details>
+          <summary><span><span class="faq-cat-badge">기타</span><br>앱 알림 설정은 어디서 변경하나요?</span></summary>
+          <div class="faq-answer"><p>마이페이지 > 알림 설정에서 주문 관련 알림(결제/배송/CS 답변/재입고)과 마케팅 알림(이벤트/기획전/신상품)을 각각 ON/OFF 설정하실 수 있습니다.</p></div>
+        </details>
+      </div>
+
+    </div>
+
+    <!-- Empty State (hidden by default) -->
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <iconify-icon icon="mdi:magnify-close" width="48" style="color:#E0C8B0;"></iconify-icon>
+      <p>검색 결과가 없습니다</p>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="06-home.html" class="nav-item">
+        <span class="nav-icon-wrap"><iconify-icon icon="mdi:home" width="22"></iconify-icon></span>
+        <span>홈</span>
+      </a>
+      <a href="08-category-main.html" class="nav-item">
+        <span class="nav-icon-wrap"><iconify-icon icon="mdi:view-grid" width="22"></iconify-icon></span>
+        <span>카테고리</span>
+      </a>
+      <a href="14-order-list.html" class="nav-item">
+        <span class="nav-icon-wrap"><iconify-icon icon="mdi:receipt" width="22"></iconify-icon></span>
+        <span>주문내역</span>
+      </a>
+      <a href="18-mypage-main.html" class="nav-item active">
+        <span class="nav-icon-wrap"><iconify-icon icon="mdi:account" width="22"></iconify-icon></span>
+        <span>마이페이지</span>
+      </a>
+    </nav>
+</div>
+
+<script>
+let currentCategory = 'all';
+
+function selectCategory(el, cat) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentCategory = cat;
+  filterFAQ();
+}
+
+function filterFAQ() {
+  const query = document.getElementById('faqSearch').value.toLowerCase().trim();
+  const items = document.querySelectorAll('.faq-item');
+  let visibleCount = 0;
+
+  items.forEach(item => {
+    const cat = item.dataset.cat;
+    const q = item.dataset.q;
+    const a = item.dataset.a;
+    const matchCat = currentCategory === 'all' || cat === currentCategory;
+    const matchSearch = !query || q.includes(query) || a.includes(query);
+
+    if (matchCat && matchSearch) {
+      item.style.display = '';
+      visibleCount++;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  document.getElementById('emptyState').style.display = visibleCount === 0 ? '' : 'none';
+  document.getElementById('faqList').style.display = visibleCount === 0 ? 'none' : '';
+}
+</script>
+</body>
+</html>

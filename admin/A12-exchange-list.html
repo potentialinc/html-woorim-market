@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>교환 관리 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 400; color: #AEAEB2; padding: 10px 14px; border-bottom: 0.5px solid rgba(0,0,0,0.08); white-space: nowrap; }
+  td { font-size: 13px; padding: 10px 14px; border-bottom: 0.5px solid rgba(0,0,0,0.06); color: #1D1D1F; vertical-align: middle; }
+  tr:hover td { background: #F5F5F7; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .input { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 13px; padding: 8px 12px; height: 36px; outline: none; }
+  .tab-btn { padding: 8px 16px; font-size: 13px; border: none; background: transparent; cursor: pointer; color: #6E6E73; border-bottom: 2px solid transparent; transition: all 150ms ease; }
+  .tab-btn.active { color: #1D1D1F; font-weight: 500; border-bottom-color: #1D1D1F; }
+  .badge { font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 4px; }
+  .drawer-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100; }
+  .drawer { position:fixed;top:0;right:-520px;width:520px;bottom:0;background:#FFFFFF;border-left:0.5px solid rgba(0,0,0,0.08);z-index:101;transition:right 250ms ease;overflow-y:auto;box-shadow:-4px 0 16px rgba(0,0,0,0.08); }
+  .drawer.open { right:0; }
+  .info-row { display:grid;grid-template-columns:130px 1fr;gap:4px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.06); }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;"><span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span><span style="font-size:11px;color:#AEAEB2;">Admin</span></a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item active"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <h1 style="font-size:24px;font-weight:300;margin:0;letter-spacing:-0.015em;">교환 관리</h1>
+    <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">요청 대기 3건</p>
+  </div>
+
+  <!-- Tabs -->
+  <div style="padding:0 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;gap:4px;">
+    <button class="tab-btn active" onclick="switchTab(this)">요청 대기 <span style="background:#FF3B30;color:#FFFFFF;font-size:10px;padding:1px 5px;border-radius:10px;margin-left:4px;">3</span></button>
+    <button class="tab-btn" onclick="switchTab(this)">승인</button>
+    <button class="tab-btn" onclick="switchTab(this)">반려</button>
+    <button class="tab-btn" onclick="switchTab(this)">재발송 완료</button>
+  </div>
+
+  <div style="padding:20px 32px;">
+    <div class="content-card" style="overflow:hidden;">
+      <table>
+        <thead>
+          <tr><th>주문번호</th><th>주문자</th><th>상품</th><th>교환 사유</th><th>첨부사진</th><th>요청일</th><th style="text-align:center;">액션</th></tr>
+        </thead>
+        <tbody>
+          <tr style="cursor:pointer;" onclick="openExchange('20260415-00003','박정호','수제 간장 500ml','상품 파손','2장','2026.04.15')">
+            <td style="color:#0071E3;">20260415-00003</td>
+            <td>박정호</td><td>수제 간장 500ml</td><td>상품 파손 / 불량</td>
+            <td><span style="font-size:12px;background:#F5F5F7;color:#6E6E73;padding:2px 6px;border-radius:3px;display:inline-flex;align-items:center;gap:3px;"><iconify-icon icon="mdi:image-outline" width="11"></iconify-icon>2장</span></td>
+            <td style="color:#AEAEB2;">2026.04.15</td>
+            <td style="text-align:center;"><button onclick="event.stopPropagation();openExchange('20260415-00003','박정호','수제 간장 500ml','상품 파손','2장','2026.04.15')" style="background:none;border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:3px 10px;font-size:11px;cursor:pointer;color:#0071E3;">처리</button></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openExchange('20260414-00009','최수진','공직 직판 5kg 쌀','오배송','3장','2026.04.14')">
+            <td style="color:#0071E3;">20260414-00009</td>
+            <td>최수진</td><td>공직 직판 5kg 쌀</td><td>오배송 (다른 상품 수령)</td>
+            <td><span style="font-size:12px;background:#F5F5F7;color:#6E6E73;padding:2px 6px;border-radius:3px;display:inline-flex;align-items:center;gap:3px;"><iconify-icon icon="mdi:image-outline" width="11"></iconify-icon>3장</span></td>
+            <td style="color:#AEAEB2;">2026.04.14</td>
+            <td style="text-align:center;"><button style="background:none;border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:3px 10px;font-size:11px;cursor:pointer;color:#0071E3;">처리</button></td>
+          </tr>
+          <tr style="cursor:pointer;">
+            <td style="color:#0071E3;">20260413-00016</td>
+            <td>정다은</td><td>우림 전통 고추장 500g</td><td>용량 오배송</td>
+            <td><span style="font-size:12px;background:#F5F5F7;color:#6E6E73;padding:2px 6px;border-radius:3px;display:inline-flex;align-items:center;gap:3px;"><iconify-icon icon="mdi:image-outline" width="11"></iconify-icon>1장</span></td>
+            <td style="color:#AEAEB2;">2026.04.13</td>
+            <td style="text-align:center;"><button style="background:none;border:0.5px solid rgba(0,0,0,0.12);border-radius:4px;padding:3px 10px;font-size:11px;cursor:pointer;color:#0071E3;">처리</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="dOverlay" onclick="closeD()"></div>
+
+<!-- Exchange Detail Drawer -->
+<div class="drawer" id="exchDrawer">
+  <div style="padding:16px 20px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:1;">
+    <div>
+      <h2 id="dNum" style="font-size:15px;font-weight:500;margin:0;"></h2>
+      <p id="dDate" style="font-size:12px;color:#AEAEB2;margin:2px 0 0;"></p>
+    </div>
+    <button onclick="closeD()" style="background:none;border:none;cursor:pointer;color:#6E6E73;padding:4px;"><iconify-icon icon="mdi:close" width="20"></iconify-icon></button>
+  </div>
+
+  <div style="padding:20px;">
+    <div style="margin-bottom:20px;">
+      <p style="font-size:11px;font-weight:500;color:#AEAEB2;letter-spacing:0.04em;margin-bottom:10px;">교환 요청 정보</p>
+      <div class="info-row"><span style="font-size:12px;color:#AEAEB2;">주문자</span><span id="dBuyer" style="font-size:13px;"></span></div>
+      <div class="info-row"><span style="font-size:12px;color:#AEAEB2;">상품</span><span id="dProduct" style="font-size:13px;"></span></div>
+      <div class="info-row" style="border-bottom:none;"><span style="font-size:12px;color:#AEAEB2;">사유</span><span id="dReason" style="font-size:13px;"></span></div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <div style="margin-bottom:20px;">
+      <p style="font-size:11px;font-weight:500;color:#AEAEB2;letter-spacing:0.04em;margin-bottom:10px;">첨부 사진</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div style="width:80px;height:80px;border-radius:6px;background:#F5F5F7;border:0.5px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;" onclick="this.style.outline='2px solid #0071E3'">
+          <iconify-icon icon="mdi:image-outline" width="28" style="color:#AEAEB2;"></iconify-icon>
+        </div>
+        <div style="width:80px;height:80px;border-radius:6px;background:#F5F5F7;border:0.5px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+          <iconify-icon icon="mdi:image-outline" width="28" style="color:#AEAEB2;"></iconify-icon>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#AEAEB2;margin-top:6px;">클릭하여 원본 이미지 보기</p>
+    </div>
+
+    <!-- Rejection Reason -->
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px;font-weight:500;color:#6E6E73;display:block;margin-bottom:4px;">반려 사유 <span style="font-weight:400;">(반려 시 필수)</span></label>
+      <textarea style="width:100%;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;padding:10px 12px;font-size:13px;resize:vertical;min-height:60px;outline:none;color:#1D1D1F;" placeholder="반려 사유를 입력하세요..."></textarea>
+    </div>
+
+    <!-- Note -->
+    <div style="background:#F0F5FF;border:0.5px solid rgba(0,113,227,0.15);border-radius:6px;padding:10px 12px;margin-bottom:16px;font-size:12px;color:#004A99;display:flex;align-items:center;gap:6px;">
+      <iconify-icon icon="mdi:information-outline" width="14" style="flex-shrink:0;"></iconify-icon>
+      승인 시 동일 상품 재발송 주문이 생성되며 OrderSyncService를 통해 자동 처리됩니다.
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button style="width:100%;height:40px;background:#0071E3;border:none;border-radius:6px;color:#FFFFFF;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+        <iconify-icon icon="mdi:truck-delivery-outline" width="16"></iconify-icon>승인 (재발송 주문 생성)
+      </button>
+      <button style="width:100%;height:40px;background:#FFF5F5;border:0.5px solid rgba(255,59,48,0.2);border-radius:6px;color:#FF3B30;font-size:13px;cursor:pointer;">반려</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openExchange(num, buyer, product, reason, photos, date) {
+  document.getElementById('dNum').textContent = num;
+  document.getElementById('dDate').textContent = date + ' 요청';
+  document.getElementById('dBuyer').textContent = buyer;
+  document.getElementById('dProduct').textContent = product;
+  document.getElementById('dReason').textContent = reason;
+  document.getElementById('exchDrawer').classList.add('open');
+  document.getElementById('dOverlay').style.display = 'block';
+}
+function closeD(){document.getElementById('exchDrawer').classList.remove('open');document.getElementById('dOverlay').style.display='none';}
+function switchTab(btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+</script>
+</body>
+</html>

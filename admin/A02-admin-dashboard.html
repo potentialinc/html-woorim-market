@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>대시보드 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .stat-card { background: #FFFFFF; border-radius: 8px; padding: 24px; border: 0.5px solid rgba(0,0,0,0.08); }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 400; color: #AEAEB2; padding: 10px 16px; border-bottom: 0.5px solid rgba(0,0,0,0.08); white-space: nowrap; }
+  td { font-size: 14px; padding: 10px 16px; border-bottom: 0.5px solid rgba(0,0,0,0.06); color: #1D1D1F; font-weight: 400; }
+  tr:hover td { background: #F5F5F7; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .badge { font-size: 12px; font-weight: 500; padding: 3px 8px; border-radius: 4px; }
+  .badge-payment { background: #FFFCF0; color: #92580A; }
+  .badge-preparing { background: #F0F5FF; color: #004A99; }
+  .badge-shipping { background: #F0F5FF; color: #0071E3; }
+  .badge-delivered { background: #F0FFF4; color: #1B7A2B; }
+  .badge-confirmed { background: #F0FFF4; color: #0B6623; }
+  .badge-cancelled { background: #F5F5F7; color: #6E6E73; }
+  .badge-refund { background: #FFF5F0; color: #922B00; }
+  .period-btn { padding: 6px 16px; border-radius: 5px; background: transparent; border: none; color: #6E6E73; font-size: 12px; font-weight: 400; cursor: pointer; transition: all 150ms ease; }
+  .period-btn.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span>
+    <span style="font-size:11px;color:#AEAEB2;font-weight:400;">Admin</span>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item active">
+      <iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드
+    </a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리
+    </a>
+    <a href="A05-admin-accounts.html" class="sidebar-item">
+      <iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리
+    </a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    </a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리
+    </a>
+    <a href="A10-shipping-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리
+    </a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불
+    </a>
+    <a href="A12-exchange-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리
+    </a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리
+    </a>
+    <a href="A14-events-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트
+    </a>
+    <a href="A15-promotions-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전
+    </a>
+    <a href="A16-notices-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항
+    </a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리
+    </a>
+    <a href="A18-inquiries-list.html" class="sidebar-item">
+      <iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의
+    </a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item">
+      <iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트
+    </a>
+    <a href="A20-categories-manage.html" class="sidebar-item">
+    </a>
+    <a href="A21-data-export.html" class="sidebar-item">
+      <iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기
+    </a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#6E6E73;">A</div>
+    <div>
+      <p style="font-size:12px;font-weight:500;color:#1D1D1F;margin:0;">관리자</p>
+      <p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <!-- Top Header -->
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <div>
+      <h1 style="font-size:24px;font-weight:300;margin:0;letter-spacing:-0.015em;">대시보드</h1>
+      <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;font-weight:400;">2026년 4월 16일 기준</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="position:relative;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;" onmouseover="this.style.background='#F5F5F7'" onmouseout="this.style.background='transparent'">
+        <iconify-icon icon="mdi:bell-outline" width="20" style="color:#6E6E73;"></iconify-icon>
+        <div style="position:absolute;top:6px;right:6px;width:6px;height:6px;background:#FF3B30;border-radius:50%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:24px 32px;">
+    <!-- Period Filter -->
+    <div style="display:inline-flex;gap:2px;margin-bottom:24px;background:#F5F5F7;border-radius:6px;padding:2px;">
+      <button class="period-btn active" onclick="setPeriod(this)">오늘</button>
+      <button class="period-btn" onclick="setPeriod(this)">최근 7일</button>
+      <button class="period-btn" onclick="setPeriod(this)">최근 30일</button>
+      <button class="period-btn" onclick="setPeriod(this)">직접 입력</button>
+    </div>
+
+    <!-- Stat Cards -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;">
+      <div class="stat-card">
+        <span style="font-size:12px;color:#AEAEB2;font-weight:400;display:block;margin-bottom:8px;">전체 회원</span>
+        <p style="font-size:28px;font-weight:300;margin:0;letter-spacing:-0.02em;">2,847<span style="font-size:13px;font-weight:400;color:#AEAEB2;margin-left:2px;">명</span></p>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+          <iconify-icon icon="mdi:trending-up" width="14" style="color:#30D158;"></iconify-icon>
+          <span style="font-size:12px;color:#30D158;font-weight:400;">+8.2%</span>
+          <span style="font-size:12px;color:#AEAEB2;">오늘 +12명</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span style="font-size:12px;color:#AEAEB2;font-weight:400;display:block;margin-bottom:8px;">오늘 주문</span>
+        <p style="font-size:28px;font-weight:300;margin:0;letter-spacing:-0.02em;">156<span style="font-size:13px;font-weight:400;color:#AEAEB2;margin-left:2px;">건</span></p>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+          <iconify-icon icon="mdi:trending-up" width="14" style="color:#30D158;"></iconify-icon>
+          <span style="font-size:12px;color:#30D158;font-weight:400;">+12.5%</span>
+          <span style="font-size:12px;color:#AEAEB2;">vs 어제</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span style="font-size:12px;color:#AEAEB2;font-weight:400;display:block;margin-bottom:8px;">금일 매출</span>
+        <p style="font-size:28px;font-weight:300;margin:0;letter-spacing:-0.02em;">4,280,000<span style="font-size:13px;font-weight:400;color:#AEAEB2;margin-left:2px;">원</span></p>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+          <iconify-icon icon="mdi:trending-up" width="14" style="color:#30D158;"></iconify-icon>
+          <span style="font-size:12px;color:#30D158;font-weight:400;">+15.3%</span>
+          <span style="font-size:12px;color:#AEAEB2;">vs 어제</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span style="font-size:12px;color:#AEAEB2;font-weight:400;display:block;margin-bottom:8px;">이번 달 순매출</span>
+        <p style="font-size:28px;font-weight:300;margin:0;letter-spacing:-0.02em;">128,500,000<span style="font-size:13px;font-weight:400;color:#AEAEB2;margin-left:2px;">원</span></p>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
+          <iconify-icon icon="mdi:trending-up" width="14" style="color:#30D158;"></iconify-icon>
+          <span style="font-size:12px;color:#30D158;font-weight:400;">+9.7%</span>
+          <span style="font-size:12px;color:#AEAEB2;">vs 지난달</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+      <div class="content-card" style="padding:20px;">
+        <h3 style="font-size:13px;font-weight:500;margin-bottom:16px;color:#1D1D1F;">일별 주문 수 추이</h3>
+        <canvas id="ordersChart" height="180"></canvas>
+      </div>
+      <div class="content-card" style="padding:20px;">
+        <h3 style="font-size:13px;font-weight:500;margin-bottom:16px;color:#1D1D1F;">일별 매출 추이 (구매확정 기준)</h3>
+        <canvas id="salesChart" height="180"></canvas>
+      </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="content-card" style="overflow:hidden;">
+      <div style="padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid rgba(0,0,0,0.08);">
+        <h3 style="font-size:13px;font-weight:500;margin:0;color:#1D1D1F;">최근 주문 10건</h3>
+        <a href="A09-orders-list.html" style="font-size:12px;color:#0071E3;font-weight:400;text-decoration:none;">전체 주문 보기</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>주문번호</th><th>주문자</th><th>대표 상품</th><th>결제금액</th><th>결제수단</th><th>상태</th><th>주문일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;font-weight:400;">20260416-00001</a></td>
+            <td>김민수</td><td>우림 전통 고추장 500g 외 2건</td>
+            <td style="font-weight:500;">32,400원</td><td>카드</td>
+            <td><span class="badge badge-payment">결제완료</span></td><td style="color:#AEAEB2;">04.16</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260416-00002</a></td>
+            <td>이영희</td><td>공직 직판 5kg 쌀</td>
+            <td style="font-weight:500;">25,900원</td><td>카카오페이</td>
+            <td><span class="badge badge-preparing">상품준비중</span></td><td style="color:#AEAEB2;">04.16</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260416-00003</a></td>
+            <td>박정호</td><td>우림 된장 1kg 외 1건</td>
+            <td style="font-weight:500;">17,300원</td><td>카드</td>
+            <td><span class="badge badge-shipping">배송중</span></td><td style="color:#AEAEB2;">04.15</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260415-00004</a></td>
+            <td>최수진</td><td>수제 간장 500ml</td>
+            <td style="font-weight:500;">7,500원</td><td>네이버페이</td>
+            <td><span class="badge badge-delivered">배송완료</span></td><td style="color:#AEAEB2;">04.15</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260415-00005</a></td>
+            <td>정다은</td><td>청양고추 핫소스 250ml 외 3건</td>
+            <td style="font-weight:500;">28,700원</td><td>카드</td>
+            <td><span class="badge badge-confirmed">구매확정</span></td><td style="color:#AEAEB2;">04.15</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260415-00006</a></td>
+            <td>한지원</td><td>유기농 현미식초 500ml</td>
+            <td style="font-weight:500;">8,500원</td><td>카드</td>
+            <td><span class="badge badge-cancelled">주문취소</span></td><td style="color:#AEAEB2;">04.14</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260414-00007</a></td>
+            <td>오승현</td><td>우림 쌈장 450g 외 1건</td>
+            <td style="font-weight:500;">16,000원</td><td>무통장</td>
+            <td><span class="badge badge-preparing">상품준비중</span></td><td style="color:#AEAEB2;">04.14</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260414-00008</a></td>
+            <td>강서윤</td><td>전통 맛간장 300ml 외 2건</td>
+            <td style="font-weight:500;">22,100원</td><td>카카오페이</td>
+            <td><span class="badge badge-refund">환불처리</span></td><td style="color:#AEAEB2;">04.14</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260413-00009</a></td>
+            <td>윤태민</td><td>공직 직판 5kg 쌀 외 1건</td>
+            <td style="font-weight:500;">38,400원</td><td>카드</td>
+            <td><span class="badge badge-confirmed">구매확정</span></td><td style="color:#AEAEB2;">04.13</td>
+          </tr>
+          <tr>
+            <td><a href="A09-orders-list.html" style="color:#0071E3;text-decoration:none;">20260413-00010</a></td>
+            <td>송예린</td><td>매콤 양념소스 300ml 외 4건</td>
+            <td style="font-weight:500;">41,200원</td><td>네이버페이</td>
+            <td><span class="badge badge-shipping">배송중</span></td><td style="color:#AEAEB2;">04.13</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+Chart.defaults.color = '#AEAEB2';
+Chart.defaults.borderColor = 'rgba(0,0,0,0.06)';
+
+const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+new Chart(ordersCtx, {
+  type: 'line',
+  data: {
+    labels: ['4/10', '4/11', '4/12', '4/13', '4/14', '4/15', '4/16'],
+    datasets: [{
+      label: '주문 수',
+      data: [112, 128, 141, 135, 148, 152, 156],
+      borderColor: '#0071E3',
+      backgroundColor: 'rgba(0,113,227,0.04)',
+      fill: true,
+      tension: 0.3,
+      pointBackgroundColor: '#0071E3',
+      pointBorderColor: '#FFFFFF',
+      pointBorderWidth: 2,
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      borderWidth: 1.5
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+const salesCtx = document.getElementById('salesChart').getContext('2d');
+new Chart(salesCtx, {
+  type: 'bar',
+  data: {
+    labels: ['4/10', '4/11', '4/12', '4/13', '4/14', '4/15', '4/16'],
+    datasets: [{
+      label: '순매출',
+      data: [3100000, 3600000, 3900000, 3700000, 4050000, 4180000, 4280000],
+      backgroundColor: '#1D1D1F',
+      borderRadius: 4,
+      borderSkipped: false,
+      barPercentage: 0.5
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: {
+        grid: { color: 'rgba(0,0,0,0.04)' },
+        ticks: { font: { size: 10 }, callback: v => (v/10000).toLocaleString() + '만' }
+      },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+function setPeriod(btn) {
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

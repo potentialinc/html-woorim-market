@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440, initial-scale=1.0">
+<title>회원 관리 | 우림마켓 Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { font-family: -apple-system, 'Pretendard', BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FFFFFF; color: #1D1D1F; display: flex; min-height: 100vh; }
+  .content-card { background: #FFFFFF; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; font-weight: 400; color: #AEAEB2; padding: 10px 16px; border-bottom: 0.5px solid rgba(0,0,0,0.08); white-space: nowrap; }
+  td { font-size: 13px; padding: 10px 16px; border-bottom: 0.5px solid rgba(0,0,0,0.06); color: #1D1D1F; font-weight: 400; }
+  tr:hover td { background: #F5F5F7; }
+  .sidebar-item { padding: 8px 12px; border-radius: 6px; color: #6E6E73; font-weight: 400; font-size: 13px; margin: 1px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; transition: background 150ms ease; }
+  .sidebar-item:hover { background: rgba(0,0,0,0.03); }
+  .sidebar-item.active { background: #FFFFFF; color: #1D1D1F; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .badge { font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 4px; }
+  .badge-active { background: #F0FFF4; color: #1B7A2B; }
+  .badge-inactive { background: #F5F5F7; color: #6E6E73; }
+  .badge-dormant { background: #FFFCF0; color: #92580A; }
+  .badge-withdrawn { background: #FFF5F5; color: #922B30; }
+  .input { background: #FFFFFF; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 6px; color: #1D1D1F; font-size: 13px; padding: 8px 12px; height: 36px; outline: none; transition: border-color 150ms ease; }
+  .input:focus { border-color: #0071E3; box-shadow: 0 0 0 3px rgba(0,113,227,0.1); }
+  .input::placeholder { color: #AEAEB2; }
+  select.input { cursor: pointer; }
+  .btn-primary { background: #0071E3; color: #FFFFFF; font-size: 13px; font-weight: 400; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; height: 36px; transition: background 150ms ease; }
+  .btn-primary:hover { background: #0059B3; }
+  .btn-outline { background: transparent; color: #0071E3; font-size: 13px; padding: 8px 16px; border-radius: 6px; border: 0.5px solid rgba(0,0,0,0.15); cursor: pointer; height: 36px; transition: background 150ms ease; }
+  .btn-outline:hover { background: #F5F5F7; }
+  .drawer-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; }
+  .drawer { position:fixed; top:0; right:-480px; width:480px; bottom:0; background:#FFFFFF; border-left:0.5px solid rgba(0,0,0,0.08); z-index:101; transition:right 250ms ease; overflow-y:auto; box-shadow:-4px 0 16px rgba(0,0,0,0.08); }
+  .drawer.open { right:0; }
+  .section-label { font-size:11px;font-weight:500;color:#AEAEB2;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:8px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div style="width:240px;background:#F5F5F7;border-right:0.5px solid rgba(0,0,0,0.08);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;">
+  <div style="padding:16px;display:flex;align-items:center;gap:8px;border-bottom:0.5px solid rgba(0,0,0,0.06);">
+    <a href="A02-admin-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:6px;">
+      <span style="font-size:16px;font-weight:500;color:#1D1D1F;">우림마켓</span>
+      <span style="font-size:11px;color:#AEAEB2;font-weight:400;">Admin</span>
+    </a>
+  </div>
+  <nav style="padding:8px;flex:1;">
+    <a href="A02-admin-dashboard.html" class="sidebar-item"><iconify-icon icon="mdi:view-dashboard-outline" width="16"></iconify-icon>대시보드</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">회원</div>
+    <a href="A03-members-list.html" class="sidebar-item active"><iconify-icon icon="mdi:account-group-outline" width="16"></iconify-icon>회원 관리</a>
+    <a href="A05-admin-accounts.html" class="sidebar-item"><iconify-icon icon="mdi:shield-account-outline" width="16"></iconify-icon>관리자 계정 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">상품</div>
+    <a href="A06-products-list.html" class="sidebar-item"><iconify-icon icon="mdi:package-variant-closed" width="16"></iconify-icon>상품 관리</a>
+    <a href="A20-categories-manage.html" class="sidebar-item"><iconify-icon icon="mdi:shape-outline" width="16"></iconify-icon>카테고리 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">주문</div>
+    <a href="A09-orders-list.html" class="sidebar-item"><iconify-icon icon="mdi:receipt-text-outline" width="16"></iconify-icon>주문 관리</a>
+    <a href="A10-shipping-list.html" class="sidebar-item"><iconify-icon icon="mdi:truck-outline" width="16"></iconify-icon>배송 관리</a>
+    <a href="A11-cancel-refund-list.html" class="sidebar-item"><iconify-icon icon="mdi:cash-refund" width="16"></iconify-icon>취소/환불</a>
+    <a href="A12-exchange-list.html" class="sidebar-item"><iconify-icon icon="mdi:swap-horizontal" width="16"></iconify-icon>교환 관리</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">마케팅</div>
+    <a href="A13-coupons-list.html" class="sidebar-item"><iconify-icon icon="mdi:ticket-percent-outline" width="16"></iconify-icon>쿠폰 관리</a>
+    <a href="A14-events-list.html" class="sidebar-item"><iconify-icon icon="mdi:calendar-star-outline" width="16"></iconify-icon>이벤트</a>
+    <a href="A15-promotions-list.html" class="sidebar-item"><iconify-icon icon="mdi:tag-multiple-outline" width="16"></iconify-icon>기획전</a>
+    <a href="A16-notices-list.html" class="sidebar-item"><iconify-icon icon="mdi:bullhorn-outline" width="16"></iconify-icon>공지사항</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">고객</div>
+    <a href="A17-reviews-list.html" class="sidebar-item"><iconify-icon icon="mdi:star-outline" width="16"></iconify-icon>리뷰 관리</a>
+    <a href="A18-inquiries-list.html" class="sidebar-item"><iconify-icon icon="mdi:chat-question-outline" width="16"></iconify-icon>1:1 문의</a>
+    <div style="font-size:10px;font-weight:500;color:#AEAEB2;padding:8px 12px 4px;letter-spacing:0.05em;">리포트</div>
+    <a href="A19-sales-report.html" class="sidebar-item"><iconify-icon icon="mdi:chart-bar" width="16"></iconify-icon>매출 리포트</a>
+    <a href="A21-data-export.html" class="sidebar-item"><iconify-icon icon="mdi:download-outline" width="16"></iconify-icon>데이터 내보내기</a>
+  </nav>
+  <div style="padding:12px 16px;border-top:0.5px solid rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#E5E5EA;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#6E6E73;">A</div>
+    <div><p style="font-size:12px;font-weight:500;color:#1D1D1F;margin:0;">관리자</p><p style="font-size:10px;color:#AEAEB2;margin:0;">admin@woorim.co.kr</p></div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div style="flex:1;overflow-y:auto;margin-left:240px;">
+  <div style="padding:16px 32px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:10;">
+    <div>
+      <h1 style="font-size:24px;font-weight:300;margin:0;letter-spacing:-0.015em;">회원 관리</h1>
+      <p style="font-size:12px;color:#AEAEB2;margin:4px 0 0;">총 2,847명</p>
+    </div>
+    <button class="btn-outline" style="display:flex;align-items:center;gap:6px;">
+      <iconify-icon icon="mdi:download-outline" width="14"></iconify-icon>엑셀 다운로드
+    </button>
+  </div>
+
+  <div style="padding:20px 32px;">
+    <!-- Filter Bar -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+      <div style="position:relative;">
+        <iconify-icon icon="mdi:magnify" width="16" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#AEAEB2;"></iconify-icon>
+        <input class="input" type="search" placeholder="이름 / 이메일 / 휴대폰" style="padding-left:32px;width:240px;">
+      </div>
+      <select class="input"><option>가입 경로 전체</option><option>이메일</option><option>카카오</option><option>Apple</option></select>
+      <select class="input"><option>상태 전체</option><option>활성</option><option>비활성</option><option>휴면</option><option>탈퇴</option></select>
+      <input class="input" type="date" value="2026-01-01">
+      <span style="font-size:13px;color:#AEAEB2;">~</span>
+      <input class="input" type="date" value="2026-04-16">
+      <div id="bulkActions" style="display:none;gap:8px;align-items:center;">
+        <span style="font-size:12px;color:#6E6E73;" id="selectedCount">0명 선택</span>
+        <select class="input"><option>일괄 액션</option><option>비활성화</option><option>등급 변경</option><option>엑셀 내보내기</option></select>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="content-card" style="overflow:hidden;margin-bottom:16px;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40px;"><input type="checkbox" id="selectAll" onchange="toggleAll(this)" style="width:16px;height:16px;cursor:pointer;"></th>
+            <th>이름</th><th>이메일</th><th>휴대폰</th><th>가입 경로</th><th>가입일</th><th>최근 로그인</th><th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="cursor:pointer;" onclick="openDrawer('김민수','kminsoo@gmail.com','010-1234-5678','이메일','2025-08-15','2026-04-16','활성')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;">김민수</td><td style="color:#6E6E73;">kminsoo@gmail.com</td><td style="color:#6E6E73;">010-1234-5678</td>
+            <td><span style="font-size:11px;background:#F0F5FF;color:#004A99;padding:2px 6px;border-radius:3px;">이메일</span></td>
+            <td style="color:#6E6E73;">2025.08.15</td><td style="color:#AEAEB2;">2026.04.16</td>
+            <td><span class="badge badge-active">활성</span></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openDrawer('이영희','lyhee@kakao.com','010-2345-6789','카카오','2025-09-03','2026-04-15','활성')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;">이영희</td><td style="color:#6E6E73;">lyhee@kakao.com</td><td style="color:#6E6E73;">010-2345-6789</td>
+            <td><span style="font-size:11px;background:#FFFDE0;color:#7A6000;padding:2px 6px;border-radius:3px;">카카오</span></td>
+            <td style="color:#6E6E73;">2025.09.03</td><td style="color:#AEAEB2;">2026.04.15</td>
+            <td><span class="badge badge-active">활성</span></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openDrawer('박정호','pjh@naver.com','010-3456-7890','이메일','2025-10-12','2026-03-28','활성')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;">박정호</td><td style="color:#6E6E73;">pjh@naver.com</td><td style="color:#6E6E73;">010-3456-7890</td>
+            <td><span style="font-size:11px;background:#F0F5FF;color:#004A99;padding:2px 6px;border-radius:3px;">이메일</span></td>
+            <td style="color:#6E6E73;">2025.10.12</td><td style="color:#AEAEB2;">2026.03.28</td>
+            <td><span class="badge badge-active">활성</span></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openDrawer('최수진','csj@gmail.com','010-4567-8901','Apple','2025-11-20','2026-02-10','휴면')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;">최수진</td><td style="color:#6E6E73;">csj@gmail.com</td><td style="color:#6E6E73;">010-4567-8901</td>
+            <td><span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:2px 6px;border-radius:3px;">Apple</span></td>
+            <td style="color:#6E6E73;">2025.11.20</td><td style="color:#AEAEB2;">2026.02.10</td>
+            <td><span class="badge badge-dormant">휴면</span></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openDrawer('정다은','jde@kakao.com','010-5678-9012','카카오','2025-12-05','2026-04-14','활성')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;">정다은</td><td style="color:#6E6E73;">jde@kakao.com</td><td style="color:#6E6E73;">010-5678-9012</td>
+            <td><span style="font-size:11px;background:#FFFDE0;color:#7A6000;padding:2px 6px;border-radius:3px;">카카오</span></td>
+            <td style="color:#6E6E73;">2025.12.05</td><td style="color:#AEAEB2;">2026.04.14</td>
+            <td><span class="badge badge-active">활성</span></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openDrawer('한지원','hjw@gmail.com','010-6789-0123','이메일','2026-01-10','2026-01-15','비활성')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;">한지원</td><td style="color:#6E6E73;">hjw@gmail.com</td><td style="color:#6E6E73;">010-6789-0123</td>
+            <td><span style="font-size:11px;background:#F0F5FF;color:#004A99;padding:2px 6px;border-radius:3px;">이메일</span></td>
+            <td style="color:#6E6E73;">2026.01.10</td><td style="color:#AEAEB2;">2026.01.15</td>
+            <td><span class="badge badge-inactive">비활성</span></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openDrawer('탈퇴회원','','','이메일','2025-06-20','2025-09-01','탈퇴')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;color:#AEAEB2;">탈퇴회원 (삭제됨)</td><td style="color:#AEAEB2;">***@***.com</td><td style="color:#AEAEB2;">010-****-****</td>
+            <td><span style="font-size:11px;background:#F5F5F7;color:#6E6E73;padding:2px 6px;border-radius:3px;">-</span></td>
+            <td style="color:#AEAEB2;">2025.06.20</td><td style="color:#AEAEB2;">2025.09.01</td>
+            <td><span class="badge badge-withdrawn">탈퇴</span></td>
+          </tr>
+          <tr style="cursor:pointer;" onclick="openDrawer('오승현','osh@naver.com','010-7890-1234','이메일','2026-02-18','2026-04-13','활성')">
+            <td onclick="event.stopPropagation()"><input type="checkbox" class="row-check" onchange="updateBulk()" style="width:16px;height:16px;cursor:pointer;"></td>
+            <td style="font-weight:500;">오승현</td><td style="color:#6E6E73;">osh@naver.com</td><td style="color:#6E6E73;">010-7890-1234</td>
+            <td><span style="font-size:11px;background:#F0F5FF;color:#004A99;padding:2px 6px;border-radius:3px;">이메일</span></td>
+            <td style="color:#6E6E73;">2026.02.18</td><td style="color:#AEAEB2;">2026.04.13</td>
+            <td><span class="badge badge-active">활성</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;color:#6E6E73;">페이지당 표시:</span>
+        <select class="input" style="width:80px;height:32px;font-size:12px;">
+          <option>30</option><option>50</option><option>100</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <span style="font-size:12px;color:#6E6E73;">총 2,847명 중 1-30</span>
+        <div style="display:flex;gap:2px;margin-left:12px;">
+          <button style="width:32px;height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:5px;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;" disabled>
+            <iconify-icon icon="mdi:chevron-left" width="16" style="color:#AEAEB2;"></iconify-icon>
+          </button>
+          <button style="width:32px;height:32px;border:none;border-radius:5px;background:#1D1D1F;color:#FFFFFF;font-size:12px;cursor:pointer;">1</button>
+          <button style="width:32px;height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:5px;background:#FFFFFF;font-size:12px;cursor:pointer;">2</button>
+          <button style="width:32px;height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:5px;background:#FFFFFF;font-size:12px;cursor:pointer;">3</button>
+          <span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#AEAEB2;">...</span>
+          <button style="width:32px;height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:5px;background:#FFFFFF;font-size:12px;cursor:pointer;">95</button>
+          <button style="width:32px;height:32px;border:0.5px solid rgba(0,0,0,0.15);border-radius:5px;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="mdi:chevron-right" width="16" style="color:#6E6E73;"></iconify-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer Overlay -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- Member Detail Drawer -->
+<div class="drawer" id="memberDrawer">
+  <div style="padding:16px 20px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#FFFFFF;z-index:1;">
+    <div>
+      <h2 id="drawerName" style="font-size:16px;font-weight:500;color:#1D1D1F;margin:0;"></h2>
+      <p id="drawerEmail" style="font-size:12px;color:#AEAEB2;margin:2px 0 0;"></p>
+    </div>
+    <button onclick="closeDrawer()" style="background:none;border:none;cursor:pointer;color:#6E6E73;display:flex;align-items:center;padding:4px;" aria-label="닫기">
+      <iconify-icon icon="mdi:close" width="20"></iconify-icon>
+    </button>
+  </div>
+
+  <div style="padding:20px;">
+    <!-- Basic Info -->
+    <div style="margin-bottom:24px;">
+      <div class="section-label">기본 정보</div>
+      <div style="background:#F5F5F7;border-radius:6px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div><span style="font-size:11px;color:#AEAEB2;">이름</span><p id="dName" style="font-size:13px;margin:2px 0 0;"></p></div>
+        <div><span style="font-size:11px;color:#AEAEB2;">이메일</span><p id="dEmail2" style="font-size:13px;margin:2px 0 0;"></p></div>
+        <div><span style="font-size:11px;color:#AEAEB2;">휴대폰</span><p id="dPhone" style="font-size:13px;margin:2px 0 0;"></p></div>
+        <div><span style="font-size:11px;color:#AEAEB2;">가입 경로</span><p id="dRoute" style="font-size:13px;margin:2px 0 0;"></p></div>
+        <div><span style="font-size:11px;color:#AEAEB2;">가입일</span><p id="dJoined" style="font-size:13px;margin:2px 0 0;"></p></div>
+        <div><span style="font-size:11px;color:#AEAEB2;">최근 로그인</span><p id="dLastLogin" style="font-size:13px;margin:2px 0 0;"></p></div>
+        <div><span style="font-size:11px;color:#AEAEB2;">상태</span><p id="dStatus" style="font-size:13px;margin:2px 0 0;"></p></div>
+      </div>
+    </div>
+
+    <!-- Account Status -->
+    <div style="margin-bottom:24px;">
+      <div class="section-label">계정 관리</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;background:#F5F5F7;padding:10px 14px;border-radius:6px;flex:1;">
+          <span style="font-size:13px;color:#1D1D1F;">계정 활성화</span>
+          <div style="margin-left:auto;width:40px;height:22px;background:#30D158;border-radius:11px;position:relative;cursor:pointer;">
+            <div style="width:18px;height:18px;background:#FFFFFF;border-radius:50%;position:absolute;right:2px;top:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div>
+          </div>
+        </div>
+        <button style="background:#FFF5F5;border:0.5px solid rgba(255,59,48,0.2);color:#FF3B30;font-size:12px;padding:8px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;">강제 로그아웃</button>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div style="margin-bottom:24px;">
+      <div class="section-label">최근 주문</div>
+      <div style="border:0.5px solid rgba(0,0,0,0.08);border-radius:6px;overflow:hidden;">
+        <table style="font-size:12px;">
+          <thead><tr><th style="font-size:11px;">주문번호</th><th style="font-size:11px;">상품</th><th style="font-size:11px;">금액</th><th style="font-size:11px;">상태</th></tr></thead>
+          <tbody>
+            <tr><td style="font-size:12px;color:#0071E3;">20260416-00001</td><td style="font-size:12px;">고추장 외 2건</td><td style="font-size:12px;">32,400원</td><td><span style="font-size:11px;background:#FFFCF0;color:#92580A;padding:1px 5px;border-radius:3px;">결제완료</span></td></tr>
+            <tr><td style="font-size:12px;color:#0071E3;">20260410-00022</td><td style="font-size:12px;">5kg 쌀</td><td style="font-size:12px;">25,900원</td><td><span style="font-size:11px;background:#F0FFF4;color:#1B7A2B;padding:1px 5px;border-radius:3px;">구매확정</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Points/Coupon -->
+    <div style="margin-bottom:24px;">
+      <div class="section-label">포인트 / 쿠폰</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:#F5F5F7;border-radius:6px;padding:12px;text-align:center;">
+          <p style="font-size:11px;color:#AEAEB2;margin:0;">보유 포인트</p>
+          <p style="font-size:18px;font-weight:300;color:#1D1D1F;margin:4px 0 0;">1,250 <span style="font-size:11px;font-weight:400;color:#AEAEB2;">P</span></p>
+        </div>
+        <div style="background:#F5F5F7;border-radius:6px;padding:12px;text-align:center;">
+          <p style="font-size:11px;color:#AEAEB2;margin:0;">보유 쿠폰</p>
+          <p style="font-size:18px;font-weight:300;color:#1D1D1F;margin:4px 0 0;">3 <span style="font-size:11px;font-weight:400;color:#AEAEB2;">장</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="display:flex;gap:8px;">
+      <button onclick="closeDrawer()" style="flex:1;height:40px;background:#F5F5F7;border:none;border-radius:6px;font-size:13px;cursor:pointer;color:#1D1D1F;">닫기</button>
+      <button style="flex:2;height:40px;background:#0071E3;border:none;border-radius:6px;font-size:13px;font-weight:400;color:#FFFFFF;cursor:pointer;">저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openDrawer(name, email, phone, route, joined, lastLogin, status) {
+  document.getElementById('drawerName').textContent = name;
+  document.getElementById('drawerEmail').textContent = email || '정보 없음';
+  document.getElementById('dName').textContent = name;
+  document.getElementById('dEmail2').textContent = email || '탈퇴회원 (삭제됨)';
+  document.getElementById('dPhone').textContent = phone || '010-****-****';
+  document.getElementById('dRoute').textContent = route;
+  document.getElementById('dJoined').textContent = joined;
+  document.getElementById('dLastLogin').textContent = lastLogin;
+  document.getElementById('dStatus').textContent = status;
+  document.getElementById('memberDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').style.display = 'block';
+}
+function closeDrawer() {
+  document.getElementById('memberDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').style.display = 'none';
+}
+function toggleAll(cb) {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = cb.checked);
+  updateBulk();
+}
+function updateBulk() {
+  const cnt = document.querySelectorAll('.row-check:checked').length;
+  document.getElementById('bulkActions').style.display = cnt > 0 ? 'flex' : 'none';
+  document.getElementById('selectedCount').textContent = cnt + '명 선택';
+}
+</script>
+</body>
+</html>
